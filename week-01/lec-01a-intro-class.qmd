@@ -32,9 +32,6 @@ My name is Dr. (or Professor) Catalina Medina
 
 4. We will introduce each other using the paper
 
-## Class information
-
-All of our class information can be found on [**CI Learn**](https://cilearn.csuci.edu/)
 
 ## What is Data Science?
 
@@ -77,6 +74,10 @@ A little bit of both.
 **Do I need prior programming/statistics experience?**
 
 Nope. No prior programming experience is expected.
+
+## Class information
+
+All of our class information can be found on [**CI Learn**](https://cilearn.csuci.edu/)
 
 ## Quarto illustration
 
