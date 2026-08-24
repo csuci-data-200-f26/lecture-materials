@@ -196,11 +196,15 @@ Professor Catalina Medina
 </section>
 <section id="section" class="slide level2">
 <h2></h2>
+
+<img data-src="img/tidy-data-science-illustration.jpg" alt="Cute fuzzy monsters putting rectangular data tables onto a conveyor belt. Along the conveyor belt line are different automated “stations” that update the data, reading “WRANGLE”, “VISUALIZE”, and “MODEL”. A monster at the end of the conveyor belt is carrying away a table that reads “Complete analysis.”" class="r-stretch quarto-figure-center"><p class="caption">Illustrations from the Openscapes blog Tidy Data for reproducibility, efficiency, and collaboration by Julia Lowndes and Allison Horst</p></section>
+<section id="common-questions" class="slide level2">
+<h2>Common questions</h2>
 <p><strong>What types of data will we use in this course</strong></p>
 <p>We will use a variety of datasets from biological studies to business answering questions serving different purposes in life. Data will come different size, shape, and form and will include numbers, categories, text etc.</p>
 </section>
-<section id="section-1" class="slide level2">
-<h2></h2>
+<section id="common-question-continued" class="slide level2">
+<h2>Common question continued</h2>
 <p><strong>Is this a statistics course or a computing course?</strong></p>
 <p>A little bit of both.</p>
 <div class="fragment">
@@ -208,6 +212,10 @@ Professor Catalina Medina
 <p>Nope. No prior programming experience is expected.</p>
 </div>
 </section>
+<section id="quarto-illustration" class="slide level2">
+<h2>Quarto illustration</h2>
+
+<img data-src="img/quarto-illustration.png" alt="A schematic representing the multi-language input (e.g. Python, R, Observable, Julia) and multi-format output (e.g. PDF, html, Word documents, and more) versatility of Quarto." class="r-stretch quarto-figure-center"><p class="caption">Artwork from ‘Hello, Quarto’ keynote by Julia Lowndes and Mine Çetinkaya-Rundel, presented at RStudio Conference 2022. Illustrated by Allison Horst.</p></section>
 <section id="lab" class="slide level2">
 <h2>Lab</h2>
 <p>Let’s kick off this class by doing some data science!</p>
@@ -429,6 +437,82 @@ Professor Catalina Medina
         ]
       });
     </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")

@@ -51,13 +51,22 @@ What do you think data science is about and what will we learn in this course? T
 
 > Data science also integrates domain knowledge from the underlying application domain (e.g., natural sciences, information technology, and medicine). Data science is multifaceted and can be described as a science, a research paradigm, a research method, a discipline, a workflow, and a profession. Wikipedia
 
-##
+## 
+
+```{r}
+#| echo: false
+#| fig-alt: Cute fuzzy monsters putting rectangular data tables onto a conveyor belt. Along the conveyor belt line are different automated “stations” that update the data, reading “WRANGLE”, “VISUALIZE”, and “MODEL”. A monster at the end of the conveyor belt is carrying away a table that reads “Complete analysis.”
+#| fig-cap: "Illustrations from the Openscapes blog Tidy Data for reproducibility, efficiency, and collaboration by Julia Lowndes and Allison Horst"
+knitr::include_graphics("img/tidy-data-science-illustration.jpg")
+```
+
+## Common questions
 
 **What types of data will we use in this course** 
 
 We will use a variety of datasets from biological studies to business answering questions serving different purposes in life. Data will come different size, shape, and form and will include numbers, categories, text etc.
 
-##
+## Common question continued
 
 **Is this a statistics course or a computing course?**
 
@@ -69,6 +78,14 @@ A little bit of both.
 
 Nope. No prior programming experience is expected.
 
+## Quarto illustration
+
+```{r}
+#| echo: false
+#| fig-alt: A schematic representing the multi-language input (e.g. Python, R, Observable, Julia) and multi-format output (e.g. PDF, html, Word documents, and more) versatility of Quarto.
+#| fig-cap: "Artwork from 'Hello, Quarto' keynote by Julia Lowndes and Mine Çetinkaya-Rundel, presented at RStudio Conference 2022. Illustrated by Allison Horst."
+knitr::include_graphics("img/quarto-illustration.png")
+```
 
 ## Lab
 
