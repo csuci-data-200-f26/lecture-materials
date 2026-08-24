@@ -472,7 +472,7 @@ In order for us to see your commits and your final submission on any file, you h
 #| echo: false
 #| fig-alt: "Left panel, against a blue sky with white clouds, a confident-looking monster climbs a rock face. Their rope's anchors, secured with carabiners, are labeled from bottom to top and say 'Initial commit', 'Data Cleaned', 'Analysis completed'. Another anchor on their harness, ready to place, is labeled 'Manuscript drafted'. Right panel, against a gray sky with rain and lightning, a stressed-looking monster climbs a rock face. Their rope has a knot, is frayed, and is looped around one foot. Their anchors, placed haphazardly and not well-secured, are labeled things like 'analysis_final_v2.xls', 'analysis_final_final.xls', and 'ignore_this.xls'. Text above the left panel says 'When working with GitHub we can navigate with more obvious, safe, streamlined routes that let us focus on the science-y things we want to do…' Text above the right panel says: '...but working without GitHub can be disorienting, with too much time spent sifting through past work to figure out next steps forward.'"
 #| fig-cap: Artwork by Allison Horst
-knitr::include_graphics('img/github-climb-illustration.png')
+knitr::include_graphics('img/GitHub-climb-illustration.png')
 ```
 
 # Hardware
