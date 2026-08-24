@@ -302,9 +302,18 @@ knitr::include_graphics("img/quarto-example-full.png")
 ```
 
 
+## Quarto document illustration
+
+```{r}
+#| echo: false
+#| fig-alt: A schematic representing the multi-language input (e.g. Python, R, Observable, Julia) and multi-format output (e.g. PDF, html, Word documents, and more) versatility of Quarto.
+#| fig-cap: "Artwork from 'Hello, Quarto' keynote by Julia Lowndes and Mine Çetinkaya-Rundel, presented at RStudio Conference 2022. Illustrated by Allison Horst."
+knitr::include_graphics("img/quarto-illustration.png")
+```
+
 ## Slides for this course
 
-Slides that you are currently looking at are also written in Quarto. You can take a look at them on our course's [GitHub organization](https://github.com/csuci-data200-spring2026) in the lecture repo.
+Slides that you are currently looking at are also written in Quarto. You can take a look at them on our course's [GitHub organization](https://github.com/csuci-data-200-f26/lecture-materials) in the lecture repo.
 
 
 # Version Control
@@ -456,6 +465,15 @@ In order for us to see your commits and your final submission on any file, you h
 **push:** Uploads the latest "committed" state of your repo to GitHub.
 
 ## Do you git it?
+
+```{r}
+#| out.width: '55%'
+#| fig.align: 'center'
+#| echo: false
+#| fig-alt: "Left panel, against a blue sky with white clouds, a confident-looking monster climbs a rock face. Their rope's anchors, secured with carabiners, are labeled from bottom to top and say 'Initial commit', 'Data Cleaned', 'Analysis completed'. Another anchor on their harness, ready to place, is labeled 'Manuscript drafted'. Right panel, against a gray sky with rain and lightning, a stressed-looking monster climbs a rock face. Their rope has a knot, is frayed, and is looped around one foot. Their anchors, placed haphazardly and not well-secured, are labeled things like 'analysis_final_v2.xls', 'analysis_final_final.xls', and 'ignore_this.xls'. Text above the left panel says 'When working with GitHub we can navigate with more obvious, safe, streamlined routes that let us focus on the science-y things we want to do…' Text above the right panel says: '...but working without GitHub can be disorienting, with too much time spent sifting through past work to figure out next steps forward.'"
+#| fig-cap: Artwork by Allison Horst
+knitr::include_graphics('img/github-climb-illustration.png')
+```
 
 # Hardware
 
