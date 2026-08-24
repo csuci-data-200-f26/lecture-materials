@@ -1,0 +1,243 @@
+---
+title: "Data 200: Lab 1a"
+subtitle: "Popular Baby Names"
+author: "Your name here"
+lang: en
+format: 
+  html:
+    echo: false
+    message: false
+    warning: false
+    toc: true
+    toc-depth: 4
+    embed-resources: true
+---
+
+## Preface 
+
+This file is a **Quarto document** and it allows us to combine text and code.
+By clicking **Render**, an html will be produced with all of the output from our code included.
+For today we will not worry about how the code, instead we will focus on our investigation.
+
+Start by clicking `Render` and examine the html produced.
+
+In this lab we will explore popular baby names for the state of California.
+This data comes from California birth certificates and is available on the [California Open Data Portal](https://data.ca.gov/dataset/most-popular-baby-names).
+
+## Obtain and familiarize yourself with the data
+
+```{r}
+library(tidyverse)
+```
+
+This data is read in from a file called `california-popular-baby-names.csv` available online.
+We will save this data into an **object** called `baby-names`.
+```{r}
+baby_names <- read_csv("http://csuci-data-200-f26.github.io/lecture-materials/data/california-popular-baby-names.csv")
+```
+
+Let's look at what is in our `baby_names` object.
+```{r}
+baby_names
+```
+
+This dataset has 6 columns and 3,254 rows in total, which would be a lot to view at once, so only the first 10 are displayed.
+
+
+For each year and specified sex at birth this data contains the 25 most popular baby first names and counts.
+We have data for each year from 1960 to 2024.
+
+Let's use this data to explore some questions.
+
+### Question 1 
+
+What were the 5 most popular baby names in 2024?
+
+```{r}
+year_to_plot <- 2024
+
+baby_names |> 
+  filter(Year == year_to_plot) |>
+  arrange(desc(Count)) |> 
+  slice(1:20) |> 
+  ggplot(aes(x = Count, y = reorder(Name, Count))) +
+  geom_count() +
+  geom_text(aes(label = Count), hjust = -0.25) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  labs(
+    x = "Number of babies born",
+    y = "Name",
+    title = paste0("Top 20 most popular baby names in ", year_to_plot)
+  ) +
+  scale_x_discrete(expand = expansion(mult = c(0.05, 0.15)))
+```
+
+#### Response
+
+[Replace this text in the brackets with your response to Question 1. To do this you have to edit the Quarto document, like you would with a Word Document, then Render the document to view the updated html file.]
+
+### Question 2
+
+What were the 5 most popular baby names in the year you were born? To investigate this we will change the code, specifically the line that says `year_to_plot <- 2024`. Change the "2024" in the code chunk below in the Quarto document to the year you were born and render the html again. 
+
+```{r}
+year_to_plot <- 2024
+
+baby_names |> 
+  filter(Year == year_to_plot) |>
+  arrange(desc(Count)) |> 
+  slice(1:20) |> 
+  ggplot(aes(x = Count, y = reorder(Name, Count))) +
+  geom_count() +
+  geom_text(aes(label = Count), hjust = -0.25) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  labs(
+    x = "Number of babies born",
+    y = "Name",
+    title = paste0("Top 20 most popular baby names in ", year_to_plot)
+  ) +
+  scale_x_discrete(expand = expansion(mult = c(0.05, 0.15)))
+```
+
+
+#### Response
+
+[Write your answer to question 2 here.]
+
+### Question 3
+
+Below are all of the top 25 most popular baby names for each year from 1960-2024.
+Is your name in the list?
+
+```{r}
+sort(unique(baby_names$Name))
+```
+
+#### Response
+
+[Write your response to question 3 here.]
+
+### Question 4
+
+What are the top 5 most popular baby names overall from all babies born between 1960-2024?
+
+```{r}
+all_names_plot <- baby_names |>
+  group_by(Name) |> 
+  summarise(total_count = sum(Count)) |> 
+  arrange(desc(total_count)) |> 
+  slice(1:20) |> 
+  ggplot(aes(x = total_count, y = reorder(Name, total_count))) +
+  geom_count() +
+  geom_text(aes(label = total_count), hjust = -0.25) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  labs(
+    x = "Number of babies born from 1960-2023",
+    y = "Name"
+  ) +
+  scale_x_discrete(expand = expansion(mult = c(0.05, 0.15)))
+
+all_names_plot
+```
+
+
+#### Response
+
+[Write your response to question 4 here.]
+
+## Correcting truncated names
+
+If you look into the [data dictionary](https://data.ca.gov/dataset/most-popular-baby-names/resource/a99404d8-e3b6-455c-9916-41075f001862) it says:
+*Names in records from data years 1960 through 1977 are truncated to 8 characters, and 1978 through 2017 are truncated to 12 characters.* 
+*For example, the names CHRISTINA, CHRISTINE, and CHRISTIN would all be included in CHRISTIN*.*
+
+When we look at names across the entire time period we may get different results if we truncated all names to 8 characters.
+This truncation is accounted for in the plot below.
+
+### Question 5
+
+Did the top 5 most popular baby names change once we corrected for inconsistent truncation of long names?
+
+```{r}
+baby_names <- baby_names |> 
+  mutate(name_fixed = case_when(
+    str_length(Name) > 8 ~ (str_trunc(Name, width = 9, ellipsis = "*")),
+    str_length(Name) <= 8 ~ Name
+  )) 
+
+corrected_all_names_plot <-  baby_names |> 
+  group_by(name_fixed) |> 
+  summarise(total_count = sum(Count)) |> 
+  arrange(desc(total_count)) |> 
+  slice(1:20) |> 
+  ggplot(aes(x = total_count, y = reorder(name_fixed, total_count))) +
+  geom_count() +
+  geom_text(aes(label = total_count), hjust = -0.25) +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  labs(
+    x = "Number of babies born from 1960-2023",
+    y = "Corrected names"
+  )  +
+  scale_x_discrete(expand = expansion(mult = c(0.05, 0.15)))
+
+gridExtra::grid.arrange(
+  all_names_plot + 
+    labs(
+      y = "Uncorrect names",
+      x = "Number of babies born from 1960-2023"
+    ), 
+  corrected_all_names_plot, 
+  ncol = 2
+)
+```
+
+
+#### Response
+
+[Write your response to question 4 here.]
+
+
+## 5 most popular baby names over the years
+
+```{r}
+most_popular_names <- baby_names |> 
+  group_by(name_fixed) |> 
+  summarise(total_count = sum(Count)) |> 
+  arrange(desc(total_count)) |> 
+  slice(1:5) |> 
+  pull(name_fixed)
+
+baby_names |> 
+  filter(name_fixed %in% most_popular_names) |> 
+  ggplot(aes(x = Year, y = Count, color = name_fixed, linetype = name_fixed)) +
+  geom_line(linewidth = 1) +
+  theme_minimal() +
+  labs(
+    x = "Year",
+    y = "Number of babies born",
+    color = "Name",
+    linetype = "Name"
+  ) +
+  ylim(0, 9000)
+```
+
+### Question 6
+
+Did the most popular name in 1960 stay the most popular? If not, approximately what year did a different name become more popular and what was it?
+
+
+#### Response
+
+[Write your response to question 6 here.]
+
+### Question 7
+
+Notice that the line for the name "Matthew" does not start until approximately the year 1968. Why do you think that is?
+
+#### Response
+
+[Write your response to question 7 here.]

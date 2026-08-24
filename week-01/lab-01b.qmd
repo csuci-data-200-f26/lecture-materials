@@ -1,0 +1,135 @@
+---
+title: "Data 200: Lab 1b"
+subtitle: "Introduction to toolkit"
+lang: en
+format: 
+  pdf:
+    message: false
+    warning: false
+    pdf-standard: ua-2
+    geometry:
+      - top=0.5in
+      - left=1in
+      - right=1in
+---
+
+\vspace*{-2cm}
+
+```{r}
+#| echo: false
+library(tidyverse)
+options(scipen = 999)
+```
+
+Name:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Date:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+
+# Coding with R
+
+In DATA 200 we will use the programming language **R** to help us with our tasks such as calculations, exploring data, and producing visuals.
+
+## Calculation basics
+
+```{r}
+2 + 5
+```
+
+
+Mark above which part is the **code** and the **output** of the code.
+
+*Note the `[1]` in front of the 7. This marks the 7 as* ________________________.
+
+We can do the standard operations of `+`, `-`, `*`, `/`, `sqrt()`, `exp()`, and many more!
+
+What if I wanted to save my calculation? I can use the **assignment operator** `<-`, to save my calculation into an **object** with a name I choose.
+```{r}
+my_calculation <- 3 * 12
+```
+
+Now `my_calculation` has the value 36 stored. I can also print the stored value.
+```{r}
+my_calculation
+```
+
+What value do you think would be printed below? 
+```{r}
+#| eval: false
+my_calculation / 2
+```
+
+## Vectors and functions
+
+Say I went to 5 local coffee shops and recorded the price of a cup of coffee. I can make a **vector** of these prices, an object which store values of a similar type.
+```{r}
+c(3, 2.50, 4.25, 3.5, 5)
+```
+
+The commas separated the values and the `c()` combined the values into a vector. Write code below to store the vector above into an object called `coffee_prices`.
+
+\vspace*{1cm}
+
+```{r}
+#| echo: false
+coffee_prices <- c(3, 2.50, 4.25, 3.5, 5)
+```
+
+The `c()` used above is an example of a **function**, functions do actions for us in R. What do you think the output of the following code using the `max()` function will be?
+
+```{r}
+#| eval: false
+max(coffee_prices)
+```
+
+
+## Data frames
+
+I was a little inconsistent when recording prices. The prices actually correspond to different sizes of coffees: small, small, large, medium, and large respectively.
+
+```{r}
+coffee_sizes <- c("small", "small", "large", "medium", "large")
+```
+
+Instead of storing numbers this time we stored what are called **characters**, which have to have quotes surrounding.
+
+I can store the two vectors together into a **data frame** so all of my information is organized.
+```{r}
+coffee_data <- data.frame(coffee_prices, coffee_sizes)
+
+coffee_data
+```
+
+
+\newpage
+
+# Quarto documents
+
+In this class we will use **Quarto documents**, which allow us to
+
+- combine code, output, regular text, and a lot more,
+- code reproducibly because the code is saved, and
+- produce reports, with or without the code showing.
+
+Fill in the blanks using the following vocabulary: **code chunk**, **yaml**, **Render**, **html**.
+
+The _________________ of a Quarto document is where we specify things for the document such as title, author, etc.
+
+We can type regular text in the document just like a Word document, and when we want to include code it has to be in a _________________.
+
+You can _________________ a Quarto document into an html, pdf, or Word doc. In this class we will mainly produce html documents, which are webpages just like our lecture slides!
+
+
+We will learn much more about Quarto documents as we use them.
+
+# Version control with GitHub
+
+Fill in the blanks using the following vocabulary: **clone**, **push**, **Git**, **GitHub**, **commit**.
+
+We will use _________________ on our computer to help track files.
+
+When I _________________ a **repository** from GitHub, it downloads the folder to my computer and allows me to track changes I make.
+
+When I edit and save a file tracked with Git, I can make a _________________ to save a message explaining what I changed in the file.
+
+I can _________________ my changes to GitHub online, so my changes aren't only saved locally on my computer.
+
+
