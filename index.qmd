@@ -1,0 +1,24 @@
+---
+title: "DATA 200 Fall 2026"
+subtitle: "California State Univeristy Channel Islands"
+format: html
+---
+
+| Week | Topics  | Lecture Slides | In-class Labs |
+|:--|:--------------------------|:-------|:-------|
+| 1 | Introductions to each other, class, & toolkit  | [Software setup](https://csuci-data-200-f26.github.io/lecture-materials/week-00/software-setup) | |
+| 2 | Data frames, variables, & summary statistics | | |
+| 3 | Computing summary statistics & data aggregation | | |
+| 4 | Data visualization | | |
+| 5 | Data wrangling basics: Pipe operator, subsetting data frames, & changing variables | | |
+| 6 | Data wrangling advanced: Working with strings, dates, factors, & data joins) | | |
+| 7 | Exploratory data analysis project | | |
+| 8 | Introduction to machine learning with simple linear regression  | | |
+| 9 | Multiple linear regression for prediction and model selection  | | |
+| 10 | Logistic regression for prediction | | |
+| 11 | Clustering on 11/2 & Midterm on 11/4 | | |
+| 12 | Intro to statistical inference, sampling distribution | | |
+| 13 | Bootstrap confidence intervals | | |
+| 14 | Initiate final projects & collaborations with GitHub | | |
+| 15 | Final project analyses | | |
+| Finals Week | Project presentations and individual assessment | | |

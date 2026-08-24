@@ -3,6 +3,7 @@ title: "Getting set up with R, RStudio, and Git"
 format: 
   html:
     toc: true
+    toc-depth: 4
 ---
 
 You first need to choose what computer to setup (you can do multiple if you would like)
@@ -42,7 +43,7 @@ use_git_config(user.name = "Jane Doe", user.email = "jane@example.org")
 
 ## Connecting / Configuring GitHub with your RStudio
 
-7. We need to generate an SSH key in RStudio and then provide it to GitHub. Follow the steps in the video below.
+7. We need to generate an SSH key in RStudio and then provide it to GitHub. Either follow along with the following setup video, or follow the written steps 7a - 7h.
 
 <center>
 
@@ -52,5 +53,25 @@ use_git_config(user.name = "Jane Doe", user.email = "jane@example.org")
 
 </center>
 
-8. You're all done!! 
+### Generate SSH key
+
+7a. In RStudio click `Tools` then `Global options...`, then navigate to the `Git/SVN` in the left navigation panel.
+
+7b. Click `Create SSH key...` and change `SSH key type` from "ED" to "RSA" then click `Create`.
+
+7c. Now close the popout to navigate back to the `Git/SVN` pane within `Global options`. 
+
+7d. Click `view public key` and copy the generated key to your clipboard. We need to provide this to GitHub online to allow it to interact with Git on our computer.
+
+### Provide GitHub your SSH key
+
+7e. Log in to [GitHub](https://github.com/). 
+
+7f. In the upper right corner click on your profile icon and then click `Settings`.
+
+7g. Click `SSH and GPG keys` from the navigation menu on the left hand side.
+
+7h. Click `New SSH key`. Under `Title` provide a short description to identify you device, such as "my laptop" or "CI Virtual Lab". Under `Key` paste the SSH key you copied from step d. Then click `Add SSH key`.
+
+If you completed all the steps above, congrats you are all done!! If not, please attend an office hour ASAP so we can get you computer set up correctly.
 
