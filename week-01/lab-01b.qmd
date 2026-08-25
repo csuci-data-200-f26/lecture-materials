@@ -23,76 +23,81 @@ options(scipen = 999)
 
 Name:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ Date:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
 
+## Understanding our toolkit
 
-# Coding with R
+- What software will be our *engine* for DATA 200:
 
-In DATA 200 we will use the programming language **R** to help us with our tasks such as calculations, exploring data, and producing visuals.
+- What software will be our *dashboard* for DATA 200:
 
-## Calculation basics
+- What guidelines will be our *rules of the road* for DATA 200:
+
+- What software will be our *insurance* for DATA 200:
+
+
+## Coding with R
+
+### Calculation basics
 
 ```{r}
 2 + 5
 ```
 
-
 Mark above which part is the **code** and the **output** of the code.
-
-*Note the `[1]` in front of the 7. This marks the 7 as* ________________________.
 
 We can do the standard operations of `+`, `-`, `*`, `/`, `sqrt()`, `exp()`, and many more!
 
-What if I wanted to save my calculation? I can use the **assignment operator** `<-`, to save my calculation into an **object** with a name I choose.
-```{r}
-my_calculation <- 3 * 12
-```
+Describe in words what an assignment operator does:
 
-Now `my_calculation` has the value 36 stored. I can also print the stored value.
-```{r}
-my_calculation
-```
+\vspace*{2cm}
 
-What value do you think would be printed below? 
-```{r}
-#| eval: false
-my_calculation / 2
-```
+Write out `R` code to store the value $\frac{36-30}{\sqrt{7 \times 100}}$ into an object named `dolphins`.
 
-## Vectors and functions
+\vspace*{2cm}
 
-Say I went to 5 local coffee shops and recorded the price of a cup of coffee. I can make a **vector** of these prices, an object which store values of a similar type.
-```{r}
-c(3, 2.50, 4.25, 3.5, 5)
-```
+What two rules should we follow when naming variables in `R`, to comply with tidyverse style guide?
 
-The commas separated the values and the `c()` combined the values into a vector. Write code below to store the vector above into an object called `coffee_prices`.
 
-\vspace*{1cm}
+### Vectors and functions
 
-```{r}
-#| echo: false
-coffee_prices <- c(3, 2.50, 4.25, 3.5, 5)
-```
+Say I went to 5 local coffee shops and recorded the price of a cup of coffee: \$3, \$2.50, \$4.25, \$3.5, \$5. Write code to make a **vector** of these prices, and store them into an object named `coffee_prices`.
 
-The `c()` used above is an example of a **function**, functions do actions for us in R. What do you think the output of the following code using the `max()` function will be?
+\vspace*{2cm}
+
+The `c()` function you must have used above is an example of a **function**, functions do actions for us in R. What do you think the output of the following code using the `max()` function will be? (Hint: many function names are intuitive!)
 
 ```{r}
 #| eval: false
 max(coffee_prices)
 ```
 
+\vspace*{1cm}
 
-## Data frames
+In your own words, describe what an argument of a function is.
 
-I was a little inconsistent when recording prices. The prices actually correspond to different sizes of coffees: small, small, large, medium, and large respectively.
+\vspace*{2cm}
+
+What could I do if I knew a function name, such as `sort()`, but did not remember its arguments?
+
+\vspace*{1cm}
+
+
+### Data frames
+
+I was a little inconsistent when recording prices. The prices actually correspond to different sizes of coffees: small, small, large, medium, and large respectively. Write R code to make a vector with these sizes and store it into an object named `coffee_sizes`. 
+
+\vspace*{1cm}
+
+
+We can store the two vectors together into a **data frame** so all of the information is organized in rows and columns. Write R code that would create and print the following data frame.
+
+\vspace*{1cm}
 
 ```{r}
+#| echo: false
+
+coffee_prices <- c(3, 2.50, 4.25, 3.5, 5)
 coffee_sizes <- c("small", "small", "large", "medium", "large")
-```
 
-Instead of storing numbers this time we stored what are called **characters**, which have to have quotes surrounding.
-
-I can store the two vectors together into a **data frame** so all of my information is organized.
-```{r}
 coffee_data <- data.frame(coffee_prices, coffee_sizes)
 
 coffee_data
@@ -101,26 +106,52 @@ coffee_data
 
 \newpage
 
-# Quarto documents
+For each code example below, identify if it follows our four tidyverse guidelines rules. If it does not, specify how which rule it violates and how it should be written.
 
-In this class we will use **Quarto documents**, which allow us to
+```{r}
+#| eval: false
+NumberOfMeals <- c(2, 3, 3.5, 3, 3)
+```
 
-- combine code, output, regular text, and a lot more,
-- code reproducibly because the code is saved, and
-- produce reports, with or without the code showing.
+```{r}
+#| eval: false
+favorite_fruit<-apples
+```
 
-Fill in the blanks using the following vocabulary: **code chunk**, **yaml**, **Render**, **html**.
+```{r}
+#| eval: false
+favorite fruit <- "apples"
+```
+
+```{r}
+#| eval: false
+height_in_inches<-5*12+3
+```
+
+
+## Quarto documents
+
+Fill in the blanks and label their location in the RStudio screenshot below for each of the following terms: **code chunk**, **html**, , **inline `R` code**, **console**, **yaml**, **Render**.
 
 The _________________ of a Quarto document is where we specify things for the document such as title, author, etc.
 
-We can type regular text in the document just like a Word document, and when we want to include code it has to be in a _________________.
+We can type regular text in the document just like a Word document, and when we want to include code it has to be in a _________________. If I want `R` code results to be printed in my rendered report then the code should be specified as _________________.
 
-You can _________________ a Quarto document into an html, pdf, or Word doc. In this class we will mainly produce html documents, which are webpages just like our lecture slides!
+You can _________________ a Quarto document into a report in each of the following formats: html, pdf, or Word doc. In this class we will mainly produce _________________ documents.
+
+If I want to run temporary R code that I do not want in my report, I can run the code in the _________________.
 
 
-We will learn much more about Quarto documents as we use them.
 
-# Version control with GitHub
+```{r}
+#| label: road-img
+#| echo: false
+#| fig-alt: "Screenshot of RStudio showing four panes: a quarto document, the console, the viewer pane, and the environment pane. The Quarto document has a header started and ended with three tick marks. Inbetween the tickmarks are various document specifications such as title, author, format. The Quarto document shows an R chunk with basic code as well as regular text. In the viewer pane is the rendered html from the Quarto document."
+
+knitr::include_graphics("img/RStudio-with-quarto-screenshot.jpg")
+```
+
+## Version control with GitHub
 
 Fill in the blanks using the following vocabulary: **clone**, **push**, **Git**, **GitHub**, **commit**.
 
@@ -132,4 +163,9 @@ When I edit and save a file tracked with Git, I can make a _________________ to 
 
 I can _________________ my changes to GitHub online, so my changes aren't only saved locally on my computer.
 
+```{r}
+#| echo: false
+#| fig-alt: "Screenshot of GitHub repo for week 1 intro toolkit. Circled is the popout from pressing the 'Code' button and the copy button for the ssh."
 
+knitr::include_graphics("img/github-cloning.jpg")
+```

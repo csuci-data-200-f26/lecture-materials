@@ -40,3 +40,8 @@
   position: relative; // Positioning for the highlight
   z-index: 1; // Ensure it appears above the code
 }
+
+.reveal .slides .slide img + p.caption,
+.reveal .slides .slide figure > figcaption {
+  font-size: 0.6em; /* Adjust this value as needed (e.g., 0.5em, 14px) */
+}

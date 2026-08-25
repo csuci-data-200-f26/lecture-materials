@@ -1,0 +1,18 @@
+---
+title: "Data 200: Fake Assignment 1"
+author: "Catalina Medina"
+format: 
+  html:
+    echo: true
+    message: false
+    warning: false
+    toc: true
+    embed-resources: true
+---
+
+```{r}
+hours_worked <- c(0, 3, 2.4, 10, 7, 4, 5.5)
+total_hours_worked <- sum(hours_worked)
+```
+
+I worked a total of `r total_hours_worked` hours last week!

@@ -11,12 +11,57 @@ execute:
   echo: true    
 ---
 
+
 ```{r}
 #| echo: false
 library(DiagrammeR)
 library(DiagrammeRsvg)
 library(rsvg)
 ```
+
+# What is in our toolkit?
+
+::: {.columns}
+
+::: {.column width="50%"}
+Engine &emsp;&emsp;&emsp; Dashboard
+
+```{r}
+#| label: car-engine-img
+#| echo: false
+#| fig-alt: "Two pictures labeled 'R: Engine' and 'RStudio: Dashboard'. The engine picture shows a car engine. The dashboard shows a car dashboard with a lot of controls."
+#| fig-cap: "From Modern Drive: An introduction to statistical and data sciences via R"
+
+knitr::include_graphics("img/R_vs_RStudio_1.png")
+```
+:::
+
+::: {.column width="25%"}
+Rules of the road
+```{r}
+#| label: road-img
+#| echo: false
+#| fig-alt: "Cartoon image of a curvy road with a sign saying turn right. Straight in front is a lake."
+#| fig-cap: "Designed by upklyak on Magnific www.magnific.com"
+
+knitr::include_graphics("img/road-rules.jpg")
+```
+
+:::
+::: {.column width="25%"}
+Insurance
+```{r}
+#| label: car-insurance-img
+#| echo: false
+#| fig-alt: "An illustration of an car covered with an umbrella and protected by a shield. Next to the car is a person holding forms titled 'INSURANCE POLICY'."
+#| fig-cap: "Designed by Magnific www.magnific.com"
+
+knitr::include_graphics("img/car-insurance.jpg")
+```
+
+:::
+
+:::
 
 # Introduction to `R`
 
@@ -275,6 +320,14 @@ RStudio is the software we will use to write code in.
 #| echo: false
 knitr::include_graphics("img/rstudio-interface.png")
 ```
+
+## Quarto documents
+
+In this class we will use **Quarto documents**, which allow us to
+
+- combine code, output, regular text, and a lot more,
+- code reproducibly because the code is saved, and
+- produce reports, with or without the code showing.
 
 ## Quarto document
 
