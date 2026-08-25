@@ -163,9 +163,45 @@ When I edit and save a file tracked with Git, I can make a _________________ to 
 
 I can _________________ my changes to GitHub online, so my changes aren't only saved locally on my computer.
 
+Below are four main steps of our workflow with GitHub. Label each according to their order (e.g., "1", "2", "3", "4").
+
+::: {layout-ncol="2"}
+
 ```{r}
 #| echo: false
 #| fig-alt: "Screenshot of GitHub repo for week 1 intro toolkit. Circled is the popout from pressing the 'Code' button and the copy button for the ssh."
 
-knitr::include_graphics("img/github-cloning.jpg")
+knitr::include_graphics("img/cloning-from-github.jpg")
 ```
+
+```{r}
+#| echo: false
+#| fig-alt: "Screenshot of creating a project in RStudio from the ssh copied from GitHub."
+
+
+knitr::include_graphics("img/cloning-into-rstudio.jpg")
+```
+
+:::
+
+::: {layout-ncol="2"}
+
+```{r}
+#| echo: false
+#| fig-alt: "Screenshot of making a commit with the message 'Added my name as the author'."
+
+knitr::include_graphics("img/committing.jpg")
+```
+
+```{r}
+#| echo: false
+#| fig-alt: "Screenshot of pusing a change from your computer to GitHub."
+
+
+knitr::include_graphics("img/pushing.jpg")
+```
+
+:::
+
+
+
