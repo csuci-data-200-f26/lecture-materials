@@ -169,9 +169,9 @@ Below are four main steps of our workflow with GitHub. Label each according to t
 
 ```{r}
 #| echo: false
-#| fig-alt: "Screenshot of GitHub repo for week 1 intro toolkit. Circled is the popout from pressing the 'Code' button and the copy button for the ssh."
+#| fig-alt: "Screenshot of making a commit with the message 'Added my name as the author'."
 
-knitr::include_graphics("img/cloning-from-github.jpg")
+knitr::include_graphics("img/committing.jpg")
 ```
 
 ```{r}
@@ -186,12 +186,7 @@ knitr::include_graphics("img/cloning-into-rstudio.jpg")
 
 ::: {layout-ncol="2"}
 
-```{r}
-#| echo: false
-#| fig-alt: "Screenshot of making a commit with the message 'Added my name as the author'."
 
-knitr::include_graphics("img/committing.jpg")
-```
 
 ```{r}
 #| echo: false
@@ -199,6 +194,13 @@ knitr::include_graphics("img/committing.jpg")
 
 
 knitr::include_graphics("img/pushing.jpg")
+```
+
+```{r}
+#| echo: false
+#| fig-alt: "Screenshot of GitHub repo for week 1 intro toolkit. Circled is the popout from pressing the 'Code' button and the copy button for the ssh."
+
+knitr::include_graphics("img/cloning-from-github.jpg")
 ```
 
 :::
