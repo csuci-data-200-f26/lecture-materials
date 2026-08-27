@@ -1,5 +1,5 @@
 ---
-title: "Data 200: Lecture 2a"
+title: "Data 200: Lecture 2"
 subtitle: "Familiarizing yourself with data and summary statistics"
 author: "Professor Catalina Medina"
 format: 
