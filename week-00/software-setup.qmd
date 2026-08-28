@@ -6,7 +6,7 @@ format:
     toc-depth: 4
 ---
 
-*We will do this together in class on Wednesday 8/26!*
+*We did steps 1-4 in class and we will do the rest together in class in week 2!*
 
 You first need to choose what computer to setup (you can do multiple if you would like)
 
