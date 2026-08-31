@@ -1,0 +1,236 @@
+---
+title: "Lab 2a"
+subtitle: "Data basics and summary statistics"
+lang: en
+format: 
+  pdf:
+    echo: false
+    message: false
+    warning: false
+    pdf-standard: ua-2
+    geometry:
+      - top=0.75in
+      - left=1in
+      - right=1in
+    include-before-body:
+      text: |
+        \thispagestyle{fancy}
+    include-in-header:
+      text: |
+        \usepackage{lastpage}
+        \usepackage{fancyhdr}
+        \pagestyle{fancy}
+        \fancyhf{}
+        \fancyhead[L]{DATA 200 Spring 2026}
+        \fancyhead[R]{Hello Data Science Chapter 2}
+        \fancyfoot[C]{\thepage\ of \pageref{LastPage}}
+        \setlength{\headsep}{2pt}
+        \RedeclareSectionCommand[afterskip=0.2em]{section}
+        \RedeclareSectionCommand[afterskip=0.1em]{subsection}
+        \RedeclareSectionCommand[afterskip=0.1em]{subsubsection}
+---
+
+\vspace*{-2.5cm}
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(knitr)
+options(scipen = 999)
+```
+
+**Team members:** 
+
+Today's goal: Practice describing a dataset, distinguishing variable types, and choosing and computing useful summaries without using R.
+
+## Question 1: parts of a dataset
+
+```{r}
+student_survey <- data.frame(
+  student = c(101, 102, 103, 104, 105, 106, 107, 108),
+  class = c("First year", "Junior", "Sophmore", "Senior", "First year", "Junior", "Senior", "Sophmore"),
+  commute = c(10, 35, 0, 50, 15, 25, 5, 20),
+  events_attended = c(1, 3, 0, 4, 2, 2, 5, 1),
+  preference = c("Career panel", "Workshop", "Workshop", "Career panel", "Social", "Workshop", "Career panel", "Social"),
+  plans_to_return = c("Yes", "No", "Yes", "No", "Yes", "No", "Yes", "Yes")
+) |> 
+  slice(1:5)
+```
+
+
+Suppose 5 students respond to a survey about campus events, and the data is recorded into an object named `student_survey`. Below is the same data presented in two formats: how the data can be presented to a human and how we could store the data on the computer using `R`.
+
+```{r}
+student_survey |> 
+  kable(
+    col.names = c("Student", "Class", "Commute (mins)", "Events attended", "Preferred event", "Plans to return")
+  )
+```
+
+```{r}
+#| echo: true
+student_survey
+```
+
+### Question 1a
+
+What is an observation in this dataset? Who or what does each observation describe?
+
+\vspace{1cm}
+
+### Question 1b
+
+How many observations and how many variables are shown?
+
+\vspace{1cm}
+
+
+## Question 2
+
+Classify each variable by its variable type and ideal `R` storage type. Be as specific as possible: numerical discrete, numerical continuous, categorical nominal, or categorical ordinal. 
+
+| variable | statistical variable type | ideal `R` storage type |
+|:---|:---------|:--------|
+| `student` | | 
+| | | |
+| `class` | | |
+| | | |
+| `commute` | | |
+| | | |
+| `events_attended` | | |
+| | | |
+| `preferred` | | |
+| | | |
+| `plans_to_return` | | |
+| | | |
+
+\vspace*{-0.75cm}
+
+## Question 3
+
+Diego says, "`student` is numerical because it contains numbers." Do you agree? Explain what makes a variable numerical rather than merely stored with numbers.
+
+\vspace{0.5in}
+
+## Question 4: Summarizing a categorical variable
+
+### Question 4a
+
+Complete the frequency table for `preferred_event`.
+
+| Preferred event | count | proportion | percent |
+|:---|:------------------|:------------------|:------------------|
+| Career panel | | | |
+| | | | | 
+| Social | | | |
+| | | | | 
+| Workshop | | | |
+| | | | | 
+| **Total** | | | |
+
+\vspace*{-0.75cm}
+
+### Question 4b
+
+Write one complete sentence interpreting a percentage from your table in context.
+
+\vspace{0.5in}
+
+## Question 5: Summarizing a numerical variable
+
+The commute times, already ordered, are: `r paste0(sort(student_survey$commute),  collapse = ", ")`.  
+
+\vspace*{-0.5cm}
+
+### Question 5a
+
+Calculate each summary. Show your work as appropriate.
+
+- Mean:
+
+\vspace{0.25in}
+
+- Median:
+
+- Range (distance between minimum and maximum values):
+
+- 40th percentile:
+
+### Question 5b
+
+Interpret the median commute time in context.
+
+\vspace{0.5in}
+
+
+### Question 5c
+
+One student corrects their commute time from 50 minutes to 100 minutes. Without recalculating exact values, predict what happens to each statistic. Write **increases**, **decreases**, or **stays the same**.
+
+- Mean:
+
+- Median:
+
+- Variance:
+
+- Standard deviation:
+
+- First Quartile
+
+- IQR:
+
+Which measure(s) are more resistant to this change of a single extreme value? Explain briefly.
+
+\vspace{0.5in}
+
+## Question 6
+
+Match each research question to the most useful summary statistic. A statistic may be used more than once. Choices: count/proportion, mean, median, standard deviation, IQR.
+
+- What is a typical number of events attended?
+
+\vspace{0.5cm}
+
+- Do most respondents plan to return to a campus event?
+
+\vspace{0.5cm}
+
+
+- How much do commute times typically vary around their mean?
+
+\vspace{0.5cm}
+
+
+- What is a typical commute time, when the data has one extremely large value? 
+
+
+\vspace{0.5cm}
+
+- How spread out is the middle 50% of commute times?
+
+\vspace{0.5cm}
+
+
+
+## Question 7
+
+For each claim, decide whether the evidence supports it. If not, identify what is wrong.
+
+- "The majority of surveyed students have attended a campus event."
+
+\vspace{1in}
+
+- "Because 60% of these respondents plan to return, 60% of all CSUCI students plan to return."
+
+\vspace{1in}
+
+- "The typical respondent attends 2 events."
+
+\vspace{1in}
+
+- "Students having a long commute makes them not plan to return to a campus event."
+
+\vspace{1in}
+
+
+
