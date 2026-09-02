@@ -9,7 +9,7 @@ format:
 | Week | Topics  | Lecture Slides | 
 |:--|:--------------------------|:-------|
 | 1 | Introductions to each other, class, & toolkit  | [Lec 1a slides](https://csuci-data-200-f26.github.io/lecture-materials/week-01/lec-01a-intro-class.html) and [Lec 1b slides](https://csuci-data-200-f26.github.io/lecture-materials/week-01/lec-01b-intro-toolkit.html) | 
-| 2 | Data frames, variables, & summary statistics | |
+| 2 | Data frames, variables, & summary statistics | [Lec 1a slides](https://csuci-data-200-f26.github.io/lecture-materials/week-02/lec-02-data-basics-and-summary-stats.html) and [Lab 2a](https://csuci-data-200-f26.github.io/lecture-materials/week-02/lab-02a.pdf) |
 | 3 | Computing summary statistics & data aggregation | | 
 | 4 | Data visualization | | 
 | 5 | Data wrangling basics: Pipe operator, subsetting data frames, & changing variables | | 
