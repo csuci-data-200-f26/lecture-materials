@@ -26,6 +26,16 @@ babies <-
   )
 ```
 
+## Different Representations of Data
+
+We can represent data using: visuals, text, sound, tactiles.
+
+. . .
+
+Today we will cover the most commonly used format, but next week we will touch on different data representations.
+
+Different modes (e.g., sound) of representation are especially important for making the data representation accessible to all. 
+
 ## Data visualizations
 
 - are graphical representations of data.
@@ -38,39 +48,13 @@ babies <-
 
 *Explore for yourself!*
 
-[One Dataset Visualized 25 Ways](https://flowingdata.com/2017/01/24/one-dataset-visualized-25-ways)
+- [One Dataset Visualized 25 Ways](https://flowingdata.com/2017/01/24/one-dataset-visualized-25-ways)
 
-[Mandatory Paid Vacation](https://www.instagram.com/p/CE1kpM5FhWR/?utm_source=ig_web_copy_link)
+- [Mandatory Paid Vacation](https://www.instagram.com/p/CE1kpM5FhWR/?utm_source=ig_web_copy_link)
 
-[Why are K-pop groups so big?](https://pudding.cool/2020/10/kpop/)
+- [Why are K-pop groups so big?](https://pudding.cool/2020/10/kpop/)
 
 We will only touch the surface of data visualization in this class. It is a rich field and some of you may possibly consider a career in data visualization.
-
-## Accessibility
-
-Data visualization is perhaps the most commonly used format for representing data. 
-
-. . .
-
-- Visualizations can convey a lot about data, but they are not accessible to everyone, such as people who have a visual impairment. 
-
-. . .
-
-Different modes (e.g., sound) of representation are especially important for making the data representation accessible to all. 
-
-## Different Representations of Data
-
-
-We can represent data using some of the following formats
-
-- visual
-- text
-- sound
-- tactile
-
-. . .
-
-Today we will cover data represented in visuals but next week we will touch on different data representations.
 
 ## Data
 
