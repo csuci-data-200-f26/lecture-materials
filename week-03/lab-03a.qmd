@@ -1,0 +1,165 @@
+---
+title: ""
+format: 
+  pdf:
+    echo: true
+    message: false
+    warning: false
+    geometry:
+      - bottom=0.75in
+header-includes:
+  - \usepackage{lastpage}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{}
+  - \fancyhead[L]{Data 200 Spring 2026 -- \textbf{Lab 3a Part 1}}
+  - \fancyhead[R]{Hello Data Science Chapter 3}
+  - \fancyfoot[C]{\thepage\ of \pageref{LastPage}}
+  - \renewcommand{\headrulewidth}{0.4pt}
+---
+
+\newcommand{\blank}{\rule{2.5cm}{0.15mm}}
+
+Team members:
+
+\vspace*{1cm}
+
+In this lab we will use a dataset of movies. For each movie we have information on their genre, critic score (from 0-100), rating (G, PG, PG-13, or R), and box office earnings (in millions of dollars). 
+
+```{r}
+#| echo: false
+library(openintro)
+library(tidyverse)
+
+data("movies")
+```
+
+## Question 1
+
+```{r}
+#| echo: false
+#| fig-align: center
+#| fig-width: 6
+#| fig-height: 2.5
+
+ggplot(movies, aes(x = score, y = rating)) +
+  geom_boxplot()
+```
+
+List 3 factual observations about the plot shown above.
+
+1.
+
+\vspace{1cm}
+
+2.
+
+\vspace{1cm}
+
+3.
+
+\vspace{1cm}
+
+
+## Question 2
+
+Which ratings categories appear to be similar in critic score? Which appear to be the least similar? Does this make sense?
+
+\vspace*{2cm}
+
+## Question 3
+
+Identify each plotting step from the code (i.e., circle and number the step):
+
+1. Call `ggplot()` with the data.
+2. Specify variables to be mapped to aesthetics (e.g., axes, colors, etc)
+3. Add a layer to specify the plot type.
+
+\vspace{0.5cm}
+
+```{r}
+#| fig-width: 4
+#| fig-height: 3
+#| fig-align: center
+ggplot(movies, aes(x = box_office)) +
+  geom_histogram()
+```
+
+## Question 4
+
+How would you describe the distribution visualized in question 3 (right-skewed, left-skewed, symmetric)?
+
+## Question 5a 
+
+If we doubled the dataset by duplicating every row, how would the plot from question 1 change, if at all?
+
+\vspace{1.5cm}
+
+
+## Question 5b
+
+If we doubled the dataset by duplicating every row, how would the plot from question 3 change, if at all?
+
+\vspace{4cm}
+
+
+
+## Question 6
+
+I want to produce a bar plot of movie ratings. Identify which code I should use.
+
+Option 1:
+```{r}
+#| eval: false
+
+ggplot(movies, x = rating) +
+  geom_bar()
+```
+
+Option 2:
+```{r}
+#| eval: false
+
+ggplot(aes(movies), x = rating) +
+  geom_bar()
+```
+
+Option 3:
+```{r}
+#| eval: false
+
+ggplot(movies, aes(x = rating))
+  geom_bar()
+```
+
+Option 4:
+```{r}
+#| eval: false
+
+ggplot(movies, aes(x = rating)) +
+  geom_bar()
+```
+
+Option 5:
+```{r}
+#| eval: false
+
+ggplot() +
+  geom_bar(movies, x = aes(rating))
+```
+
+\newpage
+
+## Question 7
+
+Work with your team to sketch a box plot of box office earnings using information provided by the plot in question 3.
+
+\vspace*{7cm}
+
+## Question 8
+
+I want to investigate which genre (action, comedy, or horror) had more rated R movies and which genre had the fewest PG movies. What type of plot would you recommend? 
+
+Create a sketch of what this plot might look like. (I haven't shown you any data for genre, so this exercise is for you to think about what would be on the x-axis, y-axis, legend, and what the data could look like).
+
+ 

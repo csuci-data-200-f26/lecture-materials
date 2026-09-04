@@ -1,0 +1,621 @@
+---
+title: "Data 200: Week 3 Lecture"
+subtitle: "Data Visualization Foundations"
+author: "Medina - CSU Channel Islands"
+format: 
+  revealjs:
+    theme: [sky, ../slide-style.scss]
+    slide-number: true
+execute:
+  echo: true  
+---
+
+```{r}
+#| echo: false
+library(openintro)
+library(tidyverse)
+library(fGarch) # for simulating skewed data
+
+theme_set(theme_gray(base_size = 22))
+
+babies <- 
+  babies %>% 
+  mutate(
+    smoke = as.logical(smoke),
+    parity = as.logical(parity)
+  )
+```
+
+## Data visualizations
+
+- are graphical representations of data.
+
+- use different colors, shapes, and the coordinate system to summarize data.
+
+- can tell a story or can be useful for exploring data.
+
+## Examples
+
+*Explore for yourself!*
+
+[One Dataset Visualized 25 Ways](https://flowingdata.com/2017/01/24/one-dataset-visualized-25-ways)
+
+[Mandatory Paid Vacation](https://www.instagram.com/p/CE1kpM5FhWR/?utm_source=ig_web_copy_link)
+
+[Why are K-pop groups so big?](https://pudding.cool/2020/10/kpop/)
+
+We will only touch the surface of data visualization in this class. It is a rich field and some of you may possibly consider a career in data visualization.
+
+## Accessibility
+
+Data visualization is perhaps the most commonly used format for representing data. 
+
+. . .
+
+- Visualizations can convey a lot about data, but they are not accessible to everyone, such as people who have a visual impairment. 
+
+. . .
+
+Different modes (e.g., sound) of representation are especially important for making the data representation accessible to all. 
+
+## Different Representations of Data
+
+
+We can represent data using some of the following formats
+
+- visual
+- text
+- sound
+- tactile
+
+. . .
+
+Today we will cover data represented in visuals but next week we will touch on different data representations.
+
+## Data
+
+```{r}
+glimpse(babies)
+```
+
+##
+
+```{r}
+#| eval: false
+?babies
+```
+
+`case` id number
+
+`bwt` birthweight, in ounces
+
+`gestation` length of gestation, in days
+
+`parity` binary indicator for a first pregnancy (0 = first pregnancy)
+
+`age` mother's age in years
+
+`height` mother's height in inches
+
+`weight` mother's weight in pounds
+
+`smoke` binary indicator for whether the mother smokes
+
+## How can we make plots? ggplot
+
+```{r}
+#| echo: false
+#| fig-alt: "A group of fuzzy round monsters with binoculars, backpacks and guide books looking up a graphs flying around with wings (like birders, but with exploratory data visualizations). Stylized text reads “ggplot2: visual data exploration.” Learn more about ggplot2."
+#| fig-cap: "Artwork by Allison Horst."
+knitr::include_graphics("img/ggplot-illustration.png")
+```
+
+## Bar plot
+
+```{r}
+#| echo: false
+#| fig-align: center
+ggplot(babies, aes(x = smoke)) +
+  geom_bar()
+```
+
+. . .
+
+- When can we use a bar plot?
+- What does this bar plot convey?
+
+## Bar plot
+
+```{r}
+#| echo: false
+#| fig-align: center
+ggplot(babies, aes(x = smoke)) +
+  geom_bar()
+```
+
+- When can we use a bar plot? **For a categorical variable**
+- What does this bar plot convey? **Counts of each level**
+
+## Bar plot
+
+```{r}
+#| output-location: column
+ggplot(babies)
+```
+
+## Bar plot
+
+```{r}
+#| output-location: column
+ggplot(babies, aes(x = smoke)) 
+```
+
+## Bar plot
+
+```{r}
+#| output-location: column
+ggplot(babies, aes(x = smoke)) +
+  geom_bar()
+```
+
+## Histogram
+
+```{r}
+#| echo: false
+#| fig-align: center
+ggplot(babies, aes(x = bwt)) +
+  geom_histogram()
+```
+
+. . .
+
+- When can we use a histogram?
+- What does this histogram convey?
+
+## Histogram
+
+```{r}
+#| echo: false
+#| fig-align: center
+ggplot(babies, aes(x = bwt)) +
+  geom_histogram()
+```
+
+- When can we use a histogram? **For a numerical variable**
+- What does this histogram convey? **How the values are distributed, shape and spread**
+
+## Histogram
+
+```{r}
+#| output-location: column
+ggplot(babies)
+```
+
+## Histogram
+
+```{r}
+#| output-location: column
+ggplot(babies, aes(x = bwt))
+```
+
+## Histogram
+
+```{r}
+#| output-location: column
+ggplot(babies, aes(x = bwt)) +
+  geom_histogram()
+```
+
+. . .
+
+- How large is a bin?
+- How large should it be?
+
+## Changing histogram bin widths
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| fig-alt: "Same histogram as previous slide, except with much finer detail since each bin is very thin. This also results in a much smaller y axis, since there are fewer points in each interval."
+ggplot(babies, aes(x = bwt)) +
+  geom_histogram(binwidth = 0.5)
+```
+
+:::
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| fig-alt: "Same histogram as previous slide, except with slightly finer detail since each bin is slightly smaller. This also results in a slightly smaller y axis, since there are fewer points in each interval."
+
+ggplot(babies, aes(x = bwt)) +
+  geom_histogram(binwidth = 3)
+```
+
+:::
+
+:::
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+```{r}
+#| echo: true
+#| fig-alt: "Same histogram as previous slide, except with less detail since each bin is thicker. This also results in a much larger y axis, since there are more points in each interval."
+
+ggplot(babies, aes(x = bwt)) +
+  geom_histogram(binwidth = 10)
+```
+
+:::
+
+::: {.column width="50%"}
+
+
+```{r}
+#| echo: true
+#| fig-alt: "Same histogram as previous slide, except with much less detail since each bin is much thicker. This also results in a much larger y axis, since there are more points in each interval."
+
+ggplot(babies, aes(x = bwt)) +
+  geom_histogram(binwidth = 20)
+```
+
+:::
+
+:::
+
+## Describing the shape of a histogram
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-height: 6
+#| cache: true
+set.seed(12345)
+
+symmetric <- rnorm(n = 10000, mean = 0, sd = 1)
+
+right_skewed <- rsnorm(n = 10000, mean = 0, sd = 1, xi = 20)
+
+left_skewed <- rsnorm(n = 10000, mean = 0, sd = 1, xi = -20)
+
+type <- 
+  c(
+    rep("left-skewed", 10000),
+    rep("symmetric", 10000),
+    rep("right-skewed", 10000)
+  )
+
+x <- c(left_skewed, symmetric, right_skewed)
+
+data <- tibble(x = x, type = type)
+
+```
+
+::::{.columns}
+
+:::{.column width="50%"}
+
+```{r}
+#| echo: false
+data %>% 
+  filter(type == "left-skewed") %>% 
+  ggplot(aes(x = x)) +
+  geom_histogram() +
+  labs(title = "Left skewed") +
+  theme_classic(base_size = 22) 
+```
+
+:::
+
+:::{.column width="50%"}
+
+```{r}
+#| echo: false
+data %>% 
+  filter(type == "right-skewed") %>% 
+  ggplot(aes(x = x)) +
+  geom_histogram() +
+  labs(title = "Right skewed") +
+  theme_classic(base_size = 22)
+```
+
+:::
+
+:::{.column width="50%"}
+
+```{r}
+#| echo: false
+data %>% 
+  filter(type == "symmetric") %>% 
+  ggplot(aes(x = x)) +
+  geom_histogram() +
+  labs(title = "Symmetric") +
+  theme_classic(base_size = 22)
+```
+
+:::
+
+::::
+
+
+
+
+## Skewing a distribution
+
+Consider the height distribution in our class.
+
+- How would the distribution change if Michael Jordan (198.1 cm, 6' 6'') were to join our class?
+
+- How would the distribution change if Peter Dinklage (135 cm, 4' 5'') were to join our class?
+
+
+## Summary statistics for skewed distributions
+
+- In right-skewed distributions mean > median, true or false?
+
+- In left-skewed distributions mean > median, true or false?
+
+. . .
+
+When data display a skewed distribution we rely on median rather than the mean to understand the center of the distribution.
+
+## Looking at Relationships
+
+So far we seen bar plots and histograms both of which are useful for visualizing a single categorical and numerical variables respectively. 
+
+. . .
+
+We are often interested in looking at relationships between two variables. 
+
+
+## Standardized Bar Plots
+
+```{r}
+#| echo: false
+#| fig-align: center
+ggplot(
+  babies,
+  aes(x = smoke, fill = parity)
+) + 
+  geom_bar(position = "fill")
+```
+
+. . .
+
+Note that the y axis still shows as a count. We will learn how to change the axis labels later.
+
+## Standardized Bar Plots
+
+```{r}
+#| echo: false
+#| fig-align: center
+ggplot(
+  babies,
+  aes(x = smoke, fill = parity)
+) + 
+  geom_bar(position = "fill")
+```
+
+What type of variables can we display with a standardized bar plot?
+
+## Standardized Bar Plots
+
+```{r}
+#| echo: false
+#| fig-align: center
+ggplot(
+  babies,
+  aes(x = smoke, fill = parity)
+) + 
+  geom_bar(position = "fill")
+```
+
+What type of variables can we display with a standardized bar plot? **Two categorical variables**
+
+
+## Bar plots two ways
+
+::::{.columns}
+
+:::{.column width="50%"}
+
+### Standardized Bar Plots
+
+```{r}
+#| fig-align: center
+ggplot(
+  babies,
+  aes(x = smoke, fill = parity)
+) + 
+  geom_bar(position = "fill")
+```
+
+:::
+
+:::{.column width="50%"}
+
+### Dodged Bar Plot
+
+```{r}
+#| fig-align: center
+ggplot(
+  babies,
+  aes(x = smoke, fill = parity)
+) + 
+  geom_bar(position = "dodge")
+```
+
+:::
+
+:::
+
+
+## Side-by-Side Boxplots
+
+```{r}
+#| output-location: column
+#| fig-align: center
+ggplot(
+  babies,
+  aes(x = smoke, y = bwt)
+) +
+  geom_boxplot() 
+```
+
+## Understanding Each Box
+
+
+::::{.columns}
+
+:::{.column width="50%"}
+
+```{r}
+#| echo: false
+ggplot(babies, aes(y = bwt)) +
+  geom_boxplot() +
+  scale_x_discrete() +
+  ylab("Birth Weight") +
+  xlab("") 
+```
+
+
+
+:::
+
+:::{.column width="50%"}
+
+- The horizontal line in the box represents the median.
+- The box represents the middle 50% of the data with Q3 on the upper end and Q1 on the lower end. 
+
+:::
+
+::::
+
+## Understanding Each Box
+
+
+::::{.columns}
+
+:::{.column width="50%"}
+
+```{r}
+#| echo: false
+ggplot(babies, aes(y = bwt)) +
+  geom_boxplot() +
+  scale_x_discrete() +
+  ylab("Birth Weight") +
+  xlab("") 
+```
+
+:::
+
+:::{.column width="50%"}
+
+
+- Whiskers extend from the box. They can extend up to 1.5 IQR away from the box (i.e. away from Q1 and Q3). 
+- The points are potential outliers that represent babies with really low or high birth weight.
+
+:::
+
+::::
+
+## Scatter plots
+
+```{r}
+#| output-location: column
+#| fig-align: center
+ggplot(
+  babies,
+  aes(x = gestation, y = bwt)
+)  +
+  geom_point()
+```
+
+Length of gestation can **possibly** eXplain a baby's birth weight. 
+Gestation is the eXplanatory variable and is shown on the x-axis.
+Birth weight is the response variable and is shown on the y-axis.
+
+---
+
+## Linear Relationship
+
+```{r echo = FALSE, fig.height=4, fig.align='center', warning=FALSE, message=FALSE}
+ggplot(
+  babies,
+  aes(x = gestation, y = bwt))  +
+  geom_point() +
+  labs(
+    x = "Gestation (days)",
+    y = "Birth weight (ounces)"
+) +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+Later on we will learn statistical modeling, during which we will numerically define the relationship between gestation and birth weight. 
+For now we can say that this relationship looks positive and moderate.
+
+
+## Meet Palmer Penguins
+
+
+
+```{r}
+#| echo: false
+#| fig-align: center
+#| fig-cap: "Artwork by Allison Horst."
+#| fig-alt: "Image showing three penguins with different features because they are different species: Chunstrap, Gentoo, and Adelie."
+knitr::include_graphics("img/penguins.png")
+```
+
+
+##
+
+```{r}
+#| echo: false
+#| fig-align: center
+knitr::include_graphics("img/penguin_bill.png")
+```
+
+## Data
+
+
+```{r}
+glimpse(penguins)
+```
+
+## Visualizing Three Variables
+
+```{r}
+#| fig-align: center
+ggplot(penguins, aes(x = body_mass, y = bill_len, color = species)) +
+  geom_point()
+```
+
+We can use color to consider a third variable
+
+## code style
+
+[The tidyverse style guide](https://style.tidyverse.org/ggplot2.html) has the following convention for writing ggplot2 code.
+
+- The plus sign for adding layers `+` always has a space before it and is followed by a new line. 
+- The new line is indented by two spaces. RStudio does this automatically for you. 
+
+## Recap
+
+```{r}
+#| label: fig-ggplot-summary
+#| out-width: 80%
+#| echo: false
+#| fig-cap: "Hello Data Science Figure 3.21"
+#| fig-alt: "A reference chart summarizing ggplot2 aesthetics and geoms. The chart is divided into two columns. The left column lists aesthetic mappings under 'aes = (...........)'  correspoinding arguments: x and y representing horizontal vertical arrows, respectively. Color groups points using color, such as black, pink, and green. Fill breaks bars based on groups assigning a color to each group, such as a barplot with three rectangles in pink and green. Shape groups points using shapes, such as circle, triangle, and square. Size maps a numerical variable to distinguish the amount of it based on the size of the point, such as pink circles of increasing size. The right column lists geoms under 'geom_.........()' with corresponding icons: bar with three vertical bars with space betweeen them, histogram with a series of small bars touching each other forming a distribution, boxplot with a horizontal box and whiskers, point with a scatterplot of small green dots. The chart visually connects aesthetic options on the left to common geom types on the right."
+
+
+knitr::include_graphics("img/ggplot-summary.png")
+```
