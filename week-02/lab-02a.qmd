@@ -106,15 +106,10 @@ Classify each variable by its variable type and ideal `R` storage type. Be as sp
 
 \vspace*{-0.75cm}
 
-## Question 3
 
-Diego says, "`student` is numerical because it contains numbers." Do you agree? Explain what makes a variable numerical rather than merely stored with numbers.
+## Question 3: Summarizing a categorical variable
 
-\vspace{0.5in}
-
-## Question 4: Summarizing a categorical variable
-
-### Question 4a
+### Question 3a
 
 Complete the frequency table for `preferred_event`.
 
@@ -130,19 +125,19 @@ Complete the frequency table for `preferred_event`.
 
 \vspace*{-0.75cm}
 
-### Question 4b
+### Question 3b
 
 Write one complete sentence interpreting a percentage from your table in context.
 
 \vspace{0.5in}
 
-## Question 5: Summarizing a numerical variable
+## Question 4: Summarizing a numerical variable
 
 The commute times, already ordered, are: `r paste0(sort(student_survey$commute),  collapse = ", ")`.  
 
 \vspace*{-0.5cm}
 
-### Question 5a
+### Question 4a
 
 Calculate each summary. Show your work as appropriate.
 
@@ -156,14 +151,14 @@ Calculate each summary. Show your work as appropriate.
 
 - 40th percentile:
 
-### Question 5b
+### Question 4b
 
 Interpret the median commute time in context.
 
 \vspace{0.5in}
 
 
-### Question 5c
+### Question 4c
 
 One student corrects their commute time from 50 minutes to 100 minutes. Without recalculating exact values, predict what happens to each statistic. Write **increases**, **decreases**, or **stays the same**.
 
@@ -183,7 +178,7 @@ Which measure(s) are more resistant to this change of a single extreme value? Ex
 
 \vspace{0.5in}
 
-## Question 6
+## Question 5
 
 Match each research question to the most useful summary statistic. A statistic may be used more than once. Choices: count/proportion, mean, median, standard deviation, IQR.
 
@@ -209,28 +204,5 @@ Match each research question to the most useful summary statistic. A statistic m
 - How spread out is the middle 50% of commute times?
 
 \vspace{0.5cm}
-
-
-
-## Question 7
-
-For each claim, decide whether the evidence supports it. If not, identify what is wrong.
-
-- "The majority of surveyed students have attended a campus event."
-
-\vspace{1in}
-
-- "Because 60% of these respondents plan to return, 60% of all CSUCI students plan to return."
-
-\vspace{1in}
-
-- "The typical respondent attends 2 events."
-
-\vspace{1in}
-
-- "Students having a long commute makes them not plan to return to a campus event."
-
-\vspace{1in}
-
 
 
