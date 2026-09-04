@@ -491,6 +491,33 @@ ggplot(babies, aes(y = bwt)) +
 
 :::{.column width="50%"}
 
+Let's look at what a single box plot is!
+:::
+
+::::
+
+## Understanding Each Box
+
+
+::::{.columns}
+
+:::{.column width="50%"}
+
+```{r}
+#| echo: false
+ggplot(babies, aes(y = bwt)) +
+  geom_boxplot() +
+  scale_x_discrete() +
+  ylab("Birth Weight") +
+  xlab("") 
+```
+
+
+
+:::
+
+:::{.column width="50%"}
+
 - The horizontal line in the box represents the median.
 - The box represents the middle 50% of the data with Q3 on the upper end and Q1 on the lower end. 
 
@@ -521,6 +548,35 @@ ggplot(babies, aes(y = bwt)) +
 
 - Whiskers extend from the box. They can extend up to 1.5 IQR away from the box (i.e. away from Q1 and Q3). 
 - The points are potential outliers that represent babies with really low or high birth weight.
+
+:::
+
+::::
+
+## Understanding Each Box
+
+
+::::{.columns}
+
+:::{.column width="50%"}
+
+```{r}
+#| echo: false
+ggplot(babies, aes(y = bwt, x = "")) +
+  geom_boxplot() +
+  scale_x_discrete() +
+  ylab("Birth Weight") +
+  xlab("") +
+  geom_jitter(width = 0.2, alpha = 0.6, size = 1.5, color = "#CC79A7")
+```
+
+
+
+:::
+
+:::{.column width="50%"}
+
+- Here I overlayed the values, so you can see a boxplot provides summary statistics about how the data is distributed
 
 :::
 

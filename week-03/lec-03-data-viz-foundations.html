@@ -624,10 +624,7 @@ $ smoke     &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FA
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<ul>
-<li>The horizontal line in the box represents the median.</li>
-<li>The box represents the middle 50% of the data with Q3 on the upper end and Q1 on the lower end.</li>
-</ul>
+<p>Let’s look at what a single box plot is!</p>
 </div></div>
 </section>
 <section id="understanding-each-box-1" class="slide level2">
@@ -645,8 +642,47 @@ $ smoke     &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FA
 </div>
 </div><div class="column" style="width:50%;">
 <ul>
+<li>The horizontal line in the box represents the median.</li>
+<li>The box represents the middle 50% of the data with Q3 on the upper end and Q1 on the lower end.</li>
+</ul>
+</div></div>
+</section>
+<section id="understanding-each-box-2" class="slide level2">
+<h2>Understanding Each Box</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec-03-data-viz-foundations_files/figure-revealjs/unnamed-chunk-31-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<ul>
 <li>Whiskers extend from the box. They can extend up to 1.5 IQR away from the box (i.e.&nbsp;away from Q1 and Q3).</li>
 <li>The points are potential outliers that represent babies with really low or high birth weight.</li>
+</ul>
+</div></div>
+</section>
+<section id="understanding-each-box-3" class="slide level2">
+<h2>Understanding Each Box</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec-03-data-viz-foundations_files/figure-revealjs/unnamed-chunk-32-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li>Here I overlayed the values, so you can see a boxplot provides summary statistics about how the data is distributed</li>
 </ul>
 </div></div>
 </section>
@@ -663,7 +699,7 @@ $ smoke     &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FA
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="lec-03-data-viz-foundations_files/figure-revealjs/unnamed-chunk-31-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+<p><img data-src="lec-03-data-viz-foundations_files/figure-revealjs/unnamed-chunk-33-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
 </figure>
 </div>
 </div>
@@ -673,7 +709,7 @@ $ smoke     &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FA
 <section id="linear-relationship" class="slide level2">
 <h2>Linear Relationship</h2>
 
-<img data-src="lec-03-data-viz-foundations_files/figure-revealjs/unnamed-chunk-32-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"><p>Later on we will learn statistical modeling, during which we will numerically define the relationship between gestation and birth weight. For now we can say that this relationship looks positive and moderate.</p>
+<img data-src="lec-03-data-viz-foundations_files/figure-revealjs/unnamed-chunk-34-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"><p>Later on we will learn statistical modeling, during which we will numerically define the relationship between gestation and birth weight. For now we can say that this relationship looks positive and moderate.</p>
 </section>
 <section id="meet-palmer-penguins" class="slide level2">
 <h2>Meet Palmer Penguins</h2>
@@ -708,7 +744,7 @@ $ year        &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <span id="cb20-2"><a href="" aria-label="2"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="lec-03-data-viz-foundations_files/figure-revealjs/unnamed-chunk-36-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"><p>We can use color to consider a third variable</p>
+<img data-src="lec-03-data-viz-foundations_files/figure-revealjs/unnamed-chunk-38-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"><p>We can use color to consider a third variable</p>
 </section>
 <section id="code-style" class="slide level2">
 <h2>code style</h2>
