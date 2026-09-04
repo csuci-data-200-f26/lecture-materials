@@ -290,8 +290,9 @@ diagram <- grViz("
 
 tmp <- capture.output(rsvg::rsvg_png(
   charToRaw(export_svg(diagram)),
-  'img/diagram.png')
-)
+  file = 'img/diagram.png',
+  height = 250
+))
 
 knitr::include_graphics("img/diagram.png") 
 
@@ -308,6 +309,15 @@ Identifying the type of variable will help us to know which plots, summary stati
 
 Note not all numbers are numerical variables (i.e., zip codes are numbers but we can't add, divide, etc and get something meaningful.)
 
+## Numerical variables illustration
+
+```{r}
+#| echo: false
+#| fig-alt: "Visual representations of nominal, ordinal, and binary variables. Left: Nominal (ordered descriptions) with illustrations below of a turtle, snail, and butterfly. Center: Ordinal (ordered descriptions) with illustrations below of three bees - one looks unhappy (saying 'I am unhappy'), one looks ok (saying 'I am OK'), and one looks very happy (saying 'I am awesome!'). Right: Binary (only 2 mutually exclusive outcomes), with below a T-rex saying 'I am extinct' and a shark saying 'HA.'"
+#| fig-cap: "Artwork by Allison Horst."
+knitr::include_graphics("img/numerical-variables-illustration.png")
+```
+
 ## Categorical variables
 
 **Categorical variables** do not have numeric meaning, we can't do mathematical operations 
@@ -315,6 +325,15 @@ Note not all numbers are numerical variables (i.e., zip codes are numbers but we
 - **Ordinal categorical** have categories with a natural ordering (e.g., Passenger class: 1st, 2nd, or 3rd)
 - **Nominal categorical** have categories without a natural ordering (e.g., Port embarked: Cherbourg, Queenstown, or Southampton)
 
+
+## Categorical variables illustration
+
+```{r}
+#| echo: false
+#| fig-alt: "Visual representations of nominal, ordinal, and binary variables. Left: Nominal (ordered descriptions) with illustrations below of a turtle, snail, and butterfly. Center: Ordinal (ordered descriptions) with illustrations below of three bees - one looks unhappy (saying 'I am unhappy'), one looks ok (saying 'I am OK'), and one looks very happy (saying 'I am awesome!'). Right: Binary (only 2 mutually exclusive outcomes), with below a T-rex saying 'I am extinct' and a shark saying 'HA.'"
+#| fig-cap: "Artwork by Allison Horst"
+knitr::include_graphics("img/categorical-variables-illustration.png")
+```
 
 ## Storage types of variables in R
 
