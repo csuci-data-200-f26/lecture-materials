@@ -515,41 +515,56 @@ $ smoke     &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FA
 <p>When data display a skewed distribution we rely on median rather than the mean to understand the center of the distribution.</p>
 </div>
 </section>
-<section id="looking-at-relationships" class="slide level2">
-<h2>Looking at Relationships</h2>
+<section>
+<section id="looking-at-relationships" class="title-slide slide level1 center">
+<h1>Looking at Relationships</h1>
 <p>So far we seen bar plots and histograms both of which are useful for visualizing a single categorical and numerical variables respectively.</p>
 <div class="fragment">
 <p>We are often interested in looking at relationships between two variables.</p>
 </div>
 </section>
-<section id="standardized-bar-plots" class="slide level2">
-<h2>Standardized Bar Plots</h2>
+<section id="dodged-bar-plot" class="slide level2">
+<h2>Dodged bar plot</h2>
 
 <img data-src="lec-03-data-viz-foundations_files/figure-revealjs/unnamed-chunk-23-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"><div class="fragment">
-<p>Note that the y axis still shows as a count. We will learn how to change the axis labels later.</p>
+<p>What type of variables can we display with a dodged bar plot?</p>
 </div>
 </section>
-<section id="standardized-bar-plots-1" class="slide level2">
-<h2>Standardized Bar Plots</h2>
+<section id="dodged-bar-plot-1" class="slide level2">
+<h2>Dodged bar plot</h2>
 
-<img data-src="lec-03-data-viz-foundations_files/figure-revealjs/unnamed-chunk-24-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"><p>What type of variables can we display with a standardized bar plot?</p>
+<img data-src="lec-03-data-viz-foundations_files/figure-revealjs/unnamed-chunk-24-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"><p>What type of variables can we display with a dodged bar plot? <strong>Two categorical variables</strong></p>
 </section>
-<section id="standardized-bar-plots-2" class="slide level2">
-<h2>Standardized Bar Plots</h2>
+<section id="dodged-bar-plot-2" class="slide level2">
+<h2>Dodged bar plot</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-label="1"></a><span class="fu">ggplot</span>(babies, <span class="fu">aes</span>(<span class="at">x =</span> smoke, <span class="at">fill =</span> parity)) <span class="sc">+</span> </span>
+<span id="cb14-2"><a href="" aria-label="2"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="lec-03-data-viz-foundations_files/figure-revealjs/unnamed-chunk-25-1.png" class="quarto-figure quarto-figure-center" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
 
-<img data-src="lec-03-data-viz-foundations_files/figure-revealjs/unnamed-chunk-25-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"><p>What type of variables can we display with a standardized bar plot? <strong>Two categorical variables</strong></p>
+</div></div>
 </section>
 <section id="bar-plots-two-ways" class="slide level2">
 <h2>Bar plots two ways</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<h3 id="standardized-bar-plots-3">Standardized Bar Plots</h3>
+<h3 id="dodged-bar-plot-3">Dodged bar plot</h3>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-label="1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb14-2"><a href="" aria-label="2"></a>  babies,</span>
-<span id="cb14-3"><a href="" aria-label="3"></a>  <span class="fu">aes</span>(<span class="at">x =</span> smoke, <span class="at">fill =</span> parity)</span>
-<span id="cb14-4"><a href="" aria-label="4"></a>) <span class="sc">+</span> </span>
-<span id="cb14-5"><a href="" aria-label="5"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-label="1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb15-2"><a href="" aria-label="2"></a>  babies,</span>
+<span id="cb15-3"><a href="" aria-label="3"></a>  <span class="fu">aes</span>(<span class="at">x =</span> smoke, <span class="at">fill =</span> parity)</span>
+<span id="cb15-4"><a href="" aria-label="4"></a>) <span class="sc">+</span> </span>
+<span id="cb15-5"><a href="" aria-label="5"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -559,13 +574,13 @@ $ smoke     &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FA
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<h3 id="dodged-bar-plot">Dodged Bar Plot</h3>
+<h3 id="standardized-bar-plot">Standardized bar plot</h3>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-label="1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb15-2"><a href="" aria-label="2"></a>  babies,</span>
-<span id="cb15-3"><a href="" aria-label="3"></a>  <span class="fu">aes</span>(<span class="at">x =</span> smoke, <span class="at">fill =</span> parity)</span>
-<span id="cb15-4"><a href="" aria-label="4"></a>) <span class="sc">+</span> </span>
-<span id="cb15-5"><a href="" aria-label="5"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-label="1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb16-2"><a href="" aria-label="2"></a>  babies,</span>
+<span id="cb16-3"><a href="" aria-label="3"></a>  <span class="fu">aes</span>(<span class="at">x =</span> smoke, <span class="at">fill =</span> parity)</span>
+<span id="cb16-4"><a href="" aria-label="4"></a>) <span class="sc">+</span> </span>
+<span id="cb16-5"><a href="" aria-label="5"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -580,11 +595,11 @@ $ smoke     &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FA
 <h2>Side-by-Side Boxplots</h2>
 <div class="cell columns column-output-location" data-layout-align="center">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-label="1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb16-2"><a href="" aria-label="2"></a>  babies,</span>
-<span id="cb16-3"><a href="" aria-label="3"></a>  <span class="fu">aes</span>(<span class="at">x =</span> smoke, <span class="at">y =</span> bwt)</span>
-<span id="cb16-4"><a href="" aria-label="4"></a>) <span class="sc">+</span></span>
-<span id="cb16-5"><a href="" aria-label="5"></a>  <span class="fu">geom_boxplot</span>() </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-label="1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb17-2"><a href="" aria-label="2"></a>  babies,</span>
+<span id="cb17-3"><a href="" aria-label="3"></a>  <span class="fu">aes</span>(<span class="at">x =</span> smoke, <span class="at">y =</span> bwt)</span>
+<span id="cb17-4"><a href="" aria-label="4"></a>) <span class="sc">+</span></span>
+<span id="cb17-5"><a href="" aria-label="5"></a>  <span class="fu">geom_boxplot</span>() </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -675,11 +690,11 @@ $ smoke     &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FA
 <h2>Scatter plots</h2>
 <div class="cell columns column-output-location" data-layout-align="center">
 <div class="column">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-label="1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb17-2"><a href="" aria-label="2"></a>  babies,</span>
-<span id="cb17-3"><a href="" aria-label="3"></a>  <span class="fu">aes</span>(<span class="at">x =</span> gestation, <span class="at">y =</span> bwt)</span>
-<span id="cb17-4"><a href="" aria-label="4"></a>)  <span class="sc">+</span></span>
-<span id="cb17-5"><a href="" aria-label="5"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-label="1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb18-2"><a href="" aria-label="2"></a>  babies,</span>
+<span id="cb18-3"><a href="" aria-label="3"></a>  <span class="fu">aes</span>(<span class="at">x =</span> gestation, <span class="at">y =</span> bwt)</span>
+<span id="cb18-4"><a href="" aria-label="4"></a>)  <span class="sc">+</span></span>
+<span id="cb18-5"><a href="" aria-label="5"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
@@ -707,7 +722,7 @@ $ smoke     &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, FALSE, FA
 <section id="data-1" class="slide level2">
 <h2>Data</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-label="1"></a><span class="fu">glimpse</span>(penguins)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-label="1"></a><span class="fu">glimpse</span>(penguins)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 344
 Columns: 8
@@ -725,8 +740,8 @@ $ year        &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 <section id="visualizing-three-variables" class="slide level2">
 <h2>Visualizing Three Variables</h2>
 <div class="cell" data-layout-align="center">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-label="1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> body_mass, <span class="at">y =</span> bill_len, <span class="at">color =</span> species)) <span class="sc">+</span></span>
-<span id="cb20-2"><a href="" aria-label="2"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-label="1"></a><span class="fu">ggplot</span>(penguins, <span class="fu">aes</span>(<span class="at">x =</span> body_mass, <span class="at">y =</span> bill_len, <span class="at">color =</span> species)) <span class="sc">+</span></span>
+<span id="cb21-2"><a href="" aria-label="2"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
 <img data-src="lec-03-data-viz-foundations_files/figure-revealjs/unnamed-chunk-38-1.png" class="quarto-figure quarto-figure-center r-stretch" width="960"><p>We can use color to consider a third variable</p>
@@ -745,7 +760,7 @@ $ year        &lt;int&gt; 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 
 
 <img data-src="img/ggplot-summary.png" style="width:80.0%" alt="A reference chart summarizing ggplot2 aesthetics and geoms. The chart is divided into two columns. The left column lists aesthetic mappings under 'aes = (...........)'  correspoinding arguments: x and y representing horizontal vertical arrows, respectively. Color groups points using color, such as black, pink, and green. Fill breaks bars based on groups assigning a color to each group, such as a barplot with three rectangles in pink and green. Shape groups points using shapes, such as circle, triangle, and square. Size maps a numerical variable to distinguish the amount of it based on the size of the point, such as pink circles of increasing size. The right column lists geoms under 'geom_.........()' with corresponding icons: bar with three vertical bars with space betweeen them, histogram with a series of small bars touching each other forming a distribution, boxplot with a horizontal box and whiskers, point with a scatterplot of small green dots. The chart visually connects aesthetic options on the left to common geom types on the right." class="r-stretch quarto-figure-center" id="fig-ggplot-summary"><p class="caption">
 Figure&nbsp;1: Hello Data Science Figure 3.21
-</p></section>
+</p></section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">

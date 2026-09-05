@@ -350,7 +350,7 @@ Consider the height distribution in our class.
 
 When data display a skewed distribution we rely on median rather than the mean to understand the center of the distribution.
 
-## Looking at Relationships
+# Looking at Relationships
 
 So far we seen bar plots and histograms both of which are useful for visualizing a single categorical and numerical variables respectively. 
 
@@ -358,8 +358,7 @@ So far we seen bar plots and histograms both of which are useful for visualizing
 
 We are often interested in looking at relationships between two variables. 
 
-
-## Standardized Bar Plots
+## Dodged bar plot
 
 ```{r}
 #| echo: false
@@ -368,28 +367,14 @@ ggplot(
   babies,
   aes(x = smoke, fill = parity)
 ) + 
-  geom_bar(position = "fill")
+  geom_bar(position = "dodge")
 ```
 
 . . .
 
-Note that the y axis still shows as a count. We will learn how to change the axis labels later.
+What type of variables can we display with a dodged bar plot?
 
-## Standardized Bar Plots
-
-```{r}
-#| echo: false
-#| fig-align: center
-ggplot(
-  babies,
-  aes(x = smoke, fill = parity)
-) + 
-  geom_bar(position = "fill")
-```
-
-What type of variables can we display with a standardized bar plot?
-
-## Standardized Bar Plots
+## Dodged bar plot
 
 ```{r}
 #| echo: false
@@ -398,11 +383,32 @@ ggplot(
   babies,
   aes(x = smoke, fill = parity)
 ) + 
-  geom_bar(position = "fill")
+  geom_bar(position = "dodge")
 ```
 
-What type of variables can we display with a standardized bar plot? **Two categorical variables**
+What type of variables can we display with a dodged bar plot? **Two categorical variables**
 
+
+## Dodged bar plot
+
+::::{.columns}
+
+:::{.column width="50%"}
+
+```{r}
+#| fig-align: center
+ggplot(babies, aes(x = smoke, fill = parity)) + 
+  geom_bar(position = "dodge")
+```
+
+:::
+
+:::{.column width="50%"}
+ 
+
+:::
+
+:::
 
 ## Bar plots two ways
 
@@ -410,22 +416,7 @@ What type of variables can we display with a standardized bar plot? **Two catego
 
 :::{.column width="50%"}
 
-### Standardized Bar Plots
-
-```{r}
-#| fig-align: center
-ggplot(
-  babies,
-  aes(x = smoke, fill = parity)
-) + 
-  geom_bar(position = "fill")
-```
-
-:::
-
-:::{.column width="50%"}
-
-### Dodged Bar Plot
+### Dodged bar plot
 
 ```{r}
 #| fig-align: center
@@ -434,6 +425,21 @@ ggplot(
   aes(x = smoke, fill = parity)
 ) + 
   geom_bar(position = "dodge")
+```
+
+:::
+
+:::{.column width="50%"}
+
+### Standardized bar plot
+
+```{r}
+#| fig-align: center
+ggplot(
+  babies,
+  aes(x = smoke, fill = parity)
+) + 
+  geom_bar(position = "fill")
 ```
 
 :::
