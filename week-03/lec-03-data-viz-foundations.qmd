@@ -391,9 +391,6 @@ What type of variables can we display with a dodged bar plot? **Two categorical 
 
 ## Dodged bar plot
 
-::::{.columns}
-
-:::{.column width="50%"}
 
 ```{r}
 #| fig-align: center
@@ -401,14 +398,6 @@ ggplot(babies, aes(x = smoke, fill = parity)) +
   geom_bar(position = "dodge")
 ```
 
-:::
-
-:::{.column width="50%"}
- 
-
-:::
-
-:::
 
 ## Bar plots two ways
 
