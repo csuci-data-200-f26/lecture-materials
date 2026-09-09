@@ -12,7 +12,7 @@ header-includes:
   - \usepackage{fancyhdr}
   - \pagestyle{fancy}
   - \fancyhf{}
-  - \fancyhead[L]{Data 200 Spring 2026 -- \textbf{Lab 3a Part 1}}
+  - \fancyhead[L]{Data 200 Fall 2026 -- \textbf{Lab 3a}}
   - \fancyhead[R]{Hello Data Science Chapter 3}
   - \fancyfoot[C]{\thepage\ of \pageref{LastPage}}
   - \renewcommand{\headrulewidth}{0.4pt}
@@ -140,13 +140,6 @@ ggplot(movies, aes(x = rating)) +
   geom_bar()
 ```
 
-Option 5:
-```{r}
-#| eval: false
-
-ggplot() +
-  geom_bar(movies, x = aes(rating))
-```
 
 \newpage
 
