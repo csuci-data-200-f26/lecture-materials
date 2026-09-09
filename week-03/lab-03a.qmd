@@ -5,8 +5,6 @@ format:
     echo: true
     message: false
     warning: false
-    geometry:
-      - bottom=0.75in
 header-includes:
   - \usepackage{lastpage}
   - \usepackage{fancyhdr}
@@ -85,6 +83,8 @@ ggplot(movies, aes(x = box_office)) +
   geom_histogram()
 ```
 
+\vspace*{-0.5in}
+
 ## Question 4
 
 How would you describe the distribution visualized in question 3 (right-skewed, left-skewed, symmetric)?
@@ -93,14 +93,14 @@ How would you describe the distribution visualized in question 3 (right-skewed, 
 
 If we doubled the dataset by duplicating every row, how would the plot from question 1 change, if at all?
 
-\vspace{1.5cm}
+\vspace{3.5cm}
 
 
 ## Question 5b
 
 If we doubled the dataset by duplicating every row, how would the plot from question 3 change, if at all?
 
-\vspace{4cm}
+\vspace{3.5cm}
 
 
 
@@ -108,7 +108,6 @@ If we doubled the dataset by duplicating every row, how would the plot from ques
 
 I want to produce a bar plot of movie ratings. Identify which code I should use.
 
-Option 1:
 ```{r}
 #| eval: false
 
@@ -116,7 +115,8 @@ ggplot(movies, x = rating) +
   geom_bar()
 ```
 
-Option 2:
+\vspace*{-0.5cm}
+
 ```{r}
 #| eval: false
 
@@ -124,7 +124,8 @@ ggplot(aes(movies), x = rating) +
   geom_bar()
 ```
 
-Option 3:
+\vspace*{-0.5cm}
+
 ```{r}
 #| eval: false
 
@@ -132,7 +133,8 @@ ggplot(movies, aes(x = rating))
   geom_bar()
 ```
 
-Option 4:
+\vspace*{-0.5cm}
+
 ```{r}
 #| eval: false
 
