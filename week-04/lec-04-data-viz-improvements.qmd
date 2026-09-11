@@ -265,9 +265,11 @@ ggplot(
   labs(
     x = "Bill Depth (mm)", 
     y = "Bill Length (mm)",
-    color = "Species"
+    color = "Species",
+    shape = "Shape"
   ) +
-  geom_point(size = 2) 
+  theme(text = element_text(size = 20)) +
+  geom_point(size = 3)
 ```
 
 Previously, species were only distinguishable to someone who could distinguish these colors. 
@@ -287,13 +289,15 @@ bills_plot <-
       shape = species
     )
   ) +
+  geom_point(size = 3) +
   labs(
     x = "Bill Depth (mm)", 
     y = "Bill Length (mm)",
-    color = "Species"
+    color = "Species",
+    shape = "Species"
   ) +
-  geom_point(size = 2) +
-  theme_bw()
+  theme_bw() +
+  theme(text = element_text(size = 20))
 ```
 
 . . .
@@ -451,3 +455,29 @@ Examples:
 - [Level Up Your Plots: Using colour, annotations, text hiearchy and other tricks to make your data story stand out](https://www.cararthompson.com/talks/nhsr2023-level-up-workshop/)
 
 - [the ggplot flipbook](https://evamaerey.github.io/ggplot_flipbook/ggplot_flipbook_xaringan.html#1)
+
+# Our final improved plot
+
+```{r}
+#| output-location: slide
+ggplot(
+    penguins, 
+    aes(
+      x = body_mass, 
+      y = bill_len, 
+      color = species,
+      shape = species
+    )
+  ) +
+  geom_point(size = 3) +
+  labs(
+    x = "Bill Depth (mm)", 
+    y = "Bill Length (mm)",
+    color = "Species",
+    shape = "Species",
+    alt = "The scatterplot shows bill depth in mm on the x-axis and bill length in mm on the y-axis with three species as Adelie, Chinstrap, and Gentoo distinguished by color of point. The x axis ranges from about 12.5 mm to 22.5 mm. The y-axis ranges from about 30 to 60 mm. For all species the relationship seems moderately positive. When comparing the three species, Adelie penguins seem to have longer bill depth but shorter bill length. Chinstraps have longer bill depth and longer bill length. Gentoo penguins have shorter bill depth and longer bill length."
+  ) +
+  theme_bw() +
+  theme(text = element_text(size = 20))
+```
+

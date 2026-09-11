@@ -495,9 +495,11 @@ Medina - CSU Channel Islands
 <span id="cb10-10"><a href="" aria-label="10"></a>  <span class="fu">labs</span>(</span>
 <span id="cb10-11"><a href="" aria-label="11"></a>    <span class="at">x =</span> <span class="st">"Bill Depth (mm)"</span>, </span>
 <span id="cb10-12"><a href="" aria-label="12"></a>    <span class="at">y =</span> <span class="st">"Bill Length (mm)"</span>,</span>
-<span id="cb10-13"><a href="" aria-label="13"></a>    <span class="at">color =</span> <span class="st">"Species"</span></span>
-<span id="cb10-14"><a href="" aria-label="14"></a>  ) <span class="sc">+</span></span>
-<span id="cb10-15"><a href="" aria-label="15"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-13"><a href="" aria-label="13"></a>    <span class="at">color =</span> <span class="st">"Species"</span>,</span>
+<span id="cb10-14"><a href="" aria-label="14"></a>    <span class="at">shape =</span> <span class="st">"Shape"</span></span>
+<span id="cb10-15"><a href="" aria-label="15"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-16"><a href="" aria-label="16"></a>  <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>)) <span class="sc">+</span></span>
+<span id="cb10-17"><a href="" aria-label="17"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column">
 <div class="cell-output-display">
 <div>
@@ -522,13 +524,15 @@ Medina - CSU Channel Islands
 <span id="cb11-8"><a href="" aria-label="8"></a>      <span class="at">shape =</span> species</span>
 <span id="cb11-9"><a href="" aria-label="9"></a>    )</span>
 <span id="cb11-10"><a href="" aria-label="10"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-11"><a href="" aria-label="11"></a>  <span class="fu">labs</span>(</span>
-<span id="cb11-12"><a href="" aria-label="12"></a>    <span class="at">x =</span> <span class="st">"Bill Depth (mm)"</span>, </span>
-<span id="cb11-13"><a href="" aria-label="13"></a>    <span class="at">y =</span> <span class="st">"Bill Length (mm)"</span>,</span>
-<span id="cb11-14"><a href="" aria-label="14"></a>    <span class="at">color =</span> <span class="st">"Species"</span></span>
-<span id="cb11-15"><a href="" aria-label="15"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-16"><a href="" aria-label="16"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
-<span id="cb11-17"><a href="" aria-label="17"></a>  <span class="fu">theme_bw</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb11-11"><a href="" aria-label="11"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb11-12"><a href="" aria-label="12"></a>  <span class="fu">labs</span>(</span>
+<span id="cb11-13"><a href="" aria-label="13"></a>    <span class="at">x =</span> <span class="st">"Bill Depth (mm)"</span>, </span>
+<span id="cb11-14"><a href="" aria-label="14"></a>    <span class="at">y =</span> <span class="st">"Bill Length (mm)"</span>,</span>
+<span id="cb11-15"><a href="" aria-label="15"></a>    <span class="at">color =</span> <span class="st">"Species"</span>,</span>
+<span id="cb11-16"><a href="" aria-label="16"></a>    <span class="at">shape =</span> <span class="st">"Species"</span></span>
+<span id="cb11-17"><a href="" aria-label="17"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-18"><a href="" aria-label="18"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb11-19"><a href="" aria-label="19"></a>  <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="fragment">
 <p>By storing the plot as an object named <code>bills_plot</code>, we will be able to use it in other functions.</p>
@@ -678,10 +682,44 @@ Medina - CSU Channel Islands
 <li><p><a href="https://www.cararthompson.com/talks/nhsr2023-level-up-workshop/">Level Up Your Plots: Using colour, annotations, text hiearchy and other tricks to make your data story stand out</a></p></li>
 <li><p><a href="https://evamaerey.github.io/ggplot_flipbook/ggplot_flipbook_xaringan.html#1">the ggplot flipbook</a></p></li>
 </ul>
-
 </div>
 </section>
-    </div>
+
+<section id="our-final-improved-plot" class="title-slide slide level1 center">
+<h1>Our final improved plot</h1>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-label="1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb20-2"><a href="" aria-label="2"></a>    penguins, </span>
+<span id="cb20-3"><a href="" aria-label="3"></a>    <span class="fu">aes</span>(</span>
+<span id="cb20-4"><a href="" aria-label="4"></a>      <span class="at">x =</span> body_mass, </span>
+<span id="cb20-5"><a href="" aria-label="5"></a>      <span class="at">y =</span> bill_len, </span>
+<span id="cb20-6"><a href="" aria-label="6"></a>      <span class="at">color =</span> species,</span>
+<span id="cb20-7"><a href="" aria-label="7"></a>      <span class="at">shape =</span> species</span>
+<span id="cb20-8"><a href="" aria-label="8"></a>    )</span>
+<span id="cb20-9"><a href="" aria-label="9"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-10"><a href="" aria-label="10"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb20-11"><a href="" aria-label="11"></a>  <span class="fu">labs</span>(</span>
+<span id="cb20-12"><a href="" aria-label="12"></a>    <span class="at">x =</span> <span class="st">"Bill Depth (mm)"</span>, </span>
+<span id="cb20-13"><a href="" aria-label="13"></a>    <span class="at">y =</span> <span class="st">"Bill Length (mm)"</span>,</span>
+<span id="cb20-14"><a href="" aria-label="14"></a>    <span class="at">color =</span> <span class="st">"Species"</span>,</span>
+<span id="cb20-15"><a href="" aria-label="15"></a>    <span class="at">shape =</span> <span class="st">"Species"</span>,</span>
+<span id="cb20-16"><a href="" aria-label="16"></a>    <span class="at">alt =</span> <span class="st">"The scatterplot shows bill depth in mm on the x-axis and bill length in mm on the y-axis with three species as Adelie, Chinstrap, and Gentoo distinguished by color of point. The x axis ranges from about 12.5 mm to 22.5 mm. The y-axis ranges from about 30 to 60 mm. For all species the relationship seems moderately positive. When comparing the three species, Adelie penguins seem to have longer bill depth but shorter bill length. Chinstraps have longer bill depth and longer bill length. Gentoo penguins have shorter bill depth and longer bill length."</span></span>
+<span id="cb20-17"><a href="" aria-label="17"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-18"><a href="" aria-label="18"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb20-19"><a href="" aria-label="19"></a>  <span class="fu">theme</span>(<span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">20</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+
+
+</section>
+    <section id="our-final-improved-plot-output" class="title-slide slide level1 output-location-slide center"><h1>Our final improved plot</h1><div class="cell output-location-slide">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec-04-data-viz-improvements_files/figure-revealjs/unnamed-chunk-22-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div></section></div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
 
