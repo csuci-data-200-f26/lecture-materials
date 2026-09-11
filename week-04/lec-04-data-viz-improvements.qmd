@@ -439,7 +439,7 @@ ggplot(penguins, aes(x = bill_dep,y = bill_len, color = species)) +
   )
 ```
 
-# Improving Data Visualizations
+## Improving Data Visualizations
 
 - [Section 9.5 of HDS](https://hellodata.science/chapters/chapter-09#improving-plots)
 - [Top Ten Dos and Don't for Charts and Graphs](https://guides.lib.uci.edu/datavis/do)
@@ -452,7 +452,7 @@ We cannot learn every single ggplot feature in a single week but a little  inter
 
 Examples:
 
-- [Level Up Your Plots: Using colour, annotations, text hiearchy and other tricks to make your data story stand out](https://www.cararthompson.com/talks/nhsr2023-level-up-workshop/)
+- [Level Up Your Plots](https://www.cararthompson.com/talks/nhsr2023-level-up-workshop/)
 
 - [the ggplot flipbook](https://evamaerey.github.io/ggplot_flipbook/ggplot_flipbook_xaringan.html#1)
 
