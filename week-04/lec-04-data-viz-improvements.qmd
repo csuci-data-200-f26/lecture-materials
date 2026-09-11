@@ -1,0 +1,454 @@
+---
+title: "Data 200: Lecture 4"
+subtitle: "Data Visualization Improvements"
+author: "Medina - CSU Channel Islands"
+format: 
+  revealjs:
+    theme: [sky, ../slide-style.scss]
+    slide-number: true
+execute:
+  echo: true 
+---
+
+```{r}
+#| echo: false
+library(tidyverse)
+```
+
+
+# Data Visualization 
+
+## Revisiting `penguins`
+
+In the last lecture we have made basic data visualizations. 
+In this lecture we will improve them to make them more accessible. 
+
+```{r}
+#| output-location: column
+#| fig-width: 6
+#| fig-height: 4
+ggplot(
+  penguins, 
+  aes(
+    x = body_mass, 
+    y = bill_len, 
+    color = species
+  )
+) +
+  geom_point()
+```
+
+## Tidyverse Style Guide: Indentation
+
+The indentation here is intentional to highlight the inputs (called **arguments**) to each function, which get indented.
+
+```{r}
+#| eval: false
+
+ggplot(
+  penguins, 
+  aes(
+    x = body_mass, 
+    y = bill_len, 
+    color = species
+  )
+) +
+  geom_point()
+```
+
+Make sure to indent appropriately if a function call spans multiple lines!
+
+## Labeling plot features
+
+```{r}
+#| output-location: column
+#| fig-width: 6
+#| fig-height: 4
+ggplot(
+  penguins, 
+  aes(
+    x = body_mass, 
+    y = bill_len, 
+    color = species
+  )
+) +
+  geom_point() +
+  labs(
+    x = "Bill Depth (mm)", 
+    y = "Bill Length (mm)",
+    color = "Species",
+    title = "Palmer Penguins"
+  ) 
+```
+
+We can change axes and plot labels using the `labs()` function. 
+
+. . .
+
+*We should never be using the default axes plot labels!*
+
+
+## Themes
+
+::: {.panel-tabset}
+## `theme_gray()`
+
+```{r}
+#| output-location: column
+#| fig-width: 6
+#| fig-height: 4
+ggplot(
+  penguins, 
+  aes(
+    x = body_mass, 
+    y = bill_len, 
+    color = species
+  )
+) +
+  geom_point() +
+  labs(
+    x = "Bill Depth (mm)", 
+    y = "Bill Length (mm)",
+    color = "Species",
+    title = "Palmer Penguins"
+  ) +
+  theme_gray()
+```
+
+Theme gray is the default theme in ggplot.
+
+## `theme_bw()`
+
+```{r}
+#| output-location: column
+#| fig-width: 6
+#| fig-height: 4
+ggplot(
+  penguins, 
+  aes(
+    x = body_mass, 
+    y = bill_len, 
+    color = species
+  )
+) +
+  geom_point() +
+  labs(
+    x = "Bill Depth (mm)", 
+    y = "Bill Length (mm)",
+    color = "Species",
+    title = "Palmer Penguins"
+  ) +
+  theme_bw()
+```
+
+## `theme_dark()`
+
+```{r}
+#| output-location: column
+#| fig-width: 6
+#| fig-height: 4
+ggplot(
+  penguins, 
+  aes(
+    x = body_mass, 
+    y = bill_len, 
+    color = species
+  )
+) +
+  geom_point() +
+  labs(
+    x = "Bill Depth (mm)", 
+    y = "Bill Length (mm)",
+    color = "Species",
+    title = "Palmer Penguins"
+  ) +
+  theme_dark()
+```
+
+
+## `theme_classic()`
+
+```{r}
+#| output-location: column
+#| fig-width: 6
+#| fig-height: 4
+ggplot(
+  penguins, 
+  aes(
+    x = body_mass, 
+    y = bill_len, 
+    color = species
+  )
+) +
+  geom_point() +
+  labs(
+    x = "Bill Depth (mm)", 
+    y = "Bill Length (mm)",
+    color = "Species",
+    title = "Palmer Penguins"
+  ) +
+  theme_classic()
+```
+
+
+## `theme_minimal()`
+
+
+```{r}
+#| output-location: column
+#| fig-width: 6
+#| fig-height: 4
+ggplot(
+  penguins, 
+  aes(
+    x = body_mass, 
+    y = bill_len, 
+    color = species
+  )
+) +
+  geom_point() +
+  labs(
+    x = "Bill Depth (mm)", 
+    y = "Bill Length (mm)",
+    color = "Species",
+    title = "Palmer Penguins"
+  ) +
+  theme_minimal()
+```
+
+
+
+:::
+
+## Font Size
+
+
+```{r}
+#| output-location: column
+#| fig-width: 6
+#| fig-height: 4
+ggplot(
+  penguins, 
+  aes(
+    x = body_mass, 
+    y = bill_len, 
+    color = species
+  )
+) +
+  geom_point() +
+  labs(
+    x = "Bill Depth (mm)", 
+    y = "Bill Length (mm)",
+    color = "Species",
+    title = "Palmer Penguins"
+  ) +
+  theme(text = element_text(size = 20))
+```
+
+The can customize man features of a plot using `theme()`!
+
+# Accessibility Considerations: Distinguishing colors
+
+## Using Shapes in Addition to Colors
+
+```{r}
+#| output-location: column
+ggplot(
+  penguins, 
+  aes(
+    x = body_mass, 
+    y = bill_len, 
+    color = species,
+    shape = species
+  )
+) +
+  labs(
+    x = "Bill Depth (mm)", 
+    y = "Bill Length (mm)",
+    color = "Species"
+  ) +
+  geom_point(size = 2) 
+```
+
+Previously, species were only distinguishable to someone who could distinguish these colors. 
+By using shapes, color-blind viewers can also distinguish the species.
+
+
+## Color-Blindness Simulation
+
+```{r}
+bills_plot <- 
+  ggplot(
+    penguins, 
+    aes(
+      x = body_mass, 
+      y = bill_len, 
+      color = species,
+      shape = species
+    )
+  ) +
+  labs(
+    x = "Bill Depth (mm)", 
+    y = "Bill Length (mm)",
+    color = "Species"
+  ) +
+  geom_point(size = 2) +
+  theme_bw()
+```
+
+. . .
+
+By storing the plot as an object named `bills_plot`, we will be able to use it in other functions.
+
+## Color-Blindness Simulation
+
+```{r}
+#| output-location: slide
+library(colorBlindness)
+cvdPlot(bills_plot) 
+```
+
+The `cvdPlot()` function from the `colorBlindness` package creates a grid of different color-deficiency simulations. 
+
+- `deuteranopia` is reduced sensitivity to green light
+- `protanomaly`, is reduced sensitivity to red light
+- `Desaturated` is no color difference
+
+This is useful for showing if people with these [eye conditions](https://www.nei.nih.gov/eye-health-information/eye-conditions-and-diseases/color-blindness/types-color-vision-deficiency) can see the information you want to convey.
+
+## Okabe-Ito Color Palette 
+
+```{r}
+#| echo: false
+theme_set(theme_bw(base_size = 22))
+```
+
+In 2008, [Masataka Okabe and Kei Ito](https://jfly.uni-koeln.de/color/) proposed a color palette that is accessible to people with various color deficiencies. 
+We use their last names referring to the color palette. 
+
+
+```{r}
+#| echo: true
+palette.colors(palette = "Okabe-Ito")
+```
+
+## Okabe-Ito Color Palette 
+
+```{r}
+#| echo: false
+#| fig-align: center 
+scales:::show_col(palette.colors(palette = "Okabe-Ito"))
+```
+
+The codes displayed with a hashtag are called hex color code. You can use hex codes in R (and in HTML) to specify colors.
+
+## Specifiying colors (manual)
+
+```{r}
+#| fig-align: center
+bills_plot + 
+  scale_color_manual(values = c("Adelie" = "#E69F00", "Chinstrap" = "#56B4E9", "Gentoo" = "#009E73"))
+
+```
+
+## Specifying color blind friendly colors (automatic)
+
+```{r}
+#| fig-align: center
+bills_plot + 
+  scale_color_viridis_d()
+```
+
+
+## Okabe-Ito Color Palette (automatic)
+
+```{r}
+#| fig-align: center
+bills_plot + 
+  scale_color_viridis_d(option = "mako")
+```
+
+
+# Accessibility Considerations: Data verbalization
+
+## Screen reader
+
+A screen reader is an assistive technology that supports blind or visually impaired people in using their computer. 
+
+. . .
+
+<center>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/l-G4kKTuDHI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+The video shows use of a screen reader briefly. 
+
+</center>
+
+## Alternate Text
+
+- "Alt text" describes contents of an image. 
+- It is used in HTML pages. 
+- Screen-readers cannot read images but can read alt text. 
+- Alt text has to be provided by you.
+
+## Specifying Alternative Text
+
+```{r}
+ggplot(penguins, aes(x = bill_dep,y = bill_len, color = species)) +
+  geom_point(size = 4) +
+  labs(
+    alt = "The scatterplot shows bill depth in mm on the x-axis and bill length in mm on the y-axis with three species as Adelie, Chinstrap, and Gentoo distinguished by color of point. The x axis ranges from about 12.5 mm to 22.5 mm. The y-axis ranges from about 30 to 60 mm. For all species the relationship seems moderately positive. When comparing the three species, Adelie penguins seem to have longer bill depth but shorter bill length. Chinstraps have longer bill depth and longer bill length. Gentoo penguins have shorter bill depth and longer bill length."
+  )
+```
+
+When you run this code you will not notice a difference, because it is only used by screen readers
+
+## What could/should I write as alternative text?
+
+Alt text for data visualizations should provide a description of the image (e.g., plot type, variables, range of data) **and** insight (e.g., trends, comparisons, ...) 
+
+Guides:
+
+- [Cesal, 2020](https://medium.com/nightingale/writing-alt-text-for-data-visualization-2a218ef43f81)
+
+- [Canelón & Hare, 2021 ](https://www.youtube.com/watch?v=DxLkv2iRdf8&ab_channel=csvconf)
+
+
+## Caption vs. Alt Text
+
+Figure **captions** appear on the front-end of a document and is accessible to all whether they are reading it directly or via screen readers. 
+
+Figure **alternate text** only appears on the back-end of a document and is accessible to screen readers and those who know how to investigate the source code of a (HTML) document. 
+
+Even though, we are using captions and alternate text in Quarto, these are available features in many other software (e.g., Google doc, PowerPoint etc.)
+
+## Specifying a figure caption in Quarto
+
+```{r}
+#| echo: fenced
+#| fig-cap: "Penguin bill length and bill height by species"
+ggplot(penguins, aes(x = bill_dep,y = bill_len, color = species)) +
+  geom_point(size = 4) +
+  labs(
+    alt = "The scatterplot shows bill depth in mm on the x-axis and bill length in mm on the y-axis with three species as Adelie, Chinstrap, and Gentoo distinguished by color of point. The x axis ranges from about 12.5 mm to 22.5 mm. The y-axis ranges from about 30 to 60 mm. For all species the relationship seems moderately positive. When comparing the three species, Adelie penguins seem to have longer bill depth but shorter bill length. Chinstraps have longer bill depth and longer bill length. Gentoo penguins have shorter bill depth and longer bill length."
+  )
+```
+
+# Improving Data Visualizations
+
+[](https://hellodata.science/chapters/chapter-09#improving-plots)
+
+[Top Ten Dos and Don't for Charts and Graphs](https://guides.lib.uci.edu/datavis/do)
+
+. . .
+
+We cannot learn every single ggplot feature in a single week but a little  internet search and a few examples can go a long way in improving your visualizations!
+
+. . .
+
+Examples:
+
+- [Level Up Your Plots: Using colour, annotations, text hiearchy and other tricks to make your data story stand out](https://www.cararthompson.com/talks/nhsr2023-level-up-workshop/)
+
+- [the ggplot flipbook](https://evamaerey.github.io/ggplot_flipbook/ggplot_flipbook_xaringan.html#1)
