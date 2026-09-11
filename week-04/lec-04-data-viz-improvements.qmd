@@ -437,9 +437,8 @@ ggplot(penguins, aes(x = bill_dep,y = bill_len, color = species)) +
 
 # Improving Data Visualizations
 
-[](https://hellodata.science/chapters/chapter-09#improving-plots)
-
-[Top Ten Dos and Don't for Charts and Graphs](https://guides.lib.uci.edu/datavis/do)
+- [Section 9.5 of HDS](https://hellodata.science/chapters/chapter-09#improving-plots)
+- [Top Ten Dos and Don't for Charts and Graphs](https://guides.lib.uci.edu/datavis/do)
 
 . . .
 
