@@ -1,0 +1,41 @@
+---
+title: "Untitled"
+format: html
+---
+
+```{r}
+library(openintro)
+library(tidyverse)
+
+babies <- 
+  babies %>% 
+  mutate(
+    smoke = as.logical(smoke),
+    parity = as.logical(parity)
+  )
+```
+
+
+```{r}
+ggplot(babies, aes(x = gestation, fill = parity)) + 
+  geom_histogram() 
+
+ggsave(filename = "img/default-plot.png", height = 2.25, width = 4)
+```
+
+
+```{r}
+ggplot(babies, aes(x = gestation, fill = parity)) + 
+  geom_histogram(binwidth = 10) + 
+  labs(
+    x = "Gestation (days)",
+    y = "Count",
+    fill = "Parity"
+  ) +
+  theme_bw() +
+  scale_fill_viridis_d()
+
+ggsave(filename = "img/improved-plot.png", height = 2.25, width = 4)
+```
+
+
