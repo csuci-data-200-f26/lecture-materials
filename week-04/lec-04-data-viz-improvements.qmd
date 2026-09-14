@@ -266,7 +266,7 @@ ggplot(
     x = "Bill Depth (mm)", 
     y = "Bill Length (mm)",
     color = "Species",
-    shape = "Shape"
+    shape = "Species"
   ) +
   theme(text = element_text(size = 20)) +
   geom_point(size = 3)
@@ -410,7 +410,7 @@ When you run this code you will not notice a difference, because it is only used
 
 ## What could/should I write as alternative text?
 
-Alt text for data visualizations should provide a breif description of the image (e.g., plot type, variables, range of data) **and** insight (e.g., trends, comparisons, ...) 
+Alt text for data visualizations should provide a brief description of the image (e.g., plot type, variables, range of data) **and** insight (e.g., trends, comparisons, ...) 
 
 Guides:
 
