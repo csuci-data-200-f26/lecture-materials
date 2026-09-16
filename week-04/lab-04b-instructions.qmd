@@ -62,8 +62,6 @@ If I were reproduce this plot for Hepatitis B Mortality Rates by sex I would fir
 
 ```{r}
 #| echo: true
-#| eval: false
-
 hep_data <- read_csv("https://csuci-data-200-f26.github.io/lecture-materials/data/hep-tracker-data-cleaned.csv")
 
 hep_data_filtered <- 
@@ -75,4 +73,18 @@ hep_data_filtered <-
   )
 ```
 
-Note, you will have to look at the help documentation for how to use `geom_line()`.
+## Hints
+
+For the filtering code I provided, you will just need to change what is in the quotations (e.g., "AgeGroups").
+You can add a code chunk using count to see what options are in the data.
+For example, the code below will show what options are in the `event` variable.
+```{r}
+#| echo: true
+count(hep_data, event)
+```
+
+Once you are done filtering the data, check how many rows are in your filtered data.
+If there are zero rows, then something went wrong in the filtering.
+
+When you have filtered your data successfully you are ready to make your plot.
+I recommend first making a scatterplot of your variables. Then you can use `geom_line()` instead of `geom_point()`.

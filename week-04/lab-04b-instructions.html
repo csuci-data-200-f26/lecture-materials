@@ -2223,6 +2223,7 @@ vertical-align: -.125em;
   <li><a href="#recreating-cdc-viral-hepatitis-surveillance-data-dashboard-plots" id="toc-recreating-cdc-viral-hepatitis-surveillance-data-dashboard-plots" class="nav-link" data-scroll-target="#recreating-cdc-viral-hepatitis-surveillance-data-dashboard-plots">Recreating CDC Viral Hepatitis Surveillance Data Dashboard plots</a>
   <ul class="collapse">
   <li><a href="#example" id="toc-example" class="nav-link" data-scroll-target="#example">Example</a></li>
+  <li><a href="#hints" id="toc-hints" class="nav-link" data-scroll-target="#hints">Hints</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -2302,7 +2303,29 @@ vertical-align: -.125em;
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    character <span class="sc">==</span> <span class="st">&quot;AgeGroups&quot;</span>,</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Note, you will have to look at the help documentation for how to use <code>geom_line()</code>.</p>
+</section>
+<section id="hints" class="level2">
+<h2 class="anchored" data-anchor-id="hints">Hints</h2>
+<p>For the filtering code I provided, you will just need to change what is in the quotations (e.g., “AgeGroups”). You can add a code chunk using count to see what options are in the data. For example, the code below will show what options are in the <code>event</code> variable.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">count</span>(hep_data, event)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 2
+  event                     n
+  &lt;chr&gt;                 &lt;int&gt;
+1 Acute Hepatitis B      1235
+2 Acute Hepatitis C      1231
+3 Chronic Hepatitis B    1001
+4 Chronic Hepatitis C    1001
+5 Hepatitis A            1183
+6 Hepatitis B             974
+7 Hepatitis C             975
+8 Perinatal Hepatitis B   676
+9 Perinatal Hepatitis C   312</code></pre>
+</div>
+</div>
+<p>Once you are done filtering the data, check how many rows are in your filtered data. If there are zero rows, then something went wrong in the filtering.</p>
+<p>When you have filtered your data successfully you are ready to make your plot. I recommend first making a scatterplot of your variables. Then you can use <code>geom_line()</code> instead of <code>geom_point()</code>.</p>
 </section>
 </section>
 
