@@ -1,0 +1,59 @@
+---
+title: "For Pre-class readiness check"
+format: html
+---
+
+```{r}
+
+lapd <- 
+  lapd |>
+  clean_names |> 
+  filter(year == 2018) |> 
+  select(job_class_title, employment_type, base_pay)
+
+```
+
+```{r}
+
+lapd <- 
+  lapd |>
+  clean_names |> 
+  filter(year == 2018) |> 
+  select(
+    job_class_title, 
+    employment_type, 
+    base_pay
+  )
+
+```
+
+```{r}
+
+lapd <- 
+  lapd |> clean_names |> filter(year == 2018) |> 
+  select(job_class_title, employment_type, base_pay)
+
+```
+
+```{r}
+
+lapd <- 
+lapd |>
+clean_names |> 
+filter(year == 2018) |> 
+select(job_class_title, employment_type, base_pay)
+
+```
+
+```{r}
+
+lapd <- 
+  lapd |>
+  clean_names |> 
+  filter(year == 2018) |> 
+  select(job_class_title, 
+    employment_type, 
+    base_pay
+  )
+
+```

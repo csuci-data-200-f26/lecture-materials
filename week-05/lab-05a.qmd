@@ -36,7 +36,7 @@ In this worksheet we will work with the `planets` data frame from the the hellod
 
 ```{r}
 #| echo: false
-kable(planets)
+kable(planets, format = "latex", booktabs = TRUE)
 ```
 
 - `name`: Name of planet
