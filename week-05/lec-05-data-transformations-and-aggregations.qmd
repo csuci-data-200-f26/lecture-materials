@@ -1,6 +1,6 @@
 ---
-title: "Data 200: Lecture 5a"
-subtitle: "Data Wrangling"
+title: "Data 200: Lecture 5"
+subtitle: "Data Transformations and Aggregations"
 author: "Medina - CSU Channel Islands"
 format: 
   revealjs:
@@ -169,7 +169,7 @@ Now we've learned to indent:
 We will work with Los Angeles Police Department data
 
 ```{r}
-lapd <- read_csv(here::here("data/Police_Payroll.csv")) 
+lapd <- read_csv("https://csuci-data-200-f26.github.io/lecture-materials/data/Police_Payroll.csv") 
 ```
 
 This data is not from an R package, so `?lapd` won't work. The documentation can be found online [here](https://controllerdata.lacity.org/Payroll/Police-Payroll/sxpf-rh6t). 
@@ -563,3 +563,100 @@ lapd |>
 :::
 ::::
 :::
+
+# Aggregating Data
+
+## Aggregating Categorical Data
+
+Categorical data are summarized with **counts** or **proportions**.
+
+. . .
+
+```{r}
+lapd |> 
+  count(employment_type)
+```
+
+. . .
+
+```{r}
+lapd |> 
+  count(employment_type) |> 
+  mutate(prop = n / sum(n))
+```
+
+## Aggregating Numerical Data
+
+Mean, median, standard deviation, variance, and quartiles are some of the numerical summaries of numerical variables. Recall
+
+
+```{r}
+summarize(
+  lapd, 
+  mean_base_pay = mean(base_pay),
+  sd_base_pay = sd(base_pay)
+)
+```
+
+# Aggregating Data By Groups
+
+## `group_by()`
+
+```{r}
+#| echo: false
+#| fig-align: center
+knitr::include_graphics("img/group-by.jpeg")
+```
+
+`group_by()` separates the data frame by the groups. Any action following `group_by()` will be completed for each group separately.
+
+- Typically used before `summarize()`
+
+## `group_by()` example question
+
+Q. What is the median salary for each employment type?
+
+## `group_by()` example alone
+
+```{r}
+lapd |> 
+  group_by(employment_type)
+```
+
+. . .
+
+- Minimal noticeable changes when `group_by()` is used alone
+
+## `group_by()` example with `summarize()`
+
+```{r}
+lapd |> 
+  group_by(employment_type) |> 
+  summarize(med_base_pay = median(base_pay))
+```
+
+. . .
+
+Versus
+
+```{r}
+lapd |> 
+  summarize(med_base_pay = median(base_pay))
+```
+
+## Summarizing multiple variables
+
+We can also remind ourselves how many staff members there were in each group.
+
+```{r}
+lapd |> 
+  group_by(employment_type) |> 
+  summarize(
+    med_base_pay = median(base_pay),
+    count = n()
+  )
+```
+
+Note that `n()` does not take any arguments. 
+
+

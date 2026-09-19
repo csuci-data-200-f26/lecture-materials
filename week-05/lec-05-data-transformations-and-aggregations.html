@@ -1,0 +1,1726 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="lec-05-data-transformations-and-aggregations_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lec-05-data-transformations-and-aggregations_files/libs/quarto-html/tabby.min.js"></script>
+<script src="lec-05-data-transformations-and-aggregations_files/libs/quarto-html/popper.min.js"></script>
+<script src="lec-05-data-transformations-and-aggregations_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="lec-05-data-transformations-and-aggregations_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lec-05-data-transformations-and-aggregations_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="lec-05-data-transformations-and-aggregations_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
+
+  <meta name="author" content="Medina - CSU Channel Islands">
+  <title>Data 200: Lecture 5</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="lec-05-data-transformations-and-aggregations_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="lec-05-data-transformations-and-aggregations_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="lec-05-data-transformations-and-aggregations_files/libs/revealjs/dist/theme/quarto-ee498e30ab5a2288531444c7d3cbf031.css">
+  <link href="lec-05-data-transformations-and-aggregations_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="lec-05-data-transformations-and-aggregations_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="lec-05-data-transformations-and-aggregations_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="lec-05-data-transformations-and-aggregations_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Data 200: Lecture 5</h1>
+  <p class="subtitle">Data Transformations and Aggregations</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Medina - CSU Channel Islands
+</div>
+</div>
+</div>
+
+</section>
+<section>
+<section id="the-pipe-operator" class="title-slide slide level1 center">
+<h1>The Pipe Operator <code>|&gt;</code></h1>
+
+</section>
+<section id="three-solutions-to-a-single-problem" class="slide level2">
+<h2>Three solutions to a single problem</h2>
+<p>What is the average of 4, 8, 16 approximately?</p>
+<div class="fragment">
+<p>There are 3 steps we need:</p>
+<ol type="1">
+<li>What is the average of <u>4, 8, 16</u> approximately?</li>
+</ol>
+</div>
+<div class="fragment">
+<ol start="2" type="1">
+<li>What is the <u>average</u> of 4, 8, 16 approximately?</li>
+</ol>
+</div>
+<div class="fragment">
+<ol start="3" type="1">
+<li>What is the average of 4, 8, 16 <u>approximately</u>?</li>
+</ol>
+</div>
+</section>
+<section id="solution-1-functions-within-functions" class="slide level2">
+<h2>Solution 1: Functions within Functions</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a><span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  4  8 16</code></pre>
+</div>
+</div>
+<div class="fragment">
+<hr>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a><span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9.333333</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<hr>
+<p>Full solution 1:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-label="1"></a><span class="fu">round</span>(<span class="fu">mean</span>(<span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Problem with writing functions within functions:</strong></p>
+<ul>
+<li>Things will get messy and more difficult to read and debug as we deal with more complex code.</li>
+</ul>
+</div>
+</section>
+<section id="solution-2-creating-objects" class="slide level2">
+<h2>Solution 2: Creating Objects</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-label="1"></a>numbers <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>)</span>
+<span id="cb7-2"><a href="" aria-label="2"></a>numbers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  4  8 16</code></pre>
+</div>
+</div>
+<div class="fragment">
+<hr>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-label="1"></a>avg_number <span class="ot">&lt;-</span> <span class="fu">mean</span>(numbers)</span>
+<span id="cb9-2"><a href="" aria-label="2"></a>avg_number</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9.333333</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<hr>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-label="1"></a><span class="fu">round</span>(avg_number)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<p><strong>Problem with creating many objects</strong></p>
+<ul>
+<li>We will end up with too many objects in <code>Environment</code>. There is a more efficient way to code.</li>
+</ul>
+</div>
+</section>
+<section id="solution-3-the-pipe-operator" class="slide level2">
+<h2>Solution 3: The Pipe Operator |&gt;</h2>
+<p><code>Shortcut: &lt;br&gt;Ctrl (Command) + Shift + M</code></p>
+<div class="fragment">
+<div class="columns">
+<div class="column" style="width:35%;">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-41"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy"><code class="sourceCode r"><span id="annotated-cell-41-1"><a href="#annotated-cell-41-1" aria-label="1"></a><span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-41-2"><a href="#annotated-cell-41-2" aria-label="2"></a>  <span class="fu">mean</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-41-3"><a href="#annotated-cell-41-3" aria-label="3"></a>  <span class="fu">round</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:65%;">
+<ol type="1">
+<li>Combine 4, 8, and 16, <code>and then</code><br>
+</li>
+<li>Take the mean <code>and then</code><br>
+</li>
+<li>Round the output</li>
+</ol>
+</div></div>
+</div>
+<div class="fragment">
+<p>The output of the first function is the first argument of the second function.</p>
+</div>
+</section>
+<section id="default-pipe" class="slide level2">
+<h2>Default pipe</h2>
+
+<img data-src="img/base-r-setting.png" class="quarto-figure quarto-figure-center r-stretch" width="369"><p>Make sure to select <code>Use native pipe operator</code> in RStudio under <code>Tools &gt; Global Options &gt; Code</code> if you installed R a long time ago. <code>%&gt;%</code> is the old pipe.</p>
+</section></section>
+<section>
+<section id="tidyverse-style" class="title-slide slide level1 center">
+<h1>Tidyverse style</h1>
+
+</section>
+<section id="tidyverse-style-with-pipes" class="slide level2">
+<h2>Tidyverse style with pipes</h2>
+<p>Notice how the lines we pipe code into are indented.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-label="1"></a><span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">16</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="" aria-label="2"></a>  <span class="fu">mean</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb14-3"><a href="" aria-label="3"></a>  <span class="fu">round</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 9</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>Now we’ve learned to indent:</p>
+<ol type="1">
+<li>arguments in a function spanning multiple lines</li>
+<li>subsequent plot layers</li>
+<li>lines with code piped in</li>
+</ol>
+</div>
+</section>
+<section id="data" class="slide level2">
+<h2>Data</h2>
+<p>We will work with Los Angeles Police Department data</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-label="1"></a>lapd <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"https://csuci-data-200-f26.github.io/lecture-materials/data/Police_Payroll.csv"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>This data is not from an R package, so <code>?lapd</code> won’t work. The documentation can be found online <a href="https://controllerdata.lacity.org/Payroll/Police-Payroll/sxpf-rh6t">here</a>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-label="1"></a><span class="fu">glimpse</span>(lapd)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 68,564
+Columns: 35
+$ `Row ID`                       &lt;chr&gt; "3-1000027830ctFu", "3-1000155488ctFu",…
+$ Year                           &lt;dbl&gt; 2013, 2013, 2013, 2013, 2013, 2013, 201…
+$ `Department Title`             &lt;chr&gt; "Police (LAPD)", "Police (LAPD)", "Poli…
+$ `Payroll Department`           &lt;dbl&gt; 4301, 4302, 4301, 4301, 4302, 4302, 430…
+$ `Record Number`                &lt;dbl&gt; 1000027830, 1000155488, 1000194958, 100…
+$ `Job Class Title`              &lt;chr&gt; "Police Detective II", "Clerk Typist", …
+$ `Employment Type`              &lt;chr&gt; "Full Time", "Full Time", "Full Time", …
+$ `Hourly or Event Rate`         &lt;dbl&gt; 53.16, 23.77, 60.80, 60.98, 45.06, 34.4…
+$ `Projected Annual Salary`      &lt;dbl&gt; 110998.08, 49623.67, 126950.40, 127326.…
+$ `Q1 Payments`                  &lt;dbl&gt; 24931.20, 11343.96, 24184.00, 29391.20,…
+$ `Q2 Payments`                  &lt;dbl&gt; 29181.61, 13212.37, 28327.20, 36591.20,…
+$ `Q3 Payments`                  &lt;dbl&gt; 26545.80, 11508.36, 28744.20, 32904.81,…
+$ `Q4 Payments`                  &lt;dbl&gt; 29605.30, 13442.53, 33224.88, 37234.03,…
+$ `Payments Over Base Pay`       &lt;dbl&gt; 4499.12, 1844.82, 13192.43, 18034.53, 1…
+$ `% Over Base Pay`              &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
+$ `Total Payments`               &lt;dbl&gt; 110263.91, 49507.22, 114480.28, 136121.…
+$ `Base Pay`                     &lt;dbl&gt; 105764.79, 47662.40, 101287.85, 118086.…
+$ `Permanent Bonus Pay`          &lt;dbl&gt; 3174.12, 0.00, 7363.95, 7086.67, 0.00, …
+$ `Longevity Bonus Pay`          &lt;dbl&gt; 0.00, 1310.82, 0.00, 0.00, 1251.19, 172…
+$ `Temporary Bonus Pay`          &lt;dbl&gt; 1325.00, 0.00, 1205.00, 1325.00, 125.00…
+$ `Lump Sum Pay`                 &lt;dbl&gt; 0.00, 0.00, 2133.18, 0.00, 2068.80, 0.0…
+$ `Overtime Pay`                 &lt;dbl&gt; 0.00, 0.00, 4424.32, 9839.33, 0.00, 0.0…
+$ `Other Pay &amp; Adjustments`      &lt;dbl&gt; 0.00, 534.00, -1934.02, -216.47, -2068.…
+$ `Other Pay (Payroll Explorer)` &lt;dbl&gt; 4499.12, 1844.82, 8768.11, 8195.20, 137…
+$ MOU                            &lt;chr&gt; "24", "3", "24", "24", "12", "3", "24",…
+$ `MOU Title`                    &lt;chr&gt; "POLICE OFFICERS UNIT", "CLERICAL UNIT"…
+$ `FMS Department`               &lt;dbl&gt; 70, 70, 70, 70, 70, 70, 70, 70, 70, 70,…
+$ `Job Class`                    &lt;chr&gt; "2223", "1358", "2227", "2232", "1839",…
+$ `Pay Grade`                    &lt;chr&gt; "2", "0", "1", "1", "0", "2", "3", "1",…
+$ `Average Health Cost`          &lt;dbl&gt; 11651.40, 10710.24, 11651.40, 11651.40,…
+$ `Average Dental Cost`          &lt;dbl&gt; 898.08, 405.24, 898.08, 898.08, 405.24,…
+$ `Average Basic Life`           &lt;dbl&gt; 191.04, 11.40, 191.04, 191.04, 11.40, 1…
+$ `Average Benefit Cost`         &lt;dbl&gt; 12740.52, 11126.88, 12740.52, 12740.52,…
+$ `Benefits Plan`                &lt;chr&gt; "Police", "City", "Police", "Police", "…
+$ `Job Class Link`               &lt;chr&gt; "http://per.lacity.org/perspecs/2223.pd…</code></pre>
+</div>
+</div>
+</section>
+<section id="cleaning-column-names" class="slide level2">
+<h2>Cleaning column names</h2>
+<p><code>clean_names()</code> from the <code>janitor</code> package makes column names follow tidyverse style!</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-label="1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb19-2"><a href="" aria-label="2"></a>lapd <span class="ot">&lt;-</span> <span class="fu">clean_names</span>(lapd)</span>
+<span id="cb19-3"><a href="" aria-label="3"></a><span class="fu">glimpse</span>(lapd)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 68,564
+Columns: 35
+$ row_id                     &lt;chr&gt; "3-1000027830ctFu", "3-1000155488ctFu", "3-…
+$ year                       &lt;dbl&gt; 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2…
+$ department_title           &lt;chr&gt; "Police (LAPD)", "Police (LAPD)", "Police (…
+$ payroll_department         &lt;dbl&gt; 4301, 4302, 4301, 4301, 4302, 4302, 4301, 4…
+$ record_number              &lt;dbl&gt; 1000027830, 1000155488, 1000194958, 1000232…
+$ job_class_title            &lt;chr&gt; "Police Detective II", "Clerk Typist", "Pol…
+$ employment_type            &lt;chr&gt; "Full Time", "Full Time", "Full Time", "Ful…
+$ hourly_or_event_rate       &lt;dbl&gt; 53.16, 23.77, 60.80, 60.98, 45.06, 34.42, 4…
+$ projected_annual_salary    &lt;dbl&gt; 110998.08, 49623.67, 126950.40, 127326.24, …
+$ q1_payments                &lt;dbl&gt; 24931.20, 11343.96, 24184.00, 29391.20, 208…
+$ q2_payments                &lt;dbl&gt; 29181.61, 13212.37, 28327.20, 36591.20, 241…
+$ q3_payments                &lt;dbl&gt; 26545.80, 11508.36, 28744.20, 32904.81, 215…
+$ q4_payments                &lt;dbl&gt; 29605.30, 13442.53, 33224.88, 37234.03, 252…
+$ payments_over_base_pay     &lt;dbl&gt; 4499.12, 1844.82, 13192.43, 18034.53, 1376.…
+$ percent_over_base_pay      &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ total_payments             &lt;dbl&gt; 110263.91, 49507.22, 114480.28, 136121.24, …
+$ base_pay                   &lt;dbl&gt; 105764.79, 47662.40, 101287.85, 118086.71, …
+$ permanent_bonus_pay        &lt;dbl&gt; 3174.12, 0.00, 7363.95, 7086.67, 0.00, 0.00…
+$ longevity_bonus_pay        &lt;dbl&gt; 0.00, 1310.82, 0.00, 0.00, 1251.19, 1726.16…
+$ temporary_bonus_pay        &lt;dbl&gt; 1325.00, 0.00, 1205.00, 1325.00, 125.00, 68…
+$ lump_sum_pay               &lt;dbl&gt; 0.00, 0.00, 2133.18, 0.00, 2068.80, 0.00, 0…
+$ overtime_pay               &lt;dbl&gt; 0.00, 0.00, 4424.32, 9839.33, 0.00, 0.00, 4…
+$ other_pay_adjustments      &lt;dbl&gt; 0.00, 534.00, -1934.02, -216.47, -2068.80, …
+$ other_pay_payroll_explorer &lt;dbl&gt; 4499.12, 1844.82, 8768.11, 8195.20, 1376.19…
+$ mou                        &lt;chr&gt; "24", "3", "24", "24", "12", "3", "24", "24…
+$ mou_title                  &lt;chr&gt; "POLICE OFFICERS UNIT", "CLERICAL UNIT", "P…
+$ fms_department             &lt;dbl&gt; 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70,…
+$ job_class                  &lt;chr&gt; "2223", "1358", "2227", "2232", "1839", "22…
+$ pay_grade                  &lt;chr&gt; "2", "0", "1", "1", "0", "2", "3", "1", "B"…
+$ average_health_cost        &lt;dbl&gt; 11651.40, 10710.24, 11651.40, 11651.40, 107…
+$ average_dental_cost        &lt;dbl&gt; 898.08, 405.24, 898.08, 898.08, 405.24, 405…
+$ average_basic_life         &lt;dbl&gt; 191.04, 11.40, 191.04, 191.04, 11.40, 11.40…
+$ average_benefit_cost       &lt;dbl&gt; 12740.52, 11126.88, 12740.52, 12740.52, 111…
+$ benefits_plan              &lt;chr&gt; "Police", "City", "Police", "Police", "City…
+$ job_class_link             &lt;chr&gt; "http://per.lacity.org/perspecs/2223.pdf", …</code></pre>
+</div>
+</div>
+</section></section>
+<section>
+<section id="subsetting-data-frames" class="title-slide slide level1 center">
+<h1>Subsetting data frames</h1>
+
+</section>
+<section id="subsetting-variablescolumns" class="slide level2">
+<h2>Subsetting variables/columns</h2>
+
+<img data-src="img/subset-columns.jpeg" class="r-stretch"><div class="fragment">
+<p>We can extract specific columns using <code>select()</code>.</p>
+</div>
+</section>
+<section id="select" class="slide level2">
+<h2><code>select()</code></h2>
+<div class="columns">
+<div class="column" style="width:50%&quot;;">
+<p>Example use 1 (without pipes):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-label="1"></a><span class="fu">select</span>(lapd, year, base_pay)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 68,564 × 2
+    year base_pay
+   &lt;dbl&gt;    &lt;dbl&gt;
+ 1  2013  105765.
+ 2  2013   47662.
+ 3  2013  101288.
+ 4  2013  118087.
+ 5  2013   90322.
+ 6  2013   62770.
+ 7  2013   93718.
+ 8  2013       0 
+ 9  2013   51246.
+10  2013   74227.
+# ℹ 68,554 more rows</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%&quot;;">
+<p>Example use 2 (with pipes):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="" aria-label="2"></a>  <span class="fu">select</span>(year, base_pay)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 68,564 × 2
+    year base_pay
+   &lt;dbl&gt;    &lt;dbl&gt;
+ 1  2013  105765.
+ 2  2013   47662.
+ 3  2013  101288.
+ 4  2013  118087.
+ 5  2013   90322.
+ 6  2013   62770.
+ 7  2013   93718.
+ 8  2013       0 
+ 9  2013   51246.
+10  2013   74227.
+# ℹ 68,554 more rows</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="select-1" class="slide level2">
+<h2><code>select()</code></h2>
+<div class="columns">
+<div class="column" style="width:50%&quot;;">
+<p>We will typically have multiple data cleaning steps, so we will typically use pipes</p>
+</div><div class="column" style="width:50%&quot;;">
+<p>Example use 2 (with pipes):</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb25-2"><a href="" aria-label="2"></a>  <span class="fu">select</span>(year, base_pay)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 68,564 × 2
+    year base_pay
+   &lt;dbl&gt;    &lt;dbl&gt;
+ 1  2013  105765.
+ 2  2013   47662.
+ 3  2013  101288.
+ 4  2013  118087.
+ 5  2013   90322.
+ 6  2013   62770.
+ 7  2013   93718.
+ 8  2013       0 
+ 9  2013   51246.
+10  2013   74227.
+# ℹ 68,554 more rows</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="omitting-columns" class="slide level2">
+<h2>Omitting columns</h2>
+<p><code>select()</code> can also be used to drop variables with a <code>!</code> outside of a vector of column names to be omitted</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb27-2"><a href="" aria-label="2"></a>  <span class="fu">select</span>(<span class="sc">!</span><span class="fu">c</span>(row_id, department_title))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 68,564 × 33
+    year payroll_department record_number job_class_title        employment_type
+   &lt;dbl&gt;              &lt;dbl&gt;         &lt;dbl&gt; &lt;chr&gt;                  &lt;chr&gt;          
+ 1  2013               4301    1000027830 Police Detective II    Full Time      
+ 2  2013               4302    1000155488 Clerk Typist           Full Time      
+ 3  2013               4301    1000194958 Police Sergeant I      Full Time      
+ 4  2013               4301    1000232317 Police Lieutenant I    Full Time      
+ 5  2013               4302    1000329284 Principal Storekeeper  Full Time      
+ 6  2013               4302    1001124320 Police Service Repres… Full Time      
+ 7  2013               4301    1001221822 Police Officer III     Full Time      
+ 8  2013               4301    1001243583 Police Sergeant I      Full Time      
+ 9  2013               4301    1001317832 Police Officer II      Full Time      
+10  2013               4301     100162910 Police Officer II      Full Time      
+# ℹ 68,554 more rows
+# ℹ 28 more variables: hourly_or_event_rate &lt;dbl&gt;,
+#   projected_annual_salary &lt;dbl&gt;, q1_payments &lt;dbl&gt;, q2_payments &lt;dbl&gt;,
+#   q3_payments &lt;dbl&gt;, q4_payments &lt;dbl&gt;, payments_over_base_pay &lt;dbl&gt;,
+#   percent_over_base_pay &lt;dbl&gt;, total_payments &lt;dbl&gt;, base_pay &lt;dbl&gt;,
+#   permanent_bonus_pay &lt;dbl&gt;, longevity_bonus_pay &lt;dbl&gt;,
+#   temporary_bonus_pay &lt;dbl&gt;, lump_sum_pay &lt;dbl&gt;, overtime_pay &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+</section></section>
+<section>
+<section id="subsetting-observationsrows" class="title-slide slide level1 center">
+<h1>Subsetting observations/rows</h1>
+
+<img data-src="img/subset-rows.jpeg" class="r-stretch"><div class="fragment">
+<p>Row-wise subsetting can be done with <code>slice()</code> and <code>filter()</code></p>
+</div>
+</section>
+<section id="slice" class="slide level2">
+<h2><code>slice()</code></h2>
+<p><code>slice()</code> subsets rows based on row number(s).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="" aria-label="1"></a><span class="fu">slice</span>(lapd, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 35
+  row_id  year department_title payroll_department record_number job_class_title
+  &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;                         &lt;dbl&gt;         &lt;dbl&gt; &lt;chr&gt;          
+1 3-100…  2013 Police (LAPD)                  4301    1000194958 Police Sergean…
+# ℹ 29 more variables: employment_type &lt;chr&gt;, hourly_or_event_rate &lt;dbl&gt;,
+#   projected_annual_salary &lt;dbl&gt;, q1_payments &lt;dbl&gt;, q2_payments &lt;dbl&gt;,
+#   q3_payments &lt;dbl&gt;, q4_payments &lt;dbl&gt;, payments_over_base_pay &lt;dbl&gt;,
+#   percent_over_base_pay &lt;dbl&gt;, total_payments &lt;dbl&gt;, base_pay &lt;dbl&gt;,
+#   permanent_bonus_pay &lt;dbl&gt;, longevity_bonus_pay &lt;dbl&gt;,
+#   temporary_bonus_pay &lt;dbl&gt;, lump_sum_pay &lt;dbl&gt;, overtime_pay &lt;dbl&gt;,
+#   other_pay_adjustments &lt;dbl&gt;, other_pay_payroll_explorer &lt;dbl&gt;, mou &lt;chr&gt;, …</code></pre>
+</div>
+</div>
+</section>
+<section id="section" class="slide level2">
+<h2></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<h3 id="relational-operators-in-r">Relational Operators in R</h3>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>&lt;</td>
+<td>Less than</td>
+</tr>
+<tr class="even">
+<td>&gt;</td>
+<td>Greater than</td>
+</tr>
+<tr class="odd">
+<td>&lt;=</td>
+<td>Less than or equal to</td>
+</tr>
+<tr class="even">
+<td>&gt;=</td>
+<td>Greater than or equal to</td>
+</tr>
+<tr class="odd">
+<td>==</td>
+<td>Equal to</td>
+</tr>
+<tr class="even">
+<td>!=</td>
+<td>Not equal to</td>
+</tr>
+</tbody>
+</table>
+</div><div class="column" style="width:50%;">
+<h3 id="logical-operators-in-r">Logical Operators in R</h3>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Operator</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>&amp;</td>
+<td>and</td>
+</tr>
+<tr class="even">
+<td>|</td>
+<td>or</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+</section>
+<section id="filter" class="slide level2">
+<h2><code>filter()</code></h2>
+<p><code>filter()</code> subsets rows based on a condition.</p>
+<p>The data below includes rows when the recorded year is 2018.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="" aria-label="1"></a><span class="fu">filter</span>(lapd, year <span class="sc">==</span> <span class="dv">2018</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14,824 × 35
+   row_id            year department_title payroll_department record_number
+   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;                         &lt;dbl&gt;         &lt;dbl&gt;
+ 1 8-1000027830ctFu  2018 Police (LAPD)                  4301    1000027830
+ 2 8-1000194958ctFu  2018 Police (LAPD)                  4301    1000194958
+ 3 8-1000232317ctFu  2018 Police (LAPD)                  4301    1000232317
+ 4 8-1001124320ctFu  2018 Police (LAPD)                  4302    1001124320
+ 5 8-1001221822ctFu  2018 Police (LAPD)                  4301    1001221822
+ 6 8-1001317832ctFu  2018 Police (LAPD)                  4301    1001317832
+ 7 8-100162910ctFu   2018 Police (LAPD)                  4301     100162910
+ 8 8-1001675957ctFu  2018 Police (LAPD)                  4301    1001675957
+ 9 8-1001884819ctFu  2018 Police (LAPD)                  4302    1001884819
+10 8-1001893163ctFu  2018 Police (LAPD)                  4302    1001893163
+# ℹ 14,814 more rows
+# ℹ 30 more variables: job_class_title &lt;chr&gt;, employment_type &lt;chr&gt;,
+#   hourly_or_event_rate &lt;dbl&gt;, projected_annual_salary &lt;dbl&gt;,
+#   q1_payments &lt;dbl&gt;, q2_payments &lt;dbl&gt;, q3_payments &lt;dbl&gt;, q4_payments &lt;dbl&gt;,
+#   payments_over_base_pay &lt;dbl&gt;, percent_over_base_pay &lt;dbl&gt;,
+#   total_payments &lt;dbl&gt;, base_pay &lt;dbl&gt;, permanent_bonus_pay &lt;dbl&gt;,
+#   longevity_bonus_pay &lt;dbl&gt;, temporary_bonus_pay &lt;dbl&gt;, lump_sum_pay &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+</section>
+<section id="filtering-example-1" class="slide level2">
+<h2>Filtering example 1:</h2>
+<p>How many LAPD staff members had a base pay higher than $100,000 in 2018 according to this data?</p>
+<div class="fragment">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb33-2"><a href="" aria-label="2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2018</span> <span class="sc">&amp;</span> base_pay <span class="sc">&gt;</span> <span class="dv">100000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6,499 × 35
+   row_id            year department_title payroll_department record_number
+   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;                         &lt;dbl&gt;         &lt;dbl&gt;
+ 1 8-1000027830ctFu  2018 Police (LAPD)                  4301    1000027830
+ 2 8-1000194958ctFu  2018 Police (LAPD)                  4301    1000194958
+ 3 8-1000232317ctFu  2018 Police (LAPD)                  4301    1000232317
+ 4 8-1001221822ctFu  2018 Police (LAPD)                  4301    1001221822
+ 5 8-1001945123ctFu  2018 Police (LAPD)                  4301    1001945123
+ 6 8-1002130218ctFu  2018 Police (LAPD)                  4301    1002130218
+ 7 8-1002409510ctFu  2018 Police (LAPD)                  4301    1002409510
+ 8 8-100305817ctFu   2018 Police (LAPD)                  4302     100305817
+ 9 8-100309798ctFu   2018 Police (LAPD)                  4301     100309798
+10 8-1003303056ctFu  2018 Police (LAPD)                  4301    1003303056
+# ℹ 6,489 more rows
+# ℹ 30 more variables: job_class_title &lt;chr&gt;, employment_type &lt;chr&gt;,
+#   hourly_or_event_rate &lt;dbl&gt;, projected_annual_salary &lt;dbl&gt;,
+#   q1_payments &lt;dbl&gt;, q2_payments &lt;dbl&gt;, q3_payments &lt;dbl&gt;, q4_payments &lt;dbl&gt;,
+#   payments_over_base_pay &lt;dbl&gt;, percent_over_base_pay &lt;dbl&gt;,
+#   total_payments &lt;dbl&gt;, base_pay &lt;dbl&gt;, permanent_bonus_pay &lt;dbl&gt;,
+#   longevity_bonus_pay &lt;dbl&gt;, temporary_bonus_pay &lt;dbl&gt;, lump_sum_pay &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="filtering-example-1-continued" class="slide level2">
+<h2>Filtering example 1 continued:</h2>
+<p>How many LAPD staff members had a base pay higher than $100,000 in 2018 according to this data?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb35-2"><a href="" aria-label="2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2018</span> <span class="sc">&amp;</span> base_pay <span class="sc">&gt;</span> <span class="dv">100000</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb35-3"><a href="" aria-label="3"></a>  <span class="fu">nrow</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 6499</code></pre>
+</div>
+</div>
+</section>
+<section id="filtering-example-2" class="slide level2">
+<h2>Filtering example 2:</h2>
+<p>How many observations are available between 2013 and 2015 including 2013 and 2015?</p>
+<div class="fragment">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb37-2"><a href="" aria-label="2"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2013</span> <span class="sc">&amp;</span> year <span class="sc">&lt;=</span> <span class="dv">2015</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 40,227 × 35
+   row_id            year department_title payroll_department record_number
+   &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;                         &lt;dbl&gt;         &lt;dbl&gt;
+ 1 3-1000027830ctFu  2013 Police (LAPD)                  4301    1000027830
+ 2 3-1000155488ctFu  2013 Police (LAPD)                  4302    1000155488
+ 3 3-1000194958ctFu  2013 Police (LAPD)                  4301    1000194958
+ 4 3-1000232317ctFu  2013 Police (LAPD)                  4301    1000232317
+ 5 3-1000329284ctFu  2013 Police (LAPD)                  4302    1000329284
+ 6 3-1001124320ctFu  2013 Police (LAPD)                  4302    1001124320
+ 7 3-1001221822ctFu  2013 Police (LAPD)                  4301    1001221822
+ 8 3-1001243583ctFu  2013 Police (LAPD)                  4301    1001243583
+ 9 3-1001317832ctFu  2013 Police (LAPD)                  4301    1001317832
+10 3-100162910ctFu   2013 Police (LAPD)                  4301     100162910
+# ℹ 40,217 more rows
+# ℹ 30 more variables: job_class_title &lt;chr&gt;, employment_type &lt;chr&gt;,
+#   hourly_or_event_rate &lt;dbl&gt;, projected_annual_salary &lt;dbl&gt;,
+#   q1_payments &lt;dbl&gt;, q2_payments &lt;dbl&gt;, q3_payments &lt;dbl&gt;, q4_payments &lt;dbl&gt;,
+#   payments_over_base_pay &lt;dbl&gt;, percent_over_base_pay &lt;dbl&gt;,
+#   total_payments &lt;dbl&gt;, base_pay &lt;dbl&gt;, permanent_bonus_pay &lt;dbl&gt;,
+#   longevity_bonus_pay &lt;dbl&gt;, temporary_bonus_pay &lt;dbl&gt;, lump_sum_pay &lt;dbl&gt;, …</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="filtering-example-2-continued" class="slide level2">
+<h2>Filtering example 2 continued:</h2>
+<p>How many observations are available between 2013 and 2015 including 2013 and 2015?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb39-2"><a href="" aria-label="2"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2013</span> <span class="sc">&amp;</span> year <span class="sc">&lt;=</span> <span class="dv">2015</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb39-3"><a href="" aria-label="3"></a>  <span class="fu">nrow</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 40227</code></pre>
+</div>
+</div>
+</section>
+<section id="filtering-example-3" class="slide level2">
+<h2>Filtering example 3:</h2>
+<p>How many LAPD staff were employed full time in 2018?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb41-2"><a href="" aria-label="2"></a>  <span class="fu">filter</span>(employment_type <span class="sc">==</span> <span class="st">"Full Time"</span> <span class="sc">&amp;</span> year <span class="sc">==</span> <span class="dv">2018</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb41-3"><a href="" aria-label="3"></a>  <span class="fu">nrow</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 14664</code></pre>
+</div>
+</div>
+</section>
+<section id="common-confusion" class="slide level2">
+<h2>Common confusion</h2>
+<p>We have done all sorts of selections, slicing, filtering on <code>lapd</code> but it has not changed at all. Why do you think so?</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="" aria-label="1"></a><span class="fu">glimpse</span>(lapd)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 68,564
+Columns: 35
+$ row_id                     &lt;chr&gt; "3-1000027830ctFu", "3-1000155488ctFu", "3-…
+$ year                       &lt;dbl&gt; 2013, 2013, 2013, 2013, 2013, 2013, 2013, 2…
+$ department_title           &lt;chr&gt; "Police (LAPD)", "Police (LAPD)", "Police (…
+$ payroll_department         &lt;dbl&gt; 4301, 4302, 4301, 4301, 4302, 4302, 4301, 4…
+$ record_number              &lt;dbl&gt; 1000027830, 1000155488, 1000194958, 1000232…
+$ job_class_title            &lt;chr&gt; "Police Detective II", "Clerk Typist", "Pol…
+$ employment_type            &lt;chr&gt; "Full Time", "Full Time", "Full Time", "Ful…
+$ hourly_or_event_rate       &lt;dbl&gt; 53.16, 23.77, 60.80, 60.98, 45.06, 34.42, 4…
+$ projected_annual_salary    &lt;dbl&gt; 110998.08, 49623.67, 126950.40, 127326.24, …
+$ q1_payments                &lt;dbl&gt; 24931.20, 11343.96, 24184.00, 29391.20, 208…
+$ q2_payments                &lt;dbl&gt; 29181.61, 13212.37, 28327.20, 36591.20, 241…
+$ q3_payments                &lt;dbl&gt; 26545.80, 11508.36, 28744.20, 32904.81, 215…
+$ q4_payments                &lt;dbl&gt; 29605.30, 13442.53, 33224.88, 37234.03, 252…
+$ payments_over_base_pay     &lt;dbl&gt; 4499.12, 1844.82, 13192.43, 18034.53, 1376.…
+$ percent_over_base_pay      &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+$ total_payments             &lt;dbl&gt; 110263.91, 49507.22, 114480.28, 136121.24, …
+$ base_pay                   &lt;dbl&gt; 105764.79, 47662.40, 101287.85, 118086.71, …
+$ permanent_bonus_pay        &lt;dbl&gt; 3174.12, 0.00, 7363.95, 7086.67, 0.00, 0.00…
+$ longevity_bonus_pay        &lt;dbl&gt; 0.00, 1310.82, 0.00, 0.00, 1251.19, 1726.16…
+$ temporary_bonus_pay        &lt;dbl&gt; 1325.00, 0.00, 1205.00, 1325.00, 125.00, 68…
+$ lump_sum_pay               &lt;dbl&gt; 0.00, 0.00, 2133.18, 0.00, 2068.80, 0.00, 0…
+$ overtime_pay               &lt;dbl&gt; 0.00, 0.00, 4424.32, 9839.33, 0.00, 0.00, 4…
+$ other_pay_adjustments      &lt;dbl&gt; 0.00, 534.00, -1934.02, -216.47, -2068.80, …
+$ other_pay_payroll_explorer &lt;dbl&gt; 4499.12, 1844.82, 8768.11, 8195.20, 1376.19…
+$ mou                        &lt;chr&gt; "24", "3", "24", "24", "12", "3", "24", "24…
+$ mou_title                  &lt;chr&gt; "POLICE OFFICERS UNIT", "CLERICAL UNIT", "P…
+$ fms_department             &lt;dbl&gt; 70, 70, 70, 70, 70, 70, 70, 70, 70, 70, 70,…
+$ job_class                  &lt;chr&gt; "2223", "1358", "2227", "2232", "1839", "22…
+$ pay_grade                  &lt;chr&gt; "2", "0", "1", "1", "0", "2", "3", "1", "B"…
+$ average_health_cost        &lt;dbl&gt; 11651.40, 10710.24, 11651.40, 11651.40, 107…
+$ average_dental_cost        &lt;dbl&gt; 898.08, 405.24, 898.08, 898.08, 405.24, 405…
+$ average_basic_life         &lt;dbl&gt; 191.04, 11.40, 191.04, 191.04, 11.40, 11.40…
+$ average_benefit_cost       &lt;dbl&gt; 12740.52, 11126.88, 12740.52, 12740.52, 111…
+$ benefits_plan              &lt;chr&gt; "Police", "City", "Police", "Police", "City…
+$ job_class_link             &lt;chr&gt; "http://per.lacity.org/perspecs/2223.pdf", …</code></pre>
+</div>
+</div>
+</section>
+<section id="section-1" class="slide level2">
+<h2></h2>
+<p>Moving forward we are only going to focus on year 2018, and use <code>job_class_title</code>, <code>employment_type</code>, and <code>base_pay</code>.</p>
+<p>Let’s clean our data accordingly and move on with the smaller <code>lapd</code> data that we need.</p>
+</section>
+<section id="wrangled-lapd-data" class="slide level2">
+<h2>Wrangled LAPD data</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb45-2"><a href="" aria-label="2"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2018</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb45-3"><a href="" aria-label="3"></a>  <span class="fu">select</span>(</span>
+<span id="cb45-4"><a href="" aria-label="4"></a>    job_class_title, </span>
+<span id="cb45-5"><a href="" aria-label="5"></a>    employment_type, </span>
+<span id="cb45-6"><a href="" aria-label="6"></a>    base_pay</span>
+<span id="cb45-7"><a href="" aria-label="7"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14,824 × 3
+   job_class_title                  employment_type base_pay
+   &lt;chr&gt;                            &lt;chr&gt;              &lt;dbl&gt;
+ 1 Police Detective II              Full Time        119322.
+ 2 Police Sergeant I                Full Time        113271.
+ 3 Police Lieutenant II             Full Time        148116 
+ 4 Police Service Representative II Full Time         78677.
+ 5 Police Officer III               Full Time        109374.
+ 6 Police Officer II                Full Time         95002.
+ 7 Police Officer II                Full Time         95379.
+ 8 Police Officer II                Full Time         95388.
+ 9 Equipment Mechanic               Full Time         80496 
+10 Detention Officer                Full Time         69640 
+# ℹ 14,814 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="saving-wrangled-lapd-data" class="slide level2">
+<h2>Saving wrangled LAPD data</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-21"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-21-1"><a href="#annotated-cell-21-1" aria-label="1"></a>lapd <span class="ot">&lt;-</span> </span>
+<span id="annotated-cell-21-2"><a href="#annotated-cell-21-2" aria-label="2"></a>  lapd <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-21" data-target-annotation="1" onclick="event.preventDefault();" href="">1</a><span id="annotated-cell-21-3" class="code-annotation-target"><a href="#annotated-cell-21-3" aria-label="3"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2018</span>) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-21-4"><a href="#annotated-cell-21-4" aria-label="4"></a>  <span class="fu">select</span>(</span>
+<span id="annotated-cell-21-5"><a href="#annotated-cell-21-5" aria-label="5"></a>    job_class_title, </span>
+<span id="annotated-cell-21-6"><a href="#annotated-cell-21-6" aria-label="6"></a>    employment_type, </span>
+<span id="annotated-cell-21-7"><a href="#annotated-cell-21-7" aria-label="7"></a>    base_pay</span>
+<span id="annotated-cell-21-8"><a href="#annotated-cell-21-8" aria-label="8"></a>  )</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-21" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-21" data-code-lines="3" data-code-annotation="1">Now the data is being saved into the <code>lapd</code> object, instead of just being printed.</span>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+<section id="viewing-newly-wrangled-lapd-data" class="slide level2">
+<h2>Viewing newly wrangled LAPD data</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="" aria-label="1"></a><span class="fu">glimpse</span>(lapd)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 14,824
+Columns: 3
+$ job_class_title &lt;chr&gt; "Police Detective II", "Police Sergeant I", "Police Li…
+$ employment_type &lt;chr&gt; "Full Time", "Full Time", "Full Time", "Full Time", "F…
+$ base_pay        &lt;dbl&gt; 119321.60, 113270.70, 148116.00, 78676.87, 109373.63, …</code></pre>
+</div>
+</div>
+</section></section>
+<section>
+<section id="changing-variablescolumns" class="title-slide slide level1 center">
+<h1>Changing Variables/Columns</h1>
+
+</section>
+<section id="mutate" class="slide level2">
+<h2><code>mutate()</code></h2>
+<p>The <code>mutate()</code> function allows us to:</p>
+<ul>
+<li>create new variables</li>
+<li>edit existing variables</li>
+</ul>
+</section>
+<section id="mutating-example-1" class="slide level2">
+<h2>Mutating example 1:</h2>
+<p>Create a new variable called <code>base_pay_k</code> that represents <code>base_pay</code> in thousand dollars.</p>
+<div class="fragment">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb49-2"><a href="" aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">base_pay_k =</span> base_pay <span class="sc">/</span> <span class="dv">1000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14,824 × 4
+   job_class_title                  employment_type base_pay base_pay_k
+   &lt;chr&gt;                            &lt;chr&gt;              &lt;dbl&gt;      &lt;dbl&gt;
+ 1 Police Detective II              Full Time        119322.      119. 
+ 2 Police Sergeant I                Full Time        113271.      113. 
+ 3 Police Lieutenant II             Full Time        148116       148. 
+ 4 Police Service Representative II Full Time         78677.       78.7
+ 5 Police Officer III               Full Time        109374.      109. 
+ 6 Police Officer II                Full Time         95002.       95.0
+ 7 Police Officer II                Full Time         95379.       95.4
+ 8 Police Officer II                Full Time         95388.       95.4
+ 9 Equipment Mechanic               Full Time         80496        80.5
+10 Detention Officer                Full Time         69640        69.6
+# ℹ 14,814 more rows</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="mutating-example-2-with-case_when" class="slide level2">
+<h2>Mutating example 2: with <code>case_when()</code></h2>
+<p>Create a new variable called <code>base_pay_level</code> which has <code>Less Than 0</code>, <code>No Income</code>, <code>Between 0 and 100K</code> and <code>100K Plus</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb51-2"><a href="" aria-label="2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb51-3"><a href="" aria-label="3"></a>    <span class="at">base_pay_level =</span> <span class="fu">case_when</span>(</span>
+<span id="cb51-4"><a href="" aria-label="4"></a>      base_pay <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"Less than 0"</span>, </span>
+<span id="cb51-5"><a href="" aria-label="5"></a>      base_pay <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"No Income"</span>,</span>
+<span id="cb51-6"><a href="" aria-label="6"></a>      base_pay <span class="sc">&lt;</span> <span class="dv">100000</span> <span class="sc">&amp;</span> base_pay <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"Between 0 and 100K"</span>,</span>
+<span id="cb51-7"><a href="" aria-label="7"></a>      base_pay <span class="sc">&gt;=</span> <span class="dv">100000</span> <span class="sc">~</span> <span class="st">"100K Plus"</span></span>
+<span id="cb51-8"><a href="" aria-label="8"></a>    )</span>
+<span id="cb51-9"><a href="" aria-label="9"></a>  ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14,824 × 4
+   job_class_title                  employment_type base_pay base_pay_level    
+   &lt;chr&gt;                            &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;             
+ 1 Police Detective II              Full Time        119322. 100K Plus         
+ 2 Police Sergeant I                Full Time        113271. 100K Plus         
+ 3 Police Lieutenant II             Full Time        148116  100K Plus         
+ 4 Police Service Representative II Full Time         78677. Between 0 and 100K
+ 5 Police Officer III               Full Time        109374. 100K Plus         
+ 6 Police Officer II                Full Time         95002. Between 0 and 100K
+ 7 Police Officer II                Full Time         95379. Between 0 and 100K
+ 8 Police Officer II                Full Time         95388. Between 0 and 100K
+ 9 Equipment Mechanic               Full Time         80496  Between 0 and 100K
+10 Detention Officer                Full Time         69640  Between 0 and 100K
+# ℹ 14,814 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="section-2" class="slide level2">
+<h2></h2>
+<p>We can use pipes with ggplot too!</p>
+<div class="cell columns column-output-location">
+<div class="column">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb53-2"><a href="" aria-label="2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb53-3"><a href="" aria-label="3"></a>    <span class="at">base_pay_level =</span> <span class="fu">case_when</span>(</span>
+<span id="cb53-4"><a href="" aria-label="4"></a>      base_pay <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"Less than 0"</span>, </span>
+<span id="cb53-5"><a href="" aria-label="5"></a>      base_pay <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"No Income"</span>,</span>
+<span id="cb53-6"><a href="" aria-label="6"></a>      base_pay <span class="sc">&lt;</span> <span class="dv">100000</span> <span class="sc">&amp;</span> base_pay <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"Between 0 and 100K"</span>,</span>
+<span id="cb53-7"><a href="" aria-label="7"></a>      base_pay <span class="sc">&gt;=</span> <span class="dv">100000</span> <span class="sc">~</span> <span class="st">"100K Plus"</span></span>
+<span id="cb53-8"><a href="" aria-label="8"></a>    )</span>
+<span id="cb53-9"><a href="" aria-label="9"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb53-10"><a href="" aria-label="10"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> base_pay_level)) <span class="sc">+</span></span>
+<span id="cb53-11"><a href="" aria-label="11"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="lec-05-data-transformations-and-aggregations_files/figure-revealjs/unnamed-chunk-33-1.png" width="576"></p>
+</figure>
+</div>
+</div>
+</div></div>
+</section>
+<section id="changing-r-storage-types" class="slide level2">
+<h2>Changing R storage types</h2>
+<p>Remember when we identified if the R storage types were appropriate for the variable type? Now we have the power to change the R storage type!</p>
+<p><code>as.factor()</code> - makes a vector factor<br>
+<code>as.numeric()</code> - makes a vector numeric<br>
+<code>as.integer()</code> - makes a vector integer<br>
+<code>as.double()</code> - makes a vector double<br>
+<code>as.character()</code> - makes a vector character</p>
+</section>
+<section id="mutating-example-3" class="slide level2">
+<h2>Mutating example 3:</h2>
+<p>Make <code>job_class_title</code> and <code>employment_type</code> factor variables.</p>
+<div class="fragment">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb54-2"><a href="" aria-label="2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb54-3"><a href="" aria-label="3"></a>    <span class="at">employment_type =</span> <span class="fu">as.factor</span>(employment_type),</span>
+<span id="cb54-4"><a href="" aria-label="4"></a>    <span class="at">job_class_title =</span> <span class="fu">as.factor</span>(job_class_title)</span>
+<span id="cb54-5"><a href="" aria-label="5"></a>  ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14,824 × 3
+   job_class_title                  employment_type base_pay
+   &lt;fct&gt;                            &lt;fct&gt;              &lt;dbl&gt;
+ 1 Police Detective II              Full Time        119322.
+ 2 Police Sergeant I                Full Time        113271.
+ 3 Police Lieutenant II             Full Time        148116 
+ 4 Police Service Representative II Full Time         78677.
+ 5 Police Officer III               Full Time        109374.
+ 6 Police Officer II                Full Time         95002.
+ 7 Police Officer II                Full Time         95379.
+ 8 Police Officer II                Full Time         95388.
+ 9 Equipment Mechanic               Full Time         80496 
+10 Detention Officer                Full Time         69640 
+# ℹ 14,814 more rows</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="putting-everying-together" class="slide level2">
+<h2>Putting everying together</h2>
+<p>Once again we did not “save” anything into <code>lapd</code>.</p>
+<ul>
+<li>As we work on data cleaning it makes sense not to “save” the data frames.</li>
+<li>Once we see the final data frame we want then we can “save” (i.e.&nbsp;overwrite) it.</li>
+</ul>
+<div class="fragment">
+<p>You can do all the changes in this lecture in one long set of piped code. That’s the beauty of piping!</p>
+</div>
+</section>
+<section id="full-data-wrangling" class="slide level2">
+<h2>Full data wrangling</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="" aria-label="1"></a>lapd <span class="ot">&lt;-</span> </span>
+<span id="cb56-2"><a href="" aria-label="2"></a>  lapd <span class="sc">|&gt;</span> </span>
+<span id="cb56-3"><a href="" aria-label="3"></a>  <span class="fu">clean_names</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb56-4"><a href="" aria-label="4"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2018</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb56-5"><a href="" aria-label="5"></a>  <span class="fu">select</span>(</span>
+<span id="cb56-6"><a href="" aria-label="6"></a>    job_class_title, </span>
+<span id="cb56-7"><a href="" aria-label="7"></a>    employment_type, </span>
+<span id="cb56-8"><a href="" aria-label="8"></a>    base_pay</span>
+<span id="cb56-9"><a href="" aria-label="9"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb56-10"><a href="" aria-label="10"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb56-11"><a href="" aria-label="11"></a>    <span class="at">employment_type =</span> <span class="fu">as.factor</span>(employment_type),</span>
+<span id="cb56-12"><a href="" aria-label="12"></a>    <span class="at">job_class_title =</span> <span class="fu">as.factor</span>(job_class_title),</span>
+<span id="cb56-13"><a href="" aria-label="13"></a>    <span class="at">base_pay_level =</span> <span class="fu">case_when</span>(</span>
+<span id="cb56-14"><a href="" aria-label="14"></a>      base_pay <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"Less than 0"</span>, </span>
+<span id="cb56-15"><a href="" aria-label="15"></a>      base_pay <span class="sc">==</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"No Income"</span>,</span>
+<span id="cb56-16"><a href="" aria-label="16"></a>      base_pay <span class="sc">&lt;</span> <span class="dv">100000</span> <span class="sc">&amp;</span> base_pay <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">~</span> <span class="st">"Between 0 and 100K"</span>,</span>
+<span id="cb56-17"><a href="" aria-label="17"></a>      base_pay <span class="sc">&gt;</span> <span class="dv">100000</span> <span class="sc">~</span> <span class="st">"Greater than 100K"</span></span>
+<span id="cb56-18"><a href="" aria-label="18"></a>    )</span>
+<span id="cb56-19"><a href="" aria-label="19"></a>  ) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="section-3" class="slide level2">
+<h2></h2>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p>The functions <code>clean_names()</code>, <code>select()</code>, <code>filter()</code>, <code>mutate()</code> all take a data frame as the first argument. Even though we do not see it, the data frame is piped through from the previous step of code at each step. When we use these functions without the <code>|&gt;</code> we have to include the data frame explicitly.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Data frame is used as the first argument</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="" aria-label="1"></a><span class="fu">clean_names</span>(lapd)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>Data frame is piped</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb58-2"><a href="" aria-label="2"></a>  <span class="fu">clean_names</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="aggregating-data" class="title-slide slide level1 center">
+<h1>Aggregating Data</h1>
+
+</section>
+<section id="aggregating-categorical-data" class="slide level2">
+<h2>Aggregating Categorical Data</h2>
+<p>Categorical data are summarized with <strong>counts</strong> or <strong>proportions</strong>.</p>
+<div class="fragment">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb59-2"><a href="" aria-label="2"></a>  <span class="fu">count</span>(employment_type)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  employment_type     n
+  &lt;chr&gt;           &lt;int&gt;
+1 Full Time       14664
+2 Part Time         132
+3 Per Event          28</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb61-2"><a href="" aria-label="2"></a>  <span class="fu">count</span>(employment_type) <span class="sc">|&gt;</span> </span>
+<span id="cb61-3"><a href="" aria-label="3"></a>  <span class="fu">mutate</span>(<span class="at">prop =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  employment_type     n    prop
+  &lt;chr&gt;           &lt;int&gt;   &lt;dbl&gt;
+1 Full Time       14664 0.989  
+2 Part Time         132 0.00890
+3 Per Event          28 0.00189</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="aggregating-numerical-data" class="slide level2">
+<h2>Aggregating Numerical Data</h2>
+<p>Mean, median, standard deviation, variance, and quartiles are some of the numerical summaries of numerical variables. Recall</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="" aria-label="1"></a><span class="fu">summarize</span>(</span>
+<span id="cb63-2"><a href="" aria-label="2"></a>  lapd, </span>
+<span id="cb63-3"><a href="" aria-label="3"></a>  <span class="at">mean_base_pay =</span> <span class="fu">mean</span>(base_pay),</span>
+<span id="cb63-4"><a href="" aria-label="4"></a>  <span class="at">sd_base_pay =</span> <span class="fu">sd</span>(base_pay)</span>
+<span id="cb63-5"><a href="" aria-label="5"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  mean_base_pay sd_base_pay
+          &lt;dbl&gt;       &lt;dbl&gt;
+1        85149.      38423.</code></pre>
+</div>
+</div>
+</section></section>
+<section>
+<section id="aggregating-data-by-groups" class="title-slide slide level1 center">
+<h1>Aggregating Data By Groups</h1>
+
+</section>
+<section id="group_by" class="slide level2">
+<h2><code>group_by()</code></h2>
+
+<img data-src="img/group-by.jpeg" class="quarto-figure quarto-figure-center r-stretch"><p><code>group_by()</code> separates the data frame by the groups. Any action following <code>group_by()</code> will be completed for each group separately.</p>
+<ul>
+<li>Typically used before <code>summarize()</code></li>
+</ul>
+</section>
+<section id="group_by-example-question" class="slide level2">
+<h2><code>group_by()</code> example question</h2>
+<p>Q. What is the median salary for each employment type?</p>
+</section>
+<section id="group_by-example-alone" class="slide level2">
+<h2><code>group_by()</code> example alone</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb65-2"><a href="" aria-label="2"></a>  <span class="fu">group_by</span>(employment_type)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14,824 × 3
+# Groups:   employment_type [3]
+   job_class_title                  employment_type base_pay
+   &lt;chr&gt;                            &lt;chr&gt;              &lt;dbl&gt;
+ 1 Police Detective II              Full Time        119322.
+ 2 Police Sergeant I                Full Time        113271.
+ 3 Police Lieutenant II             Full Time        148116 
+ 4 Police Service Representative II Full Time         78677.
+ 5 Police Officer III               Full Time        109374.
+ 6 Police Officer II                Full Time         95002.
+ 7 Police Officer II                Full Time         95379.
+ 8 Police Officer II                Full Time         95388.
+ 9 Equipment Mechanic               Full Time         80496 
+10 Detention Officer                Full Time         69640 
+# ℹ 14,814 more rows</code></pre>
+</div>
+</div>
+<div class="fragment">
+<ul>
+<li>Minimal noticeable changes when <code>group_by()</code> is used alone</li>
+</ul>
+</div>
+</section>
+<section id="group_by-example-with-summarize" class="slide level2">
+<h2><code>group_by()</code> example with <code>summarize()</code></h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb67-2"><a href="" aria-label="2"></a>  <span class="fu">group_by</span>(employment_type) <span class="sc">|&gt;</span> </span>
+<span id="cb67-3"><a href="" aria-label="3"></a>  <span class="fu">summarize</span>(<span class="at">med_base_pay =</span> <span class="fu">median</span>(base_pay))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  employment_type med_base_pay
+  &lt;chr&gt;                  &lt;dbl&gt;
+1 Full Time             97996.
+2 Part Time             14474.
+3 Per Event              4275 </code></pre>
+</div>
+</div>
+<div class="fragment">
+<p>Versus</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb69-2"><a href="" aria-label="2"></a>  <span class="fu">summarize</span>(<span class="at">med_base_pay =</span> <span class="fu">median</span>(base_pay))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  med_base_pay
+         &lt;dbl&gt;
+1       97601.</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="summarizing-multiple-variables" class="slide level2">
+<h2>Summarizing multiple variables</h2>
+<p>We can also remind ourselves how many staff members there were in each group.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="" aria-label="1"></a>lapd <span class="sc">|&gt;</span> </span>
+<span id="cb71-2"><a href="" aria-label="2"></a>  <span class="fu">group_by</span>(employment_type) <span class="sc">|&gt;</span> </span>
+<span id="cb71-3"><a href="" aria-label="3"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb71-4"><a href="" aria-label="4"></a>    <span class="at">med_base_pay =</span> <span class="fu">median</span>(base_pay),</span>
+<span id="cb71-5"><a href="" aria-label="5"></a>    <span class="at">count =</span> <span class="fu">n</span>()</span>
+<span id="cb71-6"><a href="" aria-label="6"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  employment_type med_base_pay count
+  &lt;chr&gt;                  &lt;dbl&gt; &lt;int&gt;
+1 Full Time             97996. 14664
+2 Part Time             14474.   132
+3 Per Event              4275     28</code></pre>
+</div>
+</div>
+<p>Note that <code>n()</code> does not take any arguments.</p>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="lec-05-data-transformations-and-aggregations_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="lec-05-data-transformations-and-aggregations_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="lec-05-data-transformations-and-aggregations_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="lec-05-data-transformations-and-aggregations_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="lec-05-data-transformations-and-aggregations_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="lec-05-data-transformations-and-aggregations_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="lec-05-data-transformations-and-aggregations_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="lec-05-data-transformations-and-aggregations_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="lec-05-data-transformations-and-aggregations_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="lec-05-data-transformations-and-aggregations_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
