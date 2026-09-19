@@ -1,0 +1,565 @@
+---
+title: "Data 200: Lecture 5a"
+subtitle: "Data Wrangling"
+author: "Medina - CSU Channel Islands"
+format: 
+  revealjs:
+    theme: [sky, ../slide-style.scss]
+    slide-number: true
+execute:
+  echo: true 
+---
+
+```{r}
+#| echo: false
+library(tidyverse)
+```
+
+# The Pipe Operator `|>`
+
+## Three solutions to a single problem
+
+What is the average of 4, 8, 16 approximately?
+
+. . .
+
+There are 3 steps we need:
+
+1. What is the average of <u>4, 8, 16</u> approximately?
+
+. . .
+
+2. What is the <u>average</u> of 4, 8, 16 approximately?
+
+. . .
+
+3. What is the average of 4, 8, 16 <u>approximately</u>?
+
+
+
+## Solution 1: Functions within Functions
+
+
+```{r}
+c(4, 8, 16)
+```
+
+. . .
+
+<hr>
+
+```{r}
+mean(c(4, 8, 16))
+```
+
+. . .
+
+<hr>
+
+Full solution 1: 
+```{r}
+round(mean(c(4, 8, 16)))
+```
+
+. . .
+
+**Problem with writing functions within functions:**
+
+- Things will get messy and more difficult to read and debug as we deal with more complex code.
+
+
+
+## Solution 2: Creating Objects
+
+
+
+```{r}
+numbers <- c(4, 8, 16)
+numbers
+```
+
+. . .
+
+<hr>
+
+```{r}
+avg_number <- mean(numbers)
+avg_number
+```
+
+. . .
+
+<hr>
+
+```{r}
+round(avg_number)
+```
+
+. . .
+
+**Problem with creating many objects**
+
+- We will end up with too many objects in `Environment`. There is a more efficient way to code.
+
+
+## Solution 3: The Pipe Operator |> 
+
+`Shortcut: <br>Ctrl (Command) + Shift + M`
+
+
+. . .
+
+::::{.columns}
+
+:::{.column width="35%"}
+
+```{r}
+c(4, 8, 16) |> # <1>
+  mean() |>  # <2>
+  round() # <3>
+```
+
+:::
+
+:::{.column width="65%"}
+1. Combine 4, 8, and 16, `and then`  
+2. Take the mean   `and then`  
+3. Round the output
+:::
+
+::::
+
+. . .
+
+The output of the first function is the first argument of the second function.
+
+
+
+## Default pipe
+
+```{r}
+#| echo: false
+#| fig-align: center
+knitr::include_graphics("img/base-r-setting.png") 
+```
+
+Make sure to select `Use native pipe operator` in RStudio under `Tools > Global Options > Code` if you installed R a long time ago. `%>%` is the old pipe.
+
+# Tidyverse style
+
+## Tidyverse style with pipes
+
+Notice how the lines we pipe code into are indented.
+```{r}
+c(4, 8, 16) |> 
+  mean() |> 
+  round()
+```
+
+. . .
+
+Now we've learned to indent:
+
+1. arguments in a function spanning multiple lines
+2. subsequent plot layers
+2. lines with code piped in
+
+## Data
+
+We will work with Los Angeles Police Department data
+
+```{r}
+lapd <- read_csv(here::here("data/Police_Payroll.csv")) 
+```
+
+This data is not from an R package, so `?lapd` won't work. The documentation can be found online [here](https://controllerdata.lacity.org/Payroll/Police-Payroll/sxpf-rh6t). 
+
+
+```{r}
+glimpse(lapd)
+```
+
+## Cleaning column names
+
+`clean_names()` from the `janitor` package makes column names follow tidyverse style!
+```{r}
+library(janitor)
+lapd <- clean_names(lapd)
+glimpse(lapd)
+```
+
+# Subsetting data frames
+
+## Subsetting variables/columns
+
+```{r}
+#| echo: false
+knitr::include_graphics("img/subset-columns.jpeg")
+```
+
+. . .
+
+We can extract specific columns using `select()`.
+
+
+## `select()`
+
+::::{.columns}
+:::{.column width=50%"}
+Example use 1 (without pipes):
+```{r}
+select(lapd, year, base_pay)
+```
+:::
+
+
+:::{.column width=50%"}
+Example use 2 (with pipes):
+```{r}
+lapd |> 
+  select(year, base_pay)
+```
+:::
+::::
+
+
+## `select()`
+
+::::{.columns}
+:::{.column width=50%"}
+We will typically have multiple data cleaning steps, so we will typically use pipes
+:::
+
+
+:::{.column width=50%"}
+Example use 2 (with pipes):
+```{r}
+lapd |> 
+  select(year, base_pay)
+```
+:::
+::::
+
+
+## Omitting columns
+
+`select()` can also be used to drop variables with a `!` outside of a vector of column names to be omitted
+
+```{r}
+lapd |> 
+  select(!c(row_id, department_title))
+```
+
+
+# Subsetting observations/rows
+
+```{r}
+#| echo: false
+knitr::include_graphics("img/subset-rows.jpeg")
+```
+
+. . .
+
+Row-wise subsetting can be done with `slice()` and `filter()`
+
+## `slice()`
+
+`slice()` subsets rows based on row number(s).
+
+```{r}
+slice(lapd, 3)
+```
+
+## 
+
+::::{.columns}
+
+
+:::{.column width="50%"}
+
+### Relational Operators in R
+
+
+| Operator | Description              |
+|----------|--------------------------|
+| <        | Less than                |
+| >        | Greater than             |
+| <=       | Less than or equal to    |
+| >=       | Greater than or equal to |
+| ==       | Equal to                 |
+| !=       | Not equal to             |
+
+:::
+
+:::{.column width="50%"}
+
+### Logical Operators in R
+
+| Operator | Description |
+|----------|-------------|
+| &        | and         |
+| &#124;   | or          |
+
+:::
+::::
+
+
+
+
+## `filter()`
+
+`filter()` subsets rows based on a condition.
+
+The data below includes rows when the recorded year is 2018.
+
+```{r}
+filter(lapd, year == 2018)
+```
+
+## Filtering example 1:
+
+How many LAPD staff members had a base pay higher than $100,000 in 2018 according to this data?
+
+. . .
+
+
+```{r}
+lapd |> 
+  filter(year == 2018 & base_pay > 100000)
+```
+
+## Filtering example 1 continued:
+
+How many LAPD staff members had a base pay higher than $100,000 in 2018 according to this data?
+
+```{r}
+lapd |> 
+  filter(year == 2018 & base_pay > 100000) |> 
+  nrow()
+```
+
+## Filtering example 2:
+
+How many observations are available between 2013 and 2015 including 2013 and 2015?
+
+. . .
+
+```{r}
+lapd |> 
+  filter(year >= 2013 & year <= 2015) 
+```
+
+## Filtering example 2 continued:
+
+How many observations are available between 2013 and 2015 including 2013 and 2015?
+
+```{r}
+lapd |> 
+  filter(year >= 2013 & year <= 2015) |> 
+  nrow()
+```
+
+## Filtering example 3:
+
+How many LAPD staff were employed full time in 2018?
+
+```{r}
+lapd |> 
+  filter(employment_type == "Full Time" & year == 2018) |> 
+  nrow()
+```
+
+## Common confusion
+
+
+We have done all sorts of selections, slicing, filtering on `lapd` but it has not changed at all. Why do you think so?
+
+```{r}
+glimpse(lapd)
+```
+
+## 
+
+Moving forward we are only going to focus on year 2018, and use `job_class_title`, `employment_type`, and `base_pay`. 
+
+Let's clean our data accordingly and move on with the smaller `lapd` data that we need.
+
+## Wrangled LAPD data
+
+```{r}
+lapd |> 
+  filter(year == 2018) |> 
+  select(
+    job_class_title, 
+    employment_type, 
+    base_pay
+  )
+```
+
+## Saving wrangled LAPD data
+
+```{r}
+lapd <- 
+  lapd |> 
+  filter(year == 2018) |> # <1>
+  select(
+    job_class_title, 
+    employment_type, 
+    base_pay
+  )
+```
+
+1. Now the data is being saved into the `lapd` object, instead of just being printed.
+
+## Viewing newly wrangled LAPD data
+
+```{r}
+glimpse(lapd)
+```
+
+# Changing Variables/Columns
+
+## `mutate()`
+
+The `mutate()` function allows us to:
+
+- create new variables
+- edit existing variables
+
+## Mutating example 1:
+
+Create a new variable called `base_pay_k` that represents `base_pay` in thousand dollars.
+
+. . .
+
+```{r}
+lapd |> 
+  mutate(base_pay_k = base_pay / 1000)
+```
+
+## Mutating example 2: with `case_when()`
+
+Create a new variable called `base_pay_level` which has `Less Than 0`, `No Income`, `Between 0 and 100K` and `100K Plus`. 
+
+```{r}
+lapd |> 
+  mutate(
+    base_pay_level = case_when(
+      base_pay < 0 ~ "Less than 0", 
+      base_pay == 0 ~ "No Income",
+      base_pay < 100000 & base_pay > 0 ~ "Between 0 and 100K",
+      base_pay >= 100000 ~ "100K Plus"
+    )
+  ) 
+```
+
+## 
+
+We can use pipes with ggplot too! 
+
+```{r}
+#| output-location: column
+#| fig-height: 4
+#| fig-width: 6
+lapd |> 
+  mutate(
+    base_pay_level = case_when(
+      base_pay < 0 ~ "Less than 0", 
+      base_pay == 0 ~ "No Income",
+      base_pay < 100000 & base_pay > 0 ~ "Between 0 and 100K",
+      base_pay >= 100000 ~ "100K Plus"
+    )
+  ) |> 
+  ggplot(aes(x = base_pay_level)) +
+  geom_bar()
+```
+
+
+## Changing R storage types
+
+Remember when we identified if the R storage types were appropriate for the variable type? Now we have the power to change the R storage type!
+
+`as.factor()` - makes a vector factor  
+`as.numeric()` - makes a vector numeric  
+`as.integer()` - makes a vector integer  
+`as.double()` - makes a vector double  
+`as.character()` - makes a vector character  
+
+## Mutating example 3:
+
+Make `job_class_title` and `employment_type` factor variables.
+
+. .  .
+
+```{r}
+lapd |> 
+  mutate(
+    employment_type = as.factor(employment_type),
+    job_class_title = as.factor(job_class_title)
+  ) 
+```
+
+## Putting everying together
+
+Once again we did not "save" anything into `lapd`. 
+
+- As we work on data cleaning it makes sense not to "save" the data frames. 
+- Once we see the final data frame we want then we can "save" (i.e. overwrite) it.
+
+. . .
+
+You can do all the changes in this lecture in one long set of piped code. That's the beauty of piping!
+
+
+## Full data wrangling 
+
+```{r}
+#| eval: false
+lapd <- 
+  lapd |> 
+  clean_names() |> 
+  filter(year == 2018) |> 
+  select(
+    job_class_title, 
+    employment_type, 
+    base_pay
+  ) |> 
+  mutate(
+    employment_type = as.factor(employment_type),
+    job_class_title = as.factor(job_class_title),
+    base_pay_level = case_when(
+      base_pay < 0 ~ "Less than 0", 
+      base_pay == 0 ~ "No Income",
+      base_pay < 100000 & base_pay > 0 ~ "Between 0 and 100K",
+      base_pay > 100000 ~ "Greater than 100K"
+    )
+  ) 
+```
+
+##
+
+::: callout-warning
+
+The functions `clean_names()`, `select()`, `filter()`, `mutate()` all take a data frame as the first argument. Even though we do not see it, the data frame is piped through from the previous step of code at each step. 
+When we use these functions without the `|>` we have to include the data frame explicitly.
+
+::::{.columns}
+:::{.column width="50%"}
+Data frame is used as the first argument
+```{r}
+#| eval: false
+clean_names(lapd)
+```
+:::
+
+:::{.column width="50%"}
+Data frame is piped
+
+```{r}
+#| eval: false
+lapd |> 
+  clean_names()
+```
+:::
+::::
+:::

@@ -1,0 +1,177 @@
+---
+title: ""
+format: 
+  pdf:
+    echo: true
+    message: false
+    warning: false
+    geometry:
+      - bottom=1in
+header-includes:
+  - \usepackage{lastpage}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{}
+  - \fancyhead[L]{Data 200 Fall 2026 -- \textbf{Lab 5a}}
+  - \fancyhead[R]{Hello Data Science Chapter 5}
+  - \fancyfoot[C]{\thepage\ of \pageref{LastPage}}
+  - \renewcommand{\headrulewidth}{0.4pt}
+---
+
+\newcommand{\blank}{\rule{2.5cm}{0.15mm}}
+
+**Team members**:
+
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(hellodatascience)
+library(knitr)
+
+data(planets)
+```
+
+In this worksheet we will work with the `planets` data frame from the the hellodatascience R package, containing data on planets in our solar system:
+
+```{r}
+#| echo: false
+kable(planets)
+```
+
+- `name`: Name of planet
+- `mass`: Mass in 10^24 kg
+- `length_of_day`: Length of day in hours
+- `mean_temp`: Whether mean temperature in Celsius is positive or not
+- `n_moons`: Number of moons
+- `ring_system`: Whether the planet has a set of rings around it
+- `surface_pressure`: Surface pressure in bars
+
+**Question 1**\newline
+Describe what the `|>` operator does.
+
+\vspace{3cm}
+
+**Question 2**\newline
+Write out the data frame that would be printed from this code.
+```{r}
+#| eval: false
+planets |>
+  select(name, mass, ring_system)
+```
+
+
+\newpage
+
+**Question 3**\newline
+Write out the data frame that would be printed from the following code.
+```{r}
+#| eval: false
+planets |>
+  select(name, mass, ring_system) |> 
+  filter(ring_system == FALSE)
+```
+
+\vspace{4cm}
+
+**Question 4**\newline
+Describe how the following code behaves differently from the code in question 3.
+```{r}
+#| eval: false
+planets <- planets |>
+  select(name, mass, ring_system) |> 
+  filter(ring_system == FALSE)
+```
+
+\vspace{3cm}
+
+**Question 5**\newline
+Which planets would be in the data frame printed by this code?
+```{r}
+#| eval: false
+planets |>
+  filter(length_of_day > 24 & surface_pressure <= 1)
+```
+
+\vspace{1.5cm}
+
+**Question 6**\newline
+Which planets would be in the data frame printed by this code?
+```{r}
+#| eval: false
+planets |>
+  filter(length_of_day > 24 | surface_pressure <= 1)
+```
+
+\vspace{1.5cm}
+
+**Question 7**\newline
+How many planets would be in the data frame printed by this code?
+```{r}
+#| eval: false
+planets |>
+  filter(mean_temp != "negative" | ring_system == FALSE)
+```
+
+\vspace{1.5cm}
+
+
+**Question 8**\newline
+Think about the code from question 7. Why did we have quotations around "negative" but not around `FALSE`?
+
+\vspace{3cm}
+
+**Question 9**\newline
+Identify the issue with this code and correct it.
+
+```{r}
+#| eval: false
+planets |>
+  select(!name, !mean_temp)
+```
+
+\vspace{3cm}
+
+**Question 10**\newline
+Write out the data frame that would be printed from this code.
+
+```{r}
+#| eval: false
+planets |>
+  select(name, mass, ring_system) |> 
+  filter(ring_system == FALSE) |> 
+  mutate(mass_approx = round(mass))
+```
+
+\vspace{4cm}
+
+**Question 11**\newline
+What type of variable will `moons_per_mass` be (character, logical, or numeric)?
+```{r}
+#| eval: false
+planets |> 
+  mutate(moons_per_mass = n_moons / mass)
+```
+
+\vspace{1cm}
+
+**Question 12**\newline
+Identify the value of `mass_category` for each planet resulting from this code.
+```{r}
+#| eval: false
+planets |> 
+  mutate(mass_category = case_when(
+    mass < 1 ~ "Small",
+    mass < 10 ~ "Medium",
+    TRUE ~ "Large"
+  ))
+```
+
+\vspace{3cm}
+
+**Question 13**\newline
+I would like you to write one pipeline that does the following (in order):
+
+1. Subsets the columns to only: `name`, `mass`, `n_moons`, `surface_pressure`.
+2. Creates a new variable called `relative_day` which stores: "Short" if the length of a day is less than 24 hours, "Regular" if it exactly equals 24, and "Long" if it is longer than 24 hours.
+3. Filters to only planets with "Short" days and more than 50 moons.
