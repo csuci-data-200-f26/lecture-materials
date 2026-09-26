@@ -1,0 +1,146 @@
+---
+title: ""
+format: 
+  pdf:
+    echo: true
+    message: false
+    warning: false
+    geometry:
+      - bottom=1in
+header-includes:
+  - \usepackage{lastpage}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{}
+  - \fancyhead[L]{Data 200 Fall 2026 -- \textbf{Lab 6a}}
+  - \fancyhead[R]{Factors, Strings, and Dates}
+  - \fancyfoot[C]{\thepage\ of \pageref{LastPage}}
+  - \renewcommand{\headrulewidth}{0.4pt}
+---
+
+\newcommand{\blank}{\rule{2.5cm}{0.15mm}}
+
+**Team members**:
+
+
+```{r}
+#| echo: false
+library(tidyverse)
+```
+
+Consider the following artificial dataset:
+
+```{r}
+#| echo: false
+customers <- data.frame(
+  first_name = c("Lee", "Aaliyah", "EMILY", "Sam", "omar"),
+  satisfaction = c("high", "med", "high", "low", "med"),
+  signup_date = c("01/03/2024", "05/30/2024", "02/15/2024", "03/10/2024", "01/22/2024")
+) 
+```
+
+```{r}
+#| echo: false
+knitr::kable(customers)
+```
+
+**Question 1**\newline
+For each column, write the variable type and the most appropriate R storage type.
+
+- `first_name`:
+
+\vspace{0.75cm}
+
+- `satisfaction`:
+
+\vspace{0.75cm}
+
+- `signup_date`:
+
+\vspace{0.75cm}
+
+**Question 2**\newline
+You should have identified that one of the columns would be best stored as a `factor`. Why would it be better stored as a `factor` rather than a `character`?
+
+\vspace{2.25cm}
+
+**Question 3**\newline
+You should have identified that one of the columns would be best stored as a `date`. Why would it be better stored as a `date` rather than a `character`?
+
+\vspace{2.25cm}
+
+**Question 4**\newline
+You should have identified that one of the columns would be best stored as a `character`. Why would it be better stored as a `character` rather than a `factor`?
+
+\vspace{2.25cm}
+
+**Question 5**\newline
+Complete the following R code to change each of the columns to the ideal R storage type.
+```{r}
+#| eval: false
+customers <- 
+  customers |> 
+  mutate(
+    first_name = 
+      
+    satisfaction = 
+      
+    signup_date = 
+  )
+```
+
+**Question 6**\newline
+By default, variables stored as factors will have the levels stored in alphabetical order. Complete the R code below to convert the `satisfaction` variable to a factor with a more meaningful ordering and labels appropriate for a plot.
+```{r}
+#| eval: false
+customers <- 
+  customers |> 
+  mutate(________________ = factor(
+    
+    levels = c(__________, __________, __________),
+    
+    labels = c(_______________, _______________, _______________)
+  ))
+```
+
+**Question 7**\newline
+Describe what the following code seems to be doing.
+
+```{r}
+#| echo: false
+customers <- customers |> 
+  mutate(signup_date = mdy(signup_date))
+```
+
+```{r}
+customers |> 
+  mutate(membership_length = ymd("2025-02-23") - signup_date) |> 
+  arrange(membership_length)
+```
+
+\newpage
+
+**Question 8**\newline
+Make a new column called `membership_month` which stores the month that the customer signed up. (Hint: use the `month()` function.)
+
+\vspace{4cm}
+
+**Question 9**\newline
+Which of the columns from the original dataset could be described as a "string"?
+
+\vspace{1cm}
+
+**Question 9**\newline
+Describe what the following code seems to be doing.
+
+```{r}
+customers |>
+  filter(first_name != str_to_title(first_name)) |>
+  pull(first_name)
+```
+
+\vspace{3cm}
+
+**Question 10**\newline
+Oh no! It looks like names were not recorded with consistent capitalization. We want them to be recorded title case, meaning the first letter should be capital, followed by lower case letters. Write R code to store the names in title case. (Hint: use the `str_to_title()` function). Make sure to save the change back into the data frame.
+

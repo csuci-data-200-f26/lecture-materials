@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="lec-06-wrangling-special-variables_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lec-06-wrangling-special-variables_files/libs/quarto-html/tabby.min.js"></script>
+<script src="lec-06-wrangling-special-variables_files/libs/quarto-html/popper.min.js"></script>
+<script src="lec-06-wrangling-special-variables_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="lec-06-wrangling-special-variables_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lec-06-wrangling-special-variables_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="lec-06-wrangling-special-variables_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.10.18">
+
+  <meta name="author" content="Medina - CSU Channel Islands">
+  <title>Data 200: Lecture 6</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="lec-06-wrangling-special-variables_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="lec-06-wrangling-special-variables_files/libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="lec-06-wrangling-special-variables_files/libs/revealjs/dist/theme/quarto-ee498e30ab5a2288531444c7d3cbf031.css">
+  <link href="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">Data 200: Lecture 6</h1>
+  <p class="subtitle">Dealing with Specific Types of Variables: Strings, Dates, and Factors</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Medina - CSU Channel Islands
+</div>
+        <p class="quarto-title-affiliation">
+            Slides derived with permission from 2026 <a href="https://www.minedogucu.com/">Dr.&nbsp;Mine Dogucu</a> <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/">CC BY-NC-ND 4.0</a>.
+          </p>
+    </div>
+</div>
+
+</section>
+<section id="packages" class="slide level2">
+<h2>Packages</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1" onclick="event.preventDefault();" href="">1</a><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-label="1"></a><span class="fu">library</span>(stringr)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2" onclick="event.preventDefault();" href="">2</a><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-label="2"></a><span class="fu">library</span>(lubridate)</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="3" onclick="event.preventDefault();" href="">3</a><span id="annotated-cell-1-3" class="code-annotation-target"><a href="#annotated-cell-1-3" aria-label="3"></a><span class="fu">library</span>(forcats)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-1" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="1" data-code-annotation="1">We will use the stringr package for handling strings.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="2" data-code-annotation="2">We will use the lubridate package for handling dates.</span>
+</dd>
+<dt data-target-cell="annotated-cell-1" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-1" data-code-lines="3" data-code-annotation="3">We will use the forcats package for handling factors. You can think of forcats as for cat egorical variable s or as an anagram of factors.</span>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+<section id="packages-1" class="slide level2">
+<h2>Packages</h2>
+<p>All these packages are part of tidyverse</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-label="1"></a><span class="fu">library</span>(tidyverse)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr   1.2.1     ✔ readr   2.2.0
+✔ ggplot2 4.0.3     ✔ tibble  3.3.1
+✔ purrr   1.2.2     ✔ tidyr   1.3.2
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+</div>
+</section>
+<section id="packages-2" class="slide level2">
+<h2>Packages</h2>
+<p>We will also use</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-label="1"></a><span class="fu">library</span>(sfemergency25)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="fragment">
+<p>So far we have been downloading packages from CRAN (Comprehensive R Archive Network). Packages on CRAN have to meet certain criteria, including size. Hence package authors who don’t meet this criteria host their packages elsewhere (e.g., GitHub).</p>
+<ul>
+<li><a href="https://github.com/bayes-rules/bayesrules">GitHub repo for a package on CRAN - bayesrules</a><br>
+</li>
+<li><a href="https://github.com/hellodata-science/sfemergency25">GitHub repo for a package not on CRAN - sfemergency25</a></li>
+</ul>
+</div>
+</section>
+<section id="data" class="slide level2">
+<h2>Data</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-label="1"></a><span class="fu">data</span>(sf911)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="fragment">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-label="1"></a><span class="fu">glimpse</span>(sf911)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 369,089
+Columns: 28
+$ call_number                    &lt;chr&gt; "250160183", "250152276", "250120282", …
+$ unit_id                        &lt;chr&gt; "T01", "T02", "E11", "T03", "T02", "E32…
+$ incident_number                &lt;chr&gt; "25008211", "25007952", "25006095", "25…
+$ call_type                      &lt;chr&gt; "Alarms", "Alarms", "Alarms", "Elevator…
+$ call_date                      &lt;chr&gt; "01/16/2025", "01/15/2025", "01/12/2025…
+$ watch_date                     &lt;chr&gt; "01/15/2025", "01/15/2025", "01/11/2025…
+$ received_dt_tm                 &lt;chr&gt; "2025 Jan 16 02:41:42 AM", "2025 Jan 15…
+$ entry_dt_tm                    &lt;chr&gt; "2025 Jan 16 02:43:02 AM", "2025 Jan 15…
+$ dispatch_dt_tm                 &lt;chr&gt; "2025 Jan 16 02:43:55 AM", "2025 Jan 15…
+$ response_dt_tm                 &lt;chr&gt; "2025 Jan 16 02:46:32 AM", "2025 Jan 15…
+$ on_scene_dt_tm                 &lt;chr&gt; NA, "2025 Jan 15 03:32:27 PM", "2025 Ja…
+$ transport_dt_tm                &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+$ hospital_dt_tm                 &lt;chr&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
+$ call_final_disposition         &lt;chr&gt; "Fire", "Fire", "Fire", "Fire", "Fire",…
+$ available_dt_tm                &lt;chr&gt; "2025 Jan 16 03:01:30 AM", "2025 Jan 15…
+$ address                        &lt;chr&gt; "02ND ST/FOLSOM ST", "STOCKTON ST/WASHI…
+$ city                           &lt;int&gt; 17, 17, 17, 17, 17, 17, 17, 17, 15, 17,…
+$ zipcode_of_incident            &lt;dbl&gt; 94107, 94108, 94110, 94109, 94108, 9413…
+$ original_priority              &lt;int&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, NA,…
+$ priority                       &lt;int&gt; 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, …
+$ final_priority                 &lt;int&gt; 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, …
+$ als_unit                       &lt;lgl&gt; FALSE, FALSE, TRUE, FALSE, FALSE, FALSE…
+$ call_type_group                &lt;chr&gt; "Alarm", "Alarm", "Alarm", "Alarm", "Al…
+$ number_of_alarms               &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, …
+$ unit_type                      &lt;chr&gt; "TRUCK", "TRUCK", "ENGINE", "TRUCK", "T…
+$ unit_sequence_in_call_dispatch &lt;dbl&gt; 3, 2, 1, 1, 2, 3, 2, 1, 2, 1, 1, 1, 3, …
+$ neighborhoods_boundaries       &lt;chr&gt; "Financial District/South Beach", "Chin…
+$ case_location                  &lt;chr&gt; "POINT (-122.396705177 37.785542131)", …</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="class-expectations" class="slide level2">
+<h2>Class expectations</h2>
+<p>You <strong>are not</strong> expected to memorize every function for manipulating strings, factors, and dates!</p>
+<p>You <strong>are</strong> expected to:</p>
+<ul>
+<li>identify variable types and describe what you want to accomplish</li>
+<li>use available resources to find appropriate code</li>
+<li>check that the result is what you intended</li>
+</ul>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>The goal is not to memorize a list of functions. The goal is to learn how to solve data-manipulation problems.</p>
+</div>
+</div>
+</div>
+</section>
+<section>
+<section id="strings" class="title-slide slide level1 center">
+<h1>Strings</h1>
+
+</section>
+<section id="replace-a-string" class="slide level2">
+<h2>Replace a string</h2>
+<div class="columns">
+<div class="column">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-label="1"></a>sf911 <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="" aria-label="2"></a>  <span class="fu">select</span>(address) <span class="sc">|&gt;</span> </span>
+<span id="cb7-3"><a href="" aria-label="3"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 1
+  address                  
+  &lt;chr&gt;                    
+1 02ND ST/FOLSOM ST        
+2 STOCKTON ST/WASHINGTON ST
+3 MISSION ST/POWERS AVE    </code></pre>
+</div>
+</div>
+</div><div class="column">
+
+</div></div>
+</section>
+<section id="replace-a-string-1" class="slide level2">
+<h2>Replace a string</h2>
+<div class="columns">
+<div class="column">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-label="1"></a>sf911 <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="" aria-label="2"></a>  <span class="fu">select</span>(address) <span class="sc">|&gt;</span> </span>
+<span id="cb9-3"><a href="" aria-label="3"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 1
+  address                  
+  &lt;chr&gt;                    
+1 02ND ST/FOLSOM ST        
+2 STOCKTON ST/WASHINGTON ST
+3 MISSION ST/POWERS AVE    </code></pre>
+</div>
+</div>
+</div><div class="column">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-label="1"></a>sf911 <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="" aria-label="2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb11-3"><a href="" aria-label="3"></a>    <span class="at">address_long =</span> <span class="fu">str_replace</span>(</span>
+<span id="cb11-4"><a href="" aria-label="4"></a>      address, </span>
+<span id="cb11-5"><a href="" aria-label="5"></a>      <span class="at">pattern =</span> <span class="st">"ST"</span>, </span>
+<span id="cb11-6"><a href="" aria-label="6"></a>      <span class="at">replacement =</span> <span class="st">"STREET"</span></span>
+<span id="cb11-7"><a href="" aria-label="7"></a>    )</span>
+<span id="cb11-8"><a href="" aria-label="8"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb11-9"><a href="" aria-label="9"></a>  <span class="fu">select</span>(address_long) <span class="sc">|&gt;</span> </span>
+<span id="cb11-10"><a href="" aria-label="10"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 1
+  address_long                 
+  &lt;chr&gt;                        
+1 02ND STREET/FOLSOM ST        
+2 STREETOCKTON ST/WASHINGTON ST
+3 MISSION STREET/POWERS AVE    </code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="replacing-multiple-strings" class="slide level2">
+<h2>Replacing multiple strings</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-label="1"></a>address_key <span class="ot">&lt;-</span> </span>
+<span id="cb13-2"><a href="" aria-label="2"></a>  <span class="fu">c</span>(</span>
+<span id="cb13-3"><a href="" aria-label="3"></a>    <span class="st">"ST"</span>   <span class="ot">=</span> <span class="st">"STREET"</span>, </span>
+<span id="cb13-4"><a href="" aria-label="4"></a>    <span class="st">"AVE"</span>  <span class="ot">=</span> <span class="st">"AVENUE"</span>, </span>
+<span id="cb13-5"><a href="" aria-label="5"></a>    <span class="st">"PL"</span>   <span class="ot">=</span> <span class="st">"PLACE"</span>, </span>
+<span id="cb13-6"><a href="" aria-label="6"></a>    <span class="st">"TER"</span>  <span class="ot">=</span> <span class="st">"TERRACE"</span></span>
+<span id="cb13-7"><a href="" aria-label="7"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="replacing-multiple-strings-1" class="slide level2">
+<h2>Replacing multiple strings</h2>
+<div class="columns">
+<div class="column">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-label="1"></a>sf911 <span class="sc">|&gt;</span> </span>
+<span id="cb14-2"><a href="" aria-label="2"></a>  <span class="fu">select</span>(address)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 369,089 × 1
+   address                   
+   &lt;chr&gt;                     
+ 1 02ND ST/FOLSOM ST         
+ 2 STOCKTON ST/WASHINGTON ST 
+ 3 MISSION ST/POWERS AVE     
+ 4 OCTAVIA ST/SUTTER ST      
+ 5 SACRAMENTO ST/WAVERLY PL  
+ 6 CARRIE ST/WILDER ST       
+ 7 CLIFFORD TER/UPPER TER    
+ 8 18TH ST/HARTFORD ST       
+ 9 MERRIE WAY/POINT LOBOS AVE
+10 LOMBARD ST/MASON ST       
+# ℹ 369,079 more rows</code></pre>
+</div>
+</div>
+</div><div class="column">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-label="1"></a>sf911 <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="" aria-label="2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb16-3"><a href="" aria-label="3"></a>    <span class="at">address_long =</span> <span class="fu">str_replace_all</span>(</span>
+<span id="cb16-4"><a href="" aria-label="4"></a>      address, </span>
+<span id="cb16-5"><a href="" aria-label="5"></a>      <span class="at">pattern =</span> address_key</span>
+<span id="cb16-6"><a href="" aria-label="6"></a>    )</span>
+<span id="cb16-7"><a href="" aria-label="7"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb16-8"><a href="" aria-label="8"></a>  <span class="fu">select</span>(address_long)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 369,089 × 1
+   address_long                         
+   &lt;chr&gt;                                
+ 1 02ND STREET/FOLSOM STREET            
+ 2 STREETOCKTON STREET/WASHINGTON STREET
+ 3 MISSION STREET/POWERS AVENUE         
+ 4 OCTAVIA STREET/SUTTERRACE STREET     
+ 5 SACRAMENTO STREET/WAVENUERLY PLACE   
+ 6 CARRIE STREET/WILDER STREET          
+ 7 CLIFFORD TERRACE/UPPER TERRACE       
+ 8 18TH STREET/HARTFORD STREET          
+ 9 MERRIE WAY/POINT LOBOS AVENUE        
+10 LOMBARD STREET/MASON STREET          
+# ℹ 369,079 more rows</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="replacing-multiple-strings-with-specific-matches" class="slide level2">
+<h2>Replacing multiple strings with specific matches</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-label="1"></a>address_key <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb18-2"><a href="" aria-label="2"></a>  <span class="st">"</span><span class="sc">\\</span><span class="st">bST</span><span class="sc">\\</span><span class="st">b"</span>  <span class="ot">=</span> <span class="st">"STREET"</span>,</span>
+<span id="cb18-3"><a href="" aria-label="3"></a>  <span class="st">"</span><span class="sc">\\</span><span class="st">bAVE</span><span class="sc">\\</span><span class="st">b"</span> <span class="ot">=</span> <span class="st">"AVENUE"</span>,</span>
+<span id="cb18-4"><a href="" aria-label="4"></a>  <span class="st">"</span><span class="sc">\\</span><span class="st">bPL</span><span class="sc">\\</span><span class="st">b"</span>  <span class="ot">=</span> <span class="st">"PLACE"</span>,</span>
+<span id="cb18-5"><a href="" aria-label="5"></a>  <span class="st">"</span><span class="sc">\\</span><span class="st">bTER</span><span class="sc">\\</span><span class="st">b"</span> <span class="ot">=</span> <span class="st">"TERRACE"</span></span>
+<span id="cb18-6"><a href="" aria-label="6"></a>)</span>
+<span id="cb18-7"><a href="" aria-label="7"></a></span>
+<span id="cb18-8"><a href="" aria-label="8"></a>sf911 <span class="sc">|&gt;</span> </span>
+<span id="cb18-9"><a href="" aria-label="9"></a>  <span class="fu">mutate</span>(<span class="at">address_long =</span> <span class="fu">str_replace_all</span>(address, <span class="at">pattern =</span> address_key)) <span class="sc">|&gt;</span> </span>
+<span id="cb18-10"><a href="" aria-label="10"></a>  <span class="fu">select</span>(address_long)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 369,089 × 1
+   address_long                     
+   &lt;chr&gt;                            
+ 1 02ND STREET/FOLSOM STREET        
+ 2 STOCKTON STREET/WASHINGTON STREET
+ 3 MISSION STREET/POWERS AVENUE     
+ 4 OCTAVIA STREET/SUTTER STREET     
+ 5 SACRAMENTO STREET/WAVERLY PLACE  
+ 6 CARRIE STREET/WILDER STREET      
+ 7 CLIFFORD TERRACE/UPPER TERRACE   
+ 8 18TH STREET/HARTFORD STREET      
+ 9 MERRIE WAY/POINT LOBOS AVENUE    
+10 LOMBARD STREET/MASON STREET      
+# ℹ 369,079 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="changing-capitalization" class="slide level2">
+<h2>Changing capitalization</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-label="1"></a>sf911 <span class="sc">|&gt;</span> </span>
+<span id="cb20-2"><a href="" aria-label="2"></a>  <span class="fu">select</span>(address) <span class="sc">|&gt;</span> </span>
+<span id="cb20-3"><a href="" aria-label="3"></a>  <span class="fu">mutate</span>(<span class="at">address =</span> <span class="fu">str_to_title</span>(address)) <span class="sc">|&gt;</span></span>
+<span id="cb20-4"><a href="" aria-label="4"></a>  <span class="fu">head</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 1
+  address                  
+  &lt;chr&gt;                    
+1 02nd St/Folsom St        
+2 Stockton St/Washington St
+3 Mission St/Powers Ave    
+4 Octavia St/Sutter St     
+5 Sacramento St/Waverly Pl 
+6 Carrie St/Wilder St      </code></pre>
+</div>
+</div>
+<p>We can also use <code>str_to_upper()</code> or <code>str_to_lower()</code> as needed</p>
+</section>
+<section id="gluing-strings-together" class="slide level2">
+<h2>Gluing strings together</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-label="1"></a>sf911 <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href="" aria-label="2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb22-3"><a href="" aria-label="3"></a>    <span class="at">description =</span> <span class="fu">str_glue</span>(</span>
+<span id="cb22-4"><a href="" aria-label="4"></a>      <span class="st">"Incident {call_number} occurred in {neighborhoods_boundaries}"</span></span>
+<span id="cb22-5"><a href="" aria-label="5"></a>    )</span>
+<span id="cb22-6"><a href="" aria-label="6"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb22-7"><a href="" aria-label="7"></a>  <span class="fu">select</span>(description) <span class="sc">|&gt;</span> </span>
+<span id="cb22-8"><a href="" aria-label="8"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 1
+  description                                                  
+  &lt;glue&gt;                                                       
+1 Incident 250160183 occurred in Financial District/South Beach
+2 Incident 250152276 occurred in Chinatown                     
+3 Incident 250120282 occurred in Bernal Heights                </code></pre>
+</div>
+</div>
+</section>
+<section id="detecting-a-pattern" class="slide level2">
+<h2>Detecting a pattern</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="" aria-label="1"></a>sf911 <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="" aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">is_fire_related =</span> <span class="fu">str_detect</span>(call_type, <span class="at">pattern =</span> <span class="st">"Fire|Smoke"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb24-3"><a href="" aria-label="3"></a>  <span class="fu">select</span>(call_type, is_fire_related) <span class="sc">|&gt;</span> </span>
+<span id="cb24-4"><a href="" aria-label="4"></a>  <span class="fu">head</span>(<span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 2
+   call_type                     is_fire_related
+   &lt;chr&gt;                         &lt;lgl&gt;          
+ 1 Alarms                        FALSE          
+ 2 Alarms                        FALSE          
+ 3 Alarms                        FALSE          
+ 4 Elevator / Escalator Rescue   FALSE          
+ 5 Alarms                        FALSE          
+ 6 Traffic Collision             FALSE          
+ 7 Alarms                        FALSE          
+ 8 Vehicle Fire                  TRUE           
+ 9 Smoke Investigation (Outside) TRUE           
+10 HazMat                        FALSE          </code></pre>
+</div>
+</div>
+</section></section>
+<section>
+<section id="dates" class="title-slide slide level1 center">
+<h1>Dates</h1>
+
+</section>
+<section id="iso-date" class="slide level2">
+<h2>ISO Date</h2>
+<p>While there are many ways to write a date for humans, there is only one universally accepted format for data as standardized by the International Organization for Standardization (ISO). It follows the order of YYYY-MM-DD (e.g., 1986-12-20).</p>
+<p>Writing dates this way ensures they are sorted correctly by computers and avoids any international confusion between months and days.</p>
+</section>
+<section id="utc-and-time-zones" class="slide level2">
+<h2>UTC and time zones</h2>
+<ul>
+<li><strong>Coordinated Universal Time (UTC)</strong> is the international reference for time.</li>
+<li>UTC does not change for daylight saving time, making it useful for storing times and calculating differences.</li>
+<li>Camarillo uses Pacific Time:
+<ul>
+<li><strong>PST:</strong> UTC−8, from early November to mid-March</li>
+<li><strong>PDT:</strong> UTC−7, from mid-March to early November</li>
+</ul></li>
+</ul>
+<p>Understanding time zones helps to avoid incorrect times and calculations when data come from different locations or cross daylight saving time transitions.</p>
+</section>
+<section id="storing-dates-and-times" class="slide level2">
+<h2>Storing dates and times</h2>
+<div class="columns">
+<div class="column">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="" aria-label="1"></a>sf911 <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href="" aria-label="2"></a>  <span class="fu">select</span>(received_dt_tm) <span class="sc">|&gt;</span> </span>
+<span id="cb26-3"><a href="" aria-label="3"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 1
+  received_dt_tm         
+  &lt;chr&gt;                  
+1 2025 Jan 16 02:41:42 AM
+2 2025 Jan 15 03:27:06 PM
+3 2025 Jan 12 02:19:44 AM</code></pre>
+</div>
+</div>
+</div><div class="column">
+
+</div></div>
+</section>
+<section id="storing-dates-and-times-1" class="slide level2">
+<h2>Storing dates and times</h2>
+<div class="columns">
+<div class="column">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="" aria-label="1"></a>sf911 <span class="sc">|&gt;</span> </span>
+<span id="cb28-2"><a href="" aria-label="2"></a>  <span class="fu">select</span>(received_dt_tm) <span class="sc">|&gt;</span> </span>
+<span id="cb28-3"><a href="" aria-label="3"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 1
+  received_dt_tm         
+  &lt;chr&gt;                  
+1 2025 Jan 16 02:41:42 AM
+2 2025 Jan 15 03:27:06 PM
+3 2025 Jan 12 02:19:44 AM</code></pre>
+</div>
+</div>
+</div><div class="column">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="" aria-label="1"></a>sf911 <span class="sc">|&gt;</span></span>
+<span id="cb30-2"><a href="" aria-label="2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb30-3"><a href="" aria-label="3"></a>    <span class="at">received_dt_tm =</span> <span class="fu">ymd_hms</span>(</span>
+<span id="cb30-4"><a href="" aria-label="4"></a>      received_dt_tm</span>
+<span id="cb30-5"><a href="" aria-label="5"></a>    )</span>
+<span id="cb30-6"><a href="" aria-label="6"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb30-7"><a href="" aria-label="7"></a>  <span class="fu">select</span>(received_dt_tm)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 369,089 × 1
+   received_dt_tm     
+   &lt;dttm&gt;             
+ 1 2025-01-16 02:41:42
+ 2 2025-01-15 15:27:06
+ 3 2025-01-12 02:19:44
+ 4 2025-01-19 16:47:16
+ 5 2025-01-17 21:13:08
+ 6 2025-01-07 18:48:41
+ 7 2025-01-16 08:19:39
+ 8 2025-01-19 22:06:27
+ 9 2025-01-07 15:48:36
+10 2025-03-26 08:21:24
+# ℹ 369,079 more rows</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="storing-dates-and-times-2" class="slide level2">
+<h2>Storing dates and times</h2>
+<h3 id="first-check-if-your-code-works-as-expected">First check if your code works as expected</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="" aria-label="1"></a>sf911 <span class="sc">|&gt;</span></span>
+<span id="cb32-2"><a href="" aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">received_dt_tm =</span> <span class="fu">ymd_hms</span>(received_dt_tm)) <span class="sc">|&gt;</span> </span>
+<span id="cb32-3"><a href="" aria-label="3"></a>  <span class="fu">select</span>(received_dt_tm) <span class="sc">|&gt;</span> </span>
+<span id="cb32-4"><a href="" aria-label="4"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 1
+  received_dt_tm     
+  &lt;dttm&gt;             
+1 2025-01-16 02:41:42
+2 2025-01-15 15:27:06
+3 2025-01-12 02:19:44</code></pre>
+</div>
+</div>
+<h3 id="the-update-your-dataset">The update your dataset</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-label="1"></a>sf911 <span class="ot">&lt;-</span> </span>
+<span id="cb34-2"><a href="" aria-label="2"></a>  sf911 <span class="sc">|&gt;</span></span>
+<span id="cb34-3"><a href="" aria-label="3"></a>  <span class="fu">mutate</span>(<span class="at">received_dt_tm =</span> <span class="fu">ymd_hms</span>(received_dt_tm))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="storing-dates-and-times-with-time-zones" class="slide level2">
+<h2>Storing dates and times with time zones</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="" aria-label="1"></a>sf911 <span class="ot">&lt;-</span></span>
+<span id="cb35-2"><a href="" aria-label="2"></a>  sf911 <span class="sc">|&gt;</span> </span>
+<span id="cb35-3"><a href="" aria-label="3"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb35-4"><a href="" aria-label="4"></a>    <span class="at">received_dt_tm =</span> <span class="fu">with_tz</span>(received_dt_tm, <span class="at">tzone =</span> <span class="st">"America/Los_Angeles"</span>)</span>
+<span id="cb35-5"><a href="" aria-label="5"></a>  )</span>
+<span id="cb35-6"><a href="" aria-label="6"></a></span>
+<span id="cb35-7"><a href="" aria-label="7"></a>sf911 <span class="sc">|&gt;</span> </span>
+<span id="cb35-8"><a href="" aria-label="8"></a>  <span class="fu">select</span>(received_dt_tm) <span class="sc">|&gt;</span> </span>
+<span id="cb35-9"><a href="" aria-label="9"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 1
+  received_dt_tm     
+  &lt;dttm&gt;             
+1 2025-01-15 18:41:42
+2 2025-01-15 07:27:06
+3 2025-01-11 18:19:44</code></pre>
+</div>
+</div>
+<div class="fragment">
+<p><code>OlsonNames()</code> function lists different names of timezones.</p>
+</div>
+</section>
+<section id="hour-month-and-week-day" class="slide level2">
+<h2>hour, month and week day</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="" aria-label="1"></a>sf911 <span class="sc">|&gt;</span> </span>
+<span id="cb37-2"><a href="" aria-label="2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb37-3"><a href="" aria-label="3"></a>    <span class="at">hour_val =</span> <span class="fu">hour</span>(received_dt_tm),</span>
+<span id="cb37-4"><a href="" aria-label="4"></a>    <span class="at">month_val =</span> <span class="fu">month</span>(received_dt_tm, <span class="at">label =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb37-5"><a href="" aria-label="5"></a>    <span class="at">day_name =</span> <span class="fu">wday</span>(received_dt_tm, <span class="at">label =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb37-6"><a href="" aria-label="6"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb37-7"><a href="" aria-label="7"></a>  <span class="fu">select</span>(received_dt_tm, hour_val, month_val, day_name) <span class="sc">|&gt;</span> </span>
+<span id="cb37-8"><a href="" aria-label="8"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 4
+  received_dt_tm      hour_val month_val day_name
+  &lt;dttm&gt;                 &lt;int&gt; &lt;ord&gt;     &lt;ord&gt;   
+1 2025-01-15 18:41:42       18 Jan       Wed     
+2 2025-01-15 07:27:06        7 Jan       Wed     
+3 2025-01-11 18:19:44       18 Jan       Sat     </code></pre>
+</div>
+</div>
+</section>
+<section id="duration" class="slide level2">
+<h2>duration</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="" aria-label="1"></a>sf911 <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="" aria-label="2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb39-3"><a href="" aria-label="3"></a>    <span class="at">goal_arrival_time =</span> received_dt_tm <span class="sc">+</span> <span class="fu">dseconds</span>(<span class="dv">480</span>)</span>
+<span id="cb39-4"><a href="" aria-label="4"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb39-5"><a href="" aria-label="5"></a>  <span class="fu">select</span>(received_dt_tm, goal_arrival_time) <span class="sc">|&gt;</span></span>
+<span id="cb39-6"><a href="" aria-label="6"></a>  <span class="fu">head</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  received_dt_tm      goal_arrival_time  
+  &lt;dttm&gt;              &lt;dttm&gt;             
+1 2025-01-15 18:41:42 2025-01-15 18:49:42
+2 2025-01-15 07:27:06 2025-01-15 07:35:06
+3 2025-01-11 18:19:44 2025-01-11 18:27:44</code></pre>
+</div>
+</div>
+</section>
+<section id="duration-1" class="slide level2">
+<h2>duration</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="" aria-label="1"></a>event_start <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(<span class="st">"2026-03-07 05:00:00"</span>, <span class="at">tz =</span> <span class="st">"America/Los_Angeles"</span>)</span>
+<span id="cb41-2"><a href="" aria-label="2"></a></span>
+<span id="cb41-3"><a href="" aria-label="3"></a>event_start <span class="sc">+</span> <span class="fu">ddays</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2026-03-08 06:00:00 PDT"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="" aria-label="1"></a>event_start <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2026-03-08 05:00:00 PDT"</code></pre>
+</div>
+</div>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Note</strong></p>
+</div>
+<div class="callout-content">
+<p>When performing math with dates, lubridate distinguishes between two ways of measuring time: durations and periods. This distinction is critical when your data spans a Daylight Saving Time (DST) transition.</p>
+<ul>
+<li>When you add duration of exactly 1 day using the <code>ddays()</code> function, you are simply adding 86,400 seconds.</li>
+<li>On the other end, the <code>days()</code> function just adds one day to the calendar day without touching the time component.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="difftime" class="slide level2">
+<h2>difftime</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="" aria-label="1"></a>sf911 <span class="ot">&lt;-</span> </span>
+<span id="cb45-2"><a href="" aria-label="2"></a>  sf911 <span class="sc">|&gt;</span> </span>
+<span id="cb45-3"><a href="" aria-label="3"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb45-4"><a href="" aria-label="4"></a>    <span class="at">on_scene_dt_tm =</span> <span class="fu">ymd_hms</span>(on_scene_dt_tm), </span>
+<span id="cb45-5"><a href="" aria-label="5"></a>    <span class="at">response_time =</span> on_scene_dt_tm <span class="sc">-</span> received_dt_tm </span>
+<span id="cb45-6"><a href="" aria-label="6"></a>  ) </span>
+<span id="cb45-7"><a href="" aria-label="7"></a></span>
+<span id="cb45-8"><a href="" aria-label="8"></a><span class="fu">str</span>(sf911<span class="sc">$</span>response_time)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> 'difftime' num [1:369089] NA 321 385 334 ...
+ - attr(*, "units")= chr "secs"</code></pre>
+</div>
+</div>
+</section>
+<section id="today-and-now" class="slide level2">
+<h2>today and now</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="" aria-label="1"></a><span class="fu">today</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2026-09-26"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="" aria-label="1"></a><span class="fu">now</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2026-09-26 14:14:49 PDT"</code></pre>
+</div>
+</div>
+</section></section>
+<section>
+<section id="factors" class="title-slide slide level1 center">
+<h1>Factors</h1>
+
+</section>
+<section id="as.factor" class="slide level2">
+<h2><code>as.factor()</code></h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="" aria-label="1"></a>sf911 <span class="ot">&lt;-</span></span>
+<span id="cb51-2"><a href="" aria-label="2"></a>  sf911 <span class="sc">|&gt;</span></span>
+<span id="cb51-3"><a href="" aria-label="3"></a>  <span class="fu">mutate</span>(<span class="at">unit_type =</span> <span class="fu">as.factor</span>(unit_type)) </span>
+<span id="cb51-4"><a href="" aria-label="4"></a>  </span>
+<span id="cb51-5"><a href="" aria-label="5"></a><span class="fu">str</span>(sf911<span class="sc">$</span>unit_type)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Factor w/ 12 levels "AIRPORT","BLS",..: 12 12 5 12 12 5 5 5 11 5 ...</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="" aria-label="1"></a><span class="fu">levels</span>(sf911<span class="sc">$</span>unit_type)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "AIRPORT"        "BLS"            "CHIEF"          "CP"            
+ [5] "ENGINE"         "INVESTIGATION"  "MEDIC"          "PRIVATE"       
+ [9] "RESCUE CAPTAIN" "RESCUE SQUAD"   "SUPPORT"        "TRUCK"         </code></pre>
+</div>
+</div>
+</section>
+<section id="levels-as-seen-in-ggplot" class="slide level2">
+<h2><code>levels()</code> as seen in ggplot</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="" aria-label="1"></a><span class="fu">ggplot</span>(sf911, <span class="fu">aes</span>(<span class="at">y =</span> unit_type)) <span class="sc">+</span></span>
+<span id="cb55-2"><a href="" aria-label="2"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="lec-06-wrangling-special-variables_files/figure-revealjs/fig-unit-alpha-1.png" id="fig-unit-alpha" alt="A horizontal bar chart titled by unit type, showing the count of various emergency service unit types. From bottom to top, the Y-axis lists unit categories including: AIRPORT, BLS, CHIEF, CP, ENGINE, INVESTIGATION, MEDIC, PRIVATE, RESCUE CAPTAIN, RESCUE SQUAD, SUPPORT, and TRUCK. The X-axis represents counts ranging from 0 to 90,000+ (in increments of 30,000). ENGINE appears to have the highest count, exceeding 90,000, while unit types such as AIRPORT, and INVESTIGATION appear to have the lowest counts, close to zero. The chart provides a comparative view of how frequently each unit type appears in the dataset." width="960" class="r-stretch quarto-figure-center"><p class="caption">
+Figure&nbsp;1
+</p></section>
+<section id="fct_infreq" class="slide level2">
+<h2><code>fct_infreq()</code></h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-24"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy"><code class="sourceCode r"><span id="annotated-cell-24-1"><a href="#annotated-cell-24-1" aria-label="1"></a>sf911 <span class="ot">&lt;-</span> </span>
+<span id="annotated-cell-24-2"><a href="#annotated-cell-24-2" aria-label="2"></a>  sf911 <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-24-3"><a href="#annotated-cell-24-3" aria-label="3"></a>  <span class="fu">mutate</span>(<span class="at">unit_type =</span> <span class="fu">fct_infreq</span>(unit_type))</span>
+<span id="annotated-cell-24-4"><a href="#annotated-cell-24-4" aria-label="4"></a></span>
+<span id="annotated-cell-24-5"><a href="#annotated-cell-24-5" aria-label="5"></a><span class="fu">str</span>(sf911<span class="sc">$</span>unit_type)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Factor w/ 12 levels "ENGINE","MEDIC",..: 3 3 1 3 3 1 1 1 9 1 ...</code></pre>
+</div>
+</div>
+</section>
+<section id="levels-as-seen-in-ggplot-1" class="slide level2">
+<h2><code>levels()</code> as seen in ggplot</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="" aria-label="1"></a><span class="fu">ggplot</span>(sf911, <span class="fu">aes</span>(<span class="at">y =</span> unit_type)) <span class="sc">+</span></span>
+<span id="cb57-2"><a href="" aria-label="2"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="lec-06-wrangling-special-variables_files/figure-revealjs/fig-unit-freq-1.png" id="fig-unit-freq" alt="A horizontal bar chart showing the count of emergency service unit types, ordered from least to most frequent. The Y-axis lists unit types from lowest (on top) to highest frequency (in the bottom): AIRPORT, INVESTIGATION, RESCUE SQUAD, SUPPORT, BLS, RESCUE, CAPTAIN, CP, CHIEF, PRIVATE, TRUCK, MEDIC, and ENGINE. The X-axis represents counts from 0 to 90,000+ (in increments of 30,000). ENGINE has the highest count, exceeding 90,000, followed by MEDIC and TRUCK. AIRPORT and INVESTIGATION have the lowest counts, close to zero. This frequency-sorted view makes it easy to identify the most and least common unit types in the dataset." width="960" class="r-stretch quarto-figure-center"><p class="caption">
+Figure&nbsp;2
+</p></section>
+<section id="levels-as-seen-in-ggplot-with-fct_rev" class="slide level2">
+<h2><code>levels()</code> as seen in ggplot with <code>fct_rev()</code></h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="" aria-label="1"></a>sf911 <span class="sc">|&gt;</span></span>
+<span id="cb58-2"><a href="" aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">unit_type =</span> <span class="fu">fct_rev</span>(unit_type)) <span class="sc">|&gt;</span> </span>
+<span id="cb58-3"><a href="" aria-label="3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> unit_type)) <span class="sc">+</span></span>
+<span id="cb58-4"><a href="" aria-label="4"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="lec-06-wrangling-special-variables_files/figure-revealjs/fig-unit-rev-1.png" id="fig-unit-rev" alt="A horizontal bar chart showing the count of emergency service unit types, ordered from most frequent to least. The Y-axis lists unit types from lowest (in the bottom) to highest frequency (on top): AIRPORT, INVESTIGATION, RESCUE SQUAD, SUPPORT, BLS, RESCUE, CAPTAIN, CP, CHIEF, PRIVATE, TRUCK, MEDIC, and ENGINE. The X-axis represents counts from 0 to 90,000+ (in increments of 30,000). ENGINE has the highest count, exceeding 90,000, followed by MEDIC and TRUCK. AIRPORT and INVESTIGATION have the lowest counts, close to zero. This frequency-sorted view makes it easy to identify the most and least common unit types in the dataset with the most frequent bar on top." width="960" class="r-stretch quarto-figure-center"><p class="caption">
+Figure&nbsp;3
+</p></section>
+<section id="levels-as-seen-in-ggplot-with-fct_lump_n" class="slide level2">
+<h2><code>levels()</code> as seen in ggplot with <code>fct_lump_n()</code></h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="" aria-label="1"></a>sf911 <span class="sc">|&gt;</span></span>
+<span id="cb59-2"><a href="" aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">unit_type =</span> <span class="fu">fct_lump_n</span>(unit_type, <span class="at">n =</span> <span class="dv">3</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb59-3"><a href="" aria-label="3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">y =</span> unit_type)) <span class="sc">+</span></span>
+<span id="cb59-4"><a href="" aria-label="4"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+</div>
+<img data-src="lec-06-wrangling-special-variables_files/figure-revealjs/fig-unit-lump-1.png" id="fig-unit-lump" alt="A horizontal bar chart titled unit_type on the y-axis and count on the x-axis. The chart displays the frequency of four categories: Other: The most frequent category, with a count of nearly 120,000. ENGINE: The second most frequent, with a count of approximately 110,000. MEDIC: Slightly lower than ENGINE, with a count of approximately 100,000. TRUCK: The least frequent, with a count of approximately 40,000. The order of the categories go as Other, TRUCK, MEDIC, and ENGINE from top to bottom." width="960" class="r-stretch quarto-figure-center"><p class="caption">
+Figure&nbsp;4
+</p></section>
+<section id="fct_relevel" class="slide level2">
+<h2><code>fct_relevel()</code></h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-28"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy"><code class="sourceCode r"><span id="annotated-cell-28-1"><a href="#annotated-cell-28-1" aria-label="1"></a>sf911 <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-28-2"><a href="#annotated-cell-28-2" aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">unit_type =</span> <span class="fu">fct_relevel</span>(unit_type, <span class="st">"ENGINE"</span>)) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-28-3"><a href="#annotated-cell-28-3" aria-label="3"></a>  <span class="fu">group_by</span>(unit_type) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-28-4"><a href="#annotated-cell-28-4" aria-label="4"></a>  <span class="fu">summarize</span>(<span class="at">total_als_unit =</span> <span class="fu">sum</span>(als_unit))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 2
+   unit_type      total_als_unit
+   &lt;fct&gt;                   &lt;int&gt;
+ 1 ENGINE                  89853
+ 2 MEDIC                   88065
+ 3 TRUCK                    2336
+ 4 PRIVATE                     0
+ 5 CHIEF                       0
+ 6 CP                        135
+ 7 RESCUE CAPTAIN           9821
+ 8 BLS                         0
+ 9 SUPPORT                  5059
+10 RESCUE SQUAD                0
+11 INVESTIGATION               0
+12 AIRPORT                     0</code></pre>
+</div>
+</div>
+</section>
+<section id="fct_relevel-1" class="slide level2">
+<h2><code>fct_relevel()</code></h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-29"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy"><code class="sourceCode r"><span id="annotated-cell-29-1"><a href="#annotated-cell-29-1" aria-label="1"></a>sf911 <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-29-2"><a href="#annotated-cell-29-2" aria-label="2"></a>  <span class="fu">mutate</span>(<span class="at">unit_type =</span> <span class="fu">fct_relevel</span>(unit_type, <span class="st">"ENGINE"</span>, <span class="st">"TRUCK"</span>)) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-29-3"><a href="#annotated-cell-29-3" aria-label="3"></a>  <span class="fu">group_by</span>(unit_type) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-29-4"><a href="#annotated-cell-29-4" aria-label="4"></a>  <span class="fu">summarize</span>(<span class="at">total_als_unit =</span> <span class="fu">sum</span>(als_unit))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 2
+   unit_type      total_als_unit
+   &lt;fct&gt;                   &lt;int&gt;
+ 1 ENGINE                  89853
+ 2 TRUCK                    2336
+ 3 MEDIC                   88065
+ 4 PRIVATE                     0
+ 5 CHIEF                       0
+ 6 CP                        135
+ 7 RESCUE CAPTAIN           9821
+ 8 BLS                         0
+ 9 SUPPORT                  5059
+10 RESCUE SQUAD                0
+11 INVESTIGATION               0
+12 AIRPORT                     0</code></pre>
+</div>
+</div>
+</section>
+<section id="fct_reorder" class="slide level2">
+<h2><code>fct_reorder()</code></h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-30"><pre class="sourceCode numberSource r code-annotation-code number-lines code-with-copy"><code class="sourceCode r"><span id="annotated-cell-30-1"><a href="#annotated-cell-30-1" aria-label="1"></a>sf911 <span class="ot">&lt;-</span> sf911 <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-30-2"><a href="#annotated-cell-30-2" aria-label="2"></a>  <span class="fu">mutate</span>(</span>
+<span id="annotated-cell-30-3"><a href="#annotated-cell-30-3" aria-label="3"></a>    <span class="at">neighborhoods_boundaries =</span> <span class="fu">as.factor</span>(neighborhoods_boundaries),</span>
+<span id="annotated-cell-30-4"><a href="#annotated-cell-30-4" aria-label="4"></a>    <span class="at">neighborhoods =</span> <span class="fu">fct_reorder</span>(neighborhoods_boundaries, response_time)</span>
+<span id="annotated-cell-30-5"><a href="#annotated-cell-30-5" aria-label="5"></a>    ) </span>
+<span id="annotated-cell-30-6"><a href="#annotated-cell-30-6" aria-label="6"></a></span>
+<span id="annotated-cell-30-7"><a href="#annotated-cell-30-7" aria-label="7"></a><span class="fu">str</span>(sf911<span class="sc">$</span>neighborhoods_boundaries)</span>
+<span id="annotated-cell-30-8"><a href="#annotated-cell-30-8" aria-label="8"></a><span class="fu">str</span>(sf911<span class="sc">$</span>neighborhoods)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Factor w/ 42 levels "Bayview Hunters Point",..: 6 4 2 13 4 7 3 3 27 24 ...
+ Factor w/ 42 levels "Nob Hill","Western Addition",..: 27 8 26 14 8 34 15 15 16 23 ...</code></pre>
+</div>
+</div>
+</section>
+<section id="your-responsibility-factors-strings-and-dates" class="slide level2">
+<h2>Your responsibility: Factors, strings, and dates</h2>
+<p>You do not need to recall the exact function from these slides immediately.</p>
+<p>You do need to be able to:</p>
+<blockquote>
+<p><strong>Describe the problem, find a possible solution, and verify the result.</strong></p>
+</blockquote>
+</section>
+<section id="a-problem-solving-process" class="slide level2">
+<h2>A problem-solving process</h2>
+<p>When you need to manipulate a variable:</p>
+<ol type="1">
+<li><p><strong>Identify its type.</strong> Is it a string, factor, or date?</p></li>
+<li><p><strong>Describe the desired result.</strong> What should change? What should stay the same?</p></li>
+<li><p><strong>Find a possible function.</strong> Use documentation, a cheatsheet, a search engine, or generative AI.</p></li>
+<li><p><strong>Check the result.</strong> Did the code produce the values and variable type you expected?</p></li>
+<li><p><strong>Revise if needed.</strong> Read error messages and adjust your code or search terms.</p></li>
+</ol>
+</section></section>
+<section>
+<section id="data-joins" class="title-slide slide level1 center">
+<h1>Data Joins</h1>
+<p>Combining multiple datasets into a single dataset is a common occurrence.</p>
+<ul>
+<li>You need to be able to identify what you want for the resulting data set. Considerations:
+<ul>
+<li>What column(s) should be used to match the two datasets?</li>
+<li>Do you want to keep all of the rows?</li>
+<li>Do you want to keel all of the columns,</li>
+</ul></li>
+</ul>
+</section>
+<section id="inner_joinx-y" class="slide level2">
+<h2><code>inner_join(x, y)</code></h2>
+
+<img data-src="img/inner-join.png" class="quarto-figure quarto-figure-center r-stretch" style="width:45.0%"></section>
+<section id="full_joinx-y" class="slide level2">
+<h2><code>full_join(x, y)</code></h2>
+
+<img data-src="img/full-join.png" class="quarto-figure quarto-figure-center r-stretch" style="width:45.0%"></section>
+<section id="left_joinx-y" class="slide level2">
+<h2><code>left_join(x, y)</code></h2>
+
+<img data-src="img/left-join.png" class="quarto-figure quarto-figure-center r-stretch" width="310"></section>
+<section id="example-join-data" class="slide level2">
+<h2>Example join data</h2>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">artists</a></li><li><a href="#tabset-1-2">songs</a></li><li><a href="#tabset-1-3">albums</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="" aria-label="1"></a>artists</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  name          followers
+  &lt;chr&gt;             &lt;dbl&gt;
+1 Beyoncé        24757958
+2 Taylor Swift   33098116
+3 Ariana Grande  51807131</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-2">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="" aria-label="1"></a>songs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 4
+  name          song_name                            album_name  song_popularity
+  &lt;chr&gt;         &lt;chr&gt;                                &lt;chr&gt;                 &lt;dbl&gt;
+1 Beyoncé       Savage Remix (feat. Beyoncé)         Savage Rem…              83
+2 Taylor Swift  cardigan                             folklore                 85
+3 Drake         Laugh Now Cry Later (feat. Lil Durk) Laugh Now …              95
+4 Beyoncé       Halo                                 I AM…SASHA…              NA
+5 Ariana Grande Stuck with U (with Justin Bieber)    Stuck with…              NA</code></pre>
+</div>
+</div>
+</div>
+<div id="tabset-1-3">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="" aria-label="1"></a>albums</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 2
+  album_name                           album_release_date
+  &lt;chr&gt;                                &lt;date&gt;            
+1 Savage Remix (feat. Beyoncé)         2020-04-29        
+2 I AM…SASHA FIERCE                    2008-11-14        
+3 Stuck with U                         2020-05-08        
+4 Laugh Now Cry Later (feat. Lil Durk) 2020-08-14        </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-join-strategy" class="slide level2">
+<h2>Example join strategy</h2>
+
+<img data-src="img/data_joins_spotify.png" class="quarto-figure quarto-figure-center r-stretch" width="960"></section>
+<section id="inner_join-example" class="slide level2">
+<h2><code>inner_join()</code> example</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="" aria-label="1"></a><span class="fu">inner_join</span>(songs, artists)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 5
+  name          song_name                   album_name song_popularity followers
+  &lt;chr&gt;         &lt;chr&gt;                       &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;
+1 Beyoncé       Savage Remix (feat. Beyonc… Savage Re…              83  24757958
+2 Taylor Swift  cardigan                    folklore                85  33098116
+3 Beyoncé       Halo                        I AM…SASH…              NA  24757958
+4 Ariana Grande Stuck with U (with Justin … Stuck wit…              NA  51807131</code></pre>
+</div>
+</div>
+</section>
+<section id="full_join-example" class="slide level2">
+<h2><code>full_join()</code> example</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="" aria-label="1"></a><span class="fu">full_join</span>(songs, artists)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 5
+  name          song_name                   album_name song_popularity followers
+  &lt;chr&gt;         &lt;chr&gt;                       &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;
+1 Beyoncé       Savage Remix (feat. Beyonc… Savage Re…              83  24757958
+2 Taylor Swift  cardigan                    folklore                85  33098116
+3 Drake         Laugh Now Cry Later (feat.… Laugh Now…              95        NA
+4 Beyoncé       Halo                        I AM…SASH…              NA  24757958
+5 Ariana Grande Stuck with U (with Justin … Stuck wit…              NA  51807131</code></pre>
+</div>
+</div>
+</section>
+<section id="left_join-example" class="slide level2">
+<h2><code>left_join()</code> example</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="" aria-label="1"></a><span class="fu">left_join</span>(songs, artists)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 5
+  name          song_name                   album_name song_popularity followers
+  &lt;chr&gt;         &lt;chr&gt;                       &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;
+1 Beyoncé       Savage Remix (feat. Beyonc… Savage Re…              83  24757958
+2 Taylor Swift  cardigan                    folklore                85  33098116
+3 Drake         Laugh Now Cry Later (feat.… Laugh Now…              95        NA
+4 Beyoncé       Halo                        I AM…SASH…              NA  24757958
+5 Ariana Grande Stuck with U (with Justin … Stuck wit…              NA  51807131</code></pre>
+</div>
+</div>
+</section>
+<section id="multiple-full_joins-example" class="slide level2">
+<h2>Multiple <code>full_join()</code>’s example</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="" aria-label="1"></a><span class="fu">full_join</span>(songs, artists)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 5
+  name          song_name                   album_name song_popularity followers
+  &lt;chr&gt;         &lt;chr&gt;                       &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;
+1 Beyoncé       Savage Remix (feat. Beyonc… Savage Re…              83  24757958
+2 Taylor Swift  cardigan                    folklore                85  33098116
+3 Drake         Laugh Now Cry Later (feat.… Laugh Now…              95        NA
+4 Beyoncé       Halo                        I AM…SASH…              NA  24757958
+5 Ariana Grande Stuck with U (with Justin … Stuck wit…              NA  51807131</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="" aria-label="1"></a><span class="fu">full_join</span>(songs, artists, <span class="at">by =</span> <span class="st">"name"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb77-2"><a href="" aria-label="2"></a>  <span class="fu">full_join</span>(albums, <span class="at">by =</span> <span class="st">"album_name"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 6
+  name         song_name album_name song_popularity followers album_release_date
+  &lt;chr&gt;        &lt;chr&gt;     &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt; &lt;date&gt;            
+1 Beyoncé      Savage R… Savage Re…              83  24757958 2020-04-29        
+2 Taylor Swift cardigan  folklore                85  33098116 NA                
+3 Drake        Laugh No… Laugh Now…              95        NA 2020-08-14        
+4 Beyoncé      Halo      I AM…SASH…              NA  24757958 2008-11-14        
+5 Ariana Gran… Stuck wi… Stuck wit…              NA  51807131 2020-05-08        </code></pre>
+</div>
+</div>
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
