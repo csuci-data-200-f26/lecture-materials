@@ -1,6 +1,6 @@
 ---
 title: "Data 200: Lecture 6"
-subtitle: "Dealing with Specific Types of Variables: Strings, Dates, and Factors"
+subtitle: "Special variable types & data joins"
 author: "Medina - CSU Channel Islands"
 format: 
   revealjs:

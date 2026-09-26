@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<script src="lec-06-wrangling-special-variables_files/libs/clipboard/clipboard.min.js"></script>
-<script src="lec-06-wrangling-special-variables_files/libs/quarto-html/tabby.min.js"></script>
-<script src="lec-06-wrangling-special-variables_files/libs/quarto-html/popper.min.js"></script>
-<script src="lec-06-wrangling-special-variables_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="lec-06-wrangling-special-variables_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="lec-06-wrangling-special-variables_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="lec-06-wrangling-special-variables_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<script src="lec-06-special-variables-and-joins_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lec-06-special-variables-and-joins_files/libs/quarto-html/tabby.min.js"></script>
+<script src="lec-06-special-variables-and-joins_files/libs/quarto-html/popper.min.js"></script>
+<script src="lec-06-special-variables-and-joins_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="lec-06-special-variables-and-joins_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lec-06-special-variables-and-joins_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="lec-06-special-variables-and-joins_files/libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.10.18">
 
   <meta name="author" content="Medina - CSU Channel Islands">
@@ -14,8 +14,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
-  <link rel="stylesheet" href="lec-06-wrangling-special-variables_files/libs/revealjs/dist/reset.css">
-  <link rel="stylesheet" href="lec-06-wrangling-special-variables_files/libs/revealjs/dist/reveal.css">
+  <link rel="stylesheet" href="lec-06-special-variables-and-joins_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="lec-06-special-variables-and-joins_files/libs/revealjs/dist/reveal.css">
   <style>
     /* Default styles provided by pandoc.
     ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -101,11 +101,11 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="lec-06-wrangling-special-variables_files/libs/revealjs/dist/theme/quarto-ee498e30ab5a2288531444c7d3cbf031.css">
-  <link href="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
-  <link href="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
-  <link href="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
-  <link href="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <link rel="stylesheet" href="lec-06-special-variables-and-joins_files/libs/revealjs/dist/theme/quarto-ee498e30ab5a2288531444c7d3cbf031.css">
+  <link href="lec-06-special-variables-and-joins_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="lec-06-special-variables-and-joins_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="lec-06-special-variables-and-joins_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="lec-06-special-variables-and-joins_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
     .reveal div.sourceCode {
       margin: 0;
@@ -800,7 +800,7 @@ $ case_location                  &lt;chr&gt; "POINT (-122.396705177 37.785542131
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="" aria-label="1"></a><span class="fu">now</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "2026-09-26 14:17:31 PDT"</code></pre>
+<pre><code>[1] "2026-09-26 14:18:11 PDT"</code></pre>
 </div>
 </div>
 </section></section>
@@ -837,7 +837,7 @@ $ case_location                  &lt;chr&gt; "POINT (-122.396705177 37.785542131
 <span id="cb55-2"><a href="" aria-label="2"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="lec-06-wrangling-special-variables_files/figure-revealjs/fig-unit-alpha-1.png" id="fig-unit-alpha" alt="A horizontal bar chart titled by unit type, showing the count of various emergency service unit types. From bottom to top, the Y-axis lists unit categories including: AIRPORT, BLS, CHIEF, CP, ENGINE, INVESTIGATION, MEDIC, PRIVATE, RESCUE CAPTAIN, RESCUE SQUAD, SUPPORT, and TRUCK. The X-axis represents counts ranging from 0 to 90,000+ (in increments of 30,000). ENGINE appears to have the highest count, exceeding 90,000, while unit types such as AIRPORT, and INVESTIGATION appear to have the lowest counts, close to zero. The chart provides a comparative view of how frequently each unit type appears in the dataset." width="960" class="r-stretch quarto-figure-center"><p class="caption">
+<img data-src="lec-06-special-variables-and-joins_files/figure-revealjs/fig-unit-alpha-1.png" id="fig-unit-alpha" alt="A horizontal bar chart titled by unit type, showing the count of various emergency service unit types. From bottom to top, the Y-axis lists unit categories including: AIRPORT, BLS, CHIEF, CP, ENGINE, INVESTIGATION, MEDIC, PRIVATE, RESCUE CAPTAIN, RESCUE SQUAD, SUPPORT, and TRUCK. The X-axis represents counts ranging from 0 to 90,000+ (in increments of 30,000). ENGINE appears to have the highest count, exceeding 90,000, while unit types such as AIRPORT, and INVESTIGATION appear to have the lowest counts, close to zero. The chart provides a comparative view of how frequently each unit type appears in the dataset." width="960" class="r-stretch quarto-figure-center"><p class="caption">
 Figure&nbsp;1
 </p></section>
 <section id="fct_infreq" class="slide level2">
@@ -860,7 +860,7 @@ Figure&nbsp;1
 <span id="cb57-2"><a href="" aria-label="2"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="lec-06-wrangling-special-variables_files/figure-revealjs/fig-unit-freq-1.png" id="fig-unit-freq" alt="A horizontal bar chart showing the count of emergency service unit types, ordered from least to most frequent. The Y-axis lists unit types from lowest (on top) to highest frequency (in the bottom): AIRPORT, INVESTIGATION, RESCUE SQUAD, SUPPORT, BLS, RESCUE, CAPTAIN, CP, CHIEF, PRIVATE, TRUCK, MEDIC, and ENGINE. The X-axis represents counts from 0 to 90,000+ (in increments of 30,000). ENGINE has the highest count, exceeding 90,000, followed by MEDIC and TRUCK. AIRPORT and INVESTIGATION have the lowest counts, close to zero. This frequency-sorted view makes it easy to identify the most and least common unit types in the dataset." width="960" class="r-stretch quarto-figure-center"><p class="caption">
+<img data-src="lec-06-special-variables-and-joins_files/figure-revealjs/fig-unit-freq-1.png" id="fig-unit-freq" alt="A horizontal bar chart showing the count of emergency service unit types, ordered from least to most frequent. The Y-axis lists unit types from lowest (on top) to highest frequency (in the bottom): AIRPORT, INVESTIGATION, RESCUE SQUAD, SUPPORT, BLS, RESCUE, CAPTAIN, CP, CHIEF, PRIVATE, TRUCK, MEDIC, and ENGINE. The X-axis represents counts from 0 to 90,000+ (in increments of 30,000). ENGINE has the highest count, exceeding 90,000, followed by MEDIC and TRUCK. AIRPORT and INVESTIGATION have the lowest counts, close to zero. This frequency-sorted view makes it easy to identify the most and least common unit types in the dataset." width="960" class="r-stretch quarto-figure-center"><p class="caption">
 Figure&nbsp;2
 </p></section>
 <section id="levels-as-seen-in-ggplot-with-fct_rev" class="slide level2">
@@ -872,7 +872,7 @@ Figure&nbsp;2
 <span id="cb58-4"><a href="" aria-label="4"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="lec-06-wrangling-special-variables_files/figure-revealjs/fig-unit-rev-1.png" id="fig-unit-rev" alt="A horizontal bar chart showing the count of emergency service unit types, ordered from most frequent to least. The Y-axis lists unit types from lowest (in the bottom) to highest frequency (on top): AIRPORT, INVESTIGATION, RESCUE SQUAD, SUPPORT, BLS, RESCUE, CAPTAIN, CP, CHIEF, PRIVATE, TRUCK, MEDIC, and ENGINE. The X-axis represents counts from 0 to 90,000+ (in increments of 30,000). ENGINE has the highest count, exceeding 90,000, followed by MEDIC and TRUCK. AIRPORT and INVESTIGATION have the lowest counts, close to zero. This frequency-sorted view makes it easy to identify the most and least common unit types in the dataset with the most frequent bar on top." width="960" class="r-stretch quarto-figure-center"><p class="caption">
+<img data-src="lec-06-special-variables-and-joins_files/figure-revealjs/fig-unit-rev-1.png" id="fig-unit-rev" alt="A horizontal bar chart showing the count of emergency service unit types, ordered from most frequent to least. The Y-axis lists unit types from lowest (in the bottom) to highest frequency (on top): AIRPORT, INVESTIGATION, RESCUE SQUAD, SUPPORT, BLS, RESCUE, CAPTAIN, CP, CHIEF, PRIVATE, TRUCK, MEDIC, and ENGINE. The X-axis represents counts from 0 to 90,000+ (in increments of 30,000). ENGINE has the highest count, exceeding 90,000, followed by MEDIC and TRUCK. AIRPORT and INVESTIGATION have the lowest counts, close to zero. This frequency-sorted view makes it easy to identify the most and least common unit types in the dataset with the most frequent bar on top." width="960" class="r-stretch quarto-figure-center"><p class="caption">
 Figure&nbsp;3
 </p></section>
 <section id="levels-as-seen-in-ggplot-with-fct_lump_n" class="slide level2">
@@ -884,7 +884,7 @@ Figure&nbsp;3
 <span id="cb59-4"><a href="" aria-label="4"></a>  <span class="fu">geom_bar</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </div>
-<img data-src="lec-06-wrangling-special-variables_files/figure-revealjs/fig-unit-lump-1.png" id="fig-unit-lump" alt="A horizontal bar chart titled unit_type on the y-axis and count on the x-axis. The chart displays the frequency of four categories: Other: The most frequent category, with a count of nearly 120,000. ENGINE: The second most frequent, with a count of approximately 110,000. MEDIC: Slightly lower than ENGINE, with a count of approximately 100,000. TRUCK: The least frequent, with a count of approximately 40,000. The order of the categories go as Other, TRUCK, MEDIC, and ENGINE from top to bottom." width="960" class="r-stretch quarto-figure-center"><p class="caption">
+<img data-src="lec-06-special-variables-and-joins_files/figure-revealjs/fig-unit-lump-1.png" id="fig-unit-lump" alt="A horizontal bar chart titled unit_type on the y-axis and count on the x-axis. The chart displays the frequency of four categories: Other: The most frequent category, with a count of nearly 120,000. ENGINE: The second most frequent, with a count of approximately 110,000. MEDIC: Slightly lower than ENGINE, with a count of approximately 100,000. TRUCK: The least frequent, with a count of approximately 40,000. The order of the categories go as Other, TRUCK, MEDIC, and ENGINE from top to bottom." width="960" class="r-stretch quarto-figure-center"><p class="caption">
 Figure&nbsp;4
 </p></section>
 <section id="fct_relevel" class="slide level2">
@@ -1140,19 +1140,19 @@ Figure&nbsp;4
 </div></div>
 
   <script>window.backupDefine = window.define; window.define = undefined;</script>
-  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/dist/reveal.js"></script>
+  <script src="lec-06-special-variables-and-joins_files/libs/revealjs/dist/reveal.js"></script>
   <!-- reveal.js plugins -->
-  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
-  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
-  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
-  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
-  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  <script src="lec-06-special-variables-and-joins_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="lec-06-special-variables-and-joins_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="lec-06-special-variables-and-joins_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="lec-06-special-variables-and-joins_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="lec-06-special-variables-and-joins_files/libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
-  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/notes/notes.js"></script>
-  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/search/search.js"></script>
-  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="lec-06-wrangling-special-variables_files/libs/revealjs/plugin/math/math.js"></script>
+  <script src="lec-06-special-variables-and-joins_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="lec-06-special-variables-and-joins_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="lec-06-special-variables-and-joins_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="lec-06-special-variables-and-joins_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
