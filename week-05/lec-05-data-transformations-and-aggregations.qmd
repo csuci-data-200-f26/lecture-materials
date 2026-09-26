@@ -484,6 +484,7 @@ Remember when we identified if the R storage types were appropriate for the vari
 `as.integer()` - makes a vector integer  
 `as.double()` - makes a vector double  
 `as.character()` - makes a vector character  
+`as.logical()` - makes a vector logical 
 
 ## Mutating example 3:
 
