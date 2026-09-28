@@ -28,14 +28,15 @@ header-includes:
 library(tidyverse)
 ```
 
-Consider the following artificial dataset:
+Consider the following artificial dataset for gym memberships:
 
 ```{r}
 #| echo: false
 customers <- data.frame(
+  id = c(101, 102, 103, 104, 105),
   first_name = c("Lee", "Aaliyah", "EMILY", "Sam", "omar"),
-  satisfaction = c("high", "med", "high", "low", "med"),
-  signup_date = c("01/03/2024", "05/30/2024", "02/15/2024", "03/10/2024", "01/22/2024")
+  visit_frequency = c("high", "med", "high", "low", "med"),
+  signup_date = c("01/03/2026", "05/30/2026", "02/15/2026", "08/10/2026", "09/22/2026")
 ) 
 ```
 
@@ -51,7 +52,7 @@ For each column, write the variable type and the most appropriate R storage type
 
 \vspace{0.75cm}
 
-- `satisfaction`:
+- `visit_frequency`:
 
 \vspace{0.75cm}
 
@@ -75,6 +76,11 @@ You should have identified that one of the columns would be best stored as a `ch
 \vspace{2.25cm}
 
 **Question 5**\newline
+Which of the columns from the original dataset could be described as a "string"?
+
+\vspace{1cm}
+
+**Question 6**\newline
 Complete the following R code to change each of the columns to the ideal R storage type.
 ```{r}
 #| eval: false
@@ -83,27 +89,43 @@ customers <-
   mutate(
     first_name = 
       
-    satisfaction = 
+    visit_frequency = 
       
     signup_date = 
   )
 ```
 
-**Question 6**\newline
-By default, variables stored as factors will have the levels stored in alphabetical order. Complete the R code below to convert the `satisfaction` variable to a factor with a more meaningful ordering and labels appropriate for a plot.
+**Question 7**\newline
+Oh no! It looks like names were not recorded with consistent capitalization. We want them to be recorded title case, meaning the first letter should be capital, followed by lower case letters. Write R code to store the names in title case. (Hint: use the `str_to_title()` function). Make sure to save the change back into the data frame.
+
+\vspace*{1.5in}
+
+**Question 8**\newline
+By default, variables stored as factors will have the levels stored in alphabetical order. Complete the R code below to convert the `visit_frequency` variable to a factor with levels ordered by "low", "med", "high".
 ```{r}
 #| eval: false
 customers <- 
   customers |> 
-  mutate(________________ = factor(
-    
-    levels = c(__________, __________, __________),
-    
-    labels = c(_______________, _______________, _______________)
-  ))
+  mutate(
+    ____________________ = fct_relevel(
+      ____________________, 
+      ____________________, 
+      ____________________, 
+      ____________________
+    )
+  )
 ```
 
-**Question 7**\newline
+**Question 9**\newline
+Actually, I decided I want the reverse order for `visit_frequency`, from high to low. Complete the R code below.
+```{r}
+#| eval: false
+customers <- 
+  customers |> 
+  mutate(____________________ = ____________________(____________________))
+```
+
+**Question 10**\newline
 Describe what the following code seems to be doing.
 
 ```{r}
@@ -114,33 +136,68 @@ customers <- customers |>
 
 ```{r}
 customers |> 
-  mutate(membership_length = ymd("2025-02-23") - signup_date) |> 
+  mutate(membership_length = ymd("2026-09-28") - signup_date) |> 
   arrange(membership_length)
 ```
 
-\newpage
+\vspace{1in}
 
-**Question 8**\newline
+**Question 11**\newline
 Make a new column called `membership_month` which stores the month that the customer signed up. (Hint: use the `month()` function.)
 
-\vspace{4cm}
+\newpage
 
-**Question 9**\newline
-Which of the columns from the original dataset could be described as a "string"?
+**Question 12**\newline
 
-\vspace{1cm}
-
-**Question 9**\newline
-Describe what the following code seems to be doing.
+\vspace*{-0.5cm}
 
 ```{r}
-customers |>
-  filter(first_name != str_to_title(first_name)) |>
-  pull(first_name)
+#| echo: false
+prices <- tibble(
+  id = c(100, 101, 102, 103),
+  monthly_price = c(15, 15, 25, 20)
+)
+
+knitr::kable(
+  list(
+    customers = customers,
+    prices = prices
+  ),
+  booktabs = TRUE
+)
 ```
 
-\vspace{3cm}
+Suppose I now want to join my `customers` dataset with the new `prices` dataset.
+Write out what the output would be for each type of join below.
 
-**Question 10**\newline
-Oh no! It looks like names were not recorded with consistent capitalization. We want them to be recorded title case, meaning the first letter should be capital, followed by lower case letters. Write R code to store the names in title case. (Hint: use the `str_to_title()` function). Make sure to save the change back into the data frame.
+**Question 12a**\newline
+
+\vspace*{-1cm}
+
+```{r}
+#| eval: false
+full_join(customers, prices)
+```
+
+\vspace*{2in}
+
+**Question 12b**\newline
+
+\vspace*{-1cm}
+
+```{r}
+#| eval: false
+inner_join(customers, prices)
+```
+
+\vspace*{1.25in}
+
+**Question 12c**\newline
+
+\vspace*{-1cm}
+
+```{r}
+#| eval: false
+left_join(customers, prices)
+```
 
