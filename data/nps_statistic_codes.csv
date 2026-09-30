@@ -1,0 +1,16 @@
+statistic_code,statistic_description
+BC,Backcountry Overnight Stays
+CCG,Concessionaire Operated Campground Overnight Stays
+CL,Concessionaire Operated Lodging Overnight Stays
+MISC,Miscellaneous Overnight Stays
+NROS,Non-Recreation Overnight Stays
+TH,Visitor Hours (Recreation plus Non-Recreation)
+TNRV,Non-Recreation Visits
+TNRVH,Non-Recreation Visitor Hours
+TOS,Total Overnight Stays
+TRV,Recreation Visits
+TRVH,Recreation Visitor Hours
+TRVS,NPS Operated Campground RV Overnight Stays
+TT,NPS Operated Campground Tent Overnight Stays
+TTRV,NPS Operated Campground Overnight Stays (Tent plus RV)
+TV,Total Visits (Recreation plus Non-Recreation)
