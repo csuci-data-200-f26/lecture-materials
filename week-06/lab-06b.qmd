@@ -1,7 +1,74 @@
 ---
-title: "Lab 6b"
-format: html
+title: "DATA 200: Lab 6b"
+format: 
+  html:
+    embed-resources: true
+execute:
+  message: false
+  warning: false
+  eval: false
+  echo: true
 ---
+
+# National park visitation data
+
+For today's lab we will combine many of the coding skill we have used throughout this course to explore US National Park Service [visitor data](https://catalog.data.gov/dataset/nps-visitor-use-statistics-data-package-2025).
+
+You will first need to prepare the data, then we can summarize and plot it.
+This is meant to provide you with practice on conducting exploratory data analyses.
+**Do not use any resources for this lab aside from your notes, our slides, or our textbook.**
+
+```{r}
+library(tidyverse)
+library(janitor)
+```
+
+```{r}
+park_visits_og <- read_csv(("https://csuci-data-200-f26.github.io/lecture-materials/data/Main_State_Data.csv"))
+```
+
+```{r}
+park_visits_og |> 
+  clean_names() |> 
+  filter(state_id == "CA") |> 
+  select(unit_code) |> 
+  unique()
+```
+
+
+```{r}
+park_unit_codes <- read_csv(("https://csuci-data-200-f26.github.io/lecture-materials/data/california_nps_unit_codes.csv"))
+```
+
+## Preparing our data
+
+*30 minutes you try then 10 minutes we try.*
+
+0. Make a quarto doc in RStudio called "lab-06b.qmd" and save it into your week 6 repo.
+1. Read in the park visit data.
+2. Change the column names to comply with tidyverse style guidelines.
+3. Read in the unit code data.
+4. Join the two datasets, keeping only rows with a unit code available in both datasets, and save the joined data into an object called `park_visits`.
+5. Filter to recreation visits only.
+6. Convert year and month to be factors.
+7. Create a new variable called `date`. We have `year` and `month` available to us in separate columns, so we can't use the `myd()` functions like we've learned. Instead we can use the `make_date()` function, providing it the `year` and `month` columns, and for day we can say `1`.
+
+
+## Analyzing our data
+
+*15 minutes you try then 10 minutes we try.*
+
+### Summarizing our data
+
+1. Calculate total number of recreation visits for each park and year. Note that the `value` column has counts, so within our `summarize()` we will want `sum(value)`. Which California park has the most and fewest the most visits?
+
+### Visualizing our data
+
+1. Choose 5 California parks you are interested in investigating.
+2. Filter your data to only contain those 5 parks
+3. Make a line plot of number of recreation visits by date with each park mapped to color. 
+4. Improve your plot by employing accessibility considerations and provide informative labels.
+
 
 ## A problem-solving workflow
 
@@ -12,113 +79,4 @@ When you encounter a data problem:
 3. Search for a function or example that performs that transformation.
 5. Try out a solution and inspect the result.
 5. Decide whether it actually solved the problem. If not, reiterate.
-
-## National park visitation data
-
-```{r}
-unit_codes <- daata.frame(Statistic,StatisticDescription
-TRV,Recreation Visits
-TNRV,Non-Recreation Visits
-TV,Total Visits
-TRVH,Recreation Visitor Hours
-TNRVH,Non-Recreation Visitor Hours
-TH,Visitor Hours (Recreation plus Non-Recreation)
-TT,NPS Operated Campground Tent Overnight Stays
-TRVS,NPS Operated Campground RV Overnight Stays
-TTRV,NPS Operated Campground Overnight Stays (Tent plus RV)
-CL,Concessionaire Operated Lodging Overnight Stays
-CCG,Concessionaire Operated Campground Overnight Stays
-BC,Backcountry Overnight Stays
-NROS,Non-Recreation Overnight Stays
-MISC,Miscellaneous Overnight Stays
-TOS,Total Overnight Stays
-```
-
-
-### Statistics
-
-| Statistic | Statistic Description |
-|:---------|:-------------------------|
-| TRV | Recreation Visits |
-| TNRV | Non-Recreation Visits |
-| TV | Total Visits |
-| TRVH | Recreation Visitor Hours |
-| TNRVH | Non-Recreation Visitor Hours |
-| TH | Visitor Hours (Recreation plus Non-Recreation) |
-| TT | NPS Operated Campground Tent Overnight Stays |
-| TRVS | NPS Operated Campground RV Overnight Stays |
-| TTRV | NPS Operated Campground Overnight Stays (Tent plus RV) |
-| CL | Concessionaire Operated Lodging Overnight Stays |
-| CCG | Concessionaire Operated Campground Overnight Stays |
-| BC | Backcountry Overnight Stays |
-| NROS | Non-Recreation Overnight Stays |
-| MISC | Miscellaneous Overnight Stays |
-| TOS | Total Overnight Stays | 
-
-```{r}
-library(tidyverse)
-library(janitor)
-```
-
-```{r}
-park_visits <- read_csv(here::here("data/Main_State_Data.csv")) |> 
-  clean_names()
-```
-
-```{r}
-glimpse(park_visits)
-```
-
-```{r}
-cal_parks <- park_visits |> 
-  filter(unit_code %in% c("CHIS", "JOTR", "REDW", "YOSE"))
-
-glimpse(cal_parks)
-```
-
-Cleaning our data:
-
-1. Filter to 5 parks of interest.
-2. Filter to recreation visits only.
-3. Need to convert year and month to be factors.
-4. Create a new variable called `date`. We have `year` and `month` available to us in separate columns, so we can't use the `myd()` functions like we've learned. Instead we can use the `make_date()` function, providing it the `year` and `month` columns, and for day we can say `1`.
-
-Analyzing our data:
-
-1. Calculate total number of recreation visits for each park and year. Note that the `value` column has counts, so within our `summarize()` we will want `sum(value)`.
-2. Make a scatter or line plot of number of recreation visits by date for each park.
-3. Make a column plot (like a bar plot, but where the data is already aggregated `geom_col()`) of number of reacte
-
-```{r}
-cal_parks |> 
-  filter(statistic == "TRV") |> 
-  group_by(unit_code, year) |> 
-  summarize(
-    sum(value)
-  )
-```
-
-
-
-```{r}
-#| eval: false
-cal_parks |> 
-  filter(statistic == "TRV") |> 
-  mutate(month = as.factor(month), year = as.factor(year)) |> 
-  ggplot(aes(x = year, y = value, fill = month)) +
-  geom_col() +
-  scale_fill_viridis_d() +
-  theme_minimal()
-```
-
-```{r}
-cal_parks |> 
-  filter(statistic == "TRV") |> 
-  mutate(month = as.factor(month)) |> 
-  mutate(date = make_date(year, month, 1)) |> 
-  ggplot(aes(x = date, y = value, color = unit_code)) +
-  geom_line() +
-  scale_color_viridis_d() +
-  theme_minimal()
-```
 
