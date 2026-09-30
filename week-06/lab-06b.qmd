@@ -1,0 +1,124 @@
+---
+title: "Lab 6b"
+format: html
+---
+
+## A problem-solving workflow
+
+When you encounter a data problem:
+
+1. Identify what is preventing you from obtaining the desired result.
+2. Describe the transformation you need in ordinary language. Try writing it out in words.
+3. Search for a function or example that performs that transformation.
+5. Try out a solution and inspect the result.
+5. Decide whether it actually solved the problem. If not, reiterate.
+
+## National park visitation data
+
+```{r}
+unit_codes <- daata.frame(Statistic,StatisticDescription
+TRV,Recreation Visits
+TNRV,Non-Recreation Visits
+TV,Total Visits
+TRVH,Recreation Visitor Hours
+TNRVH,Non-Recreation Visitor Hours
+TH,Visitor Hours (Recreation plus Non-Recreation)
+TT,NPS Operated Campground Tent Overnight Stays
+TRVS,NPS Operated Campground RV Overnight Stays
+TTRV,NPS Operated Campground Overnight Stays (Tent plus RV)
+CL,Concessionaire Operated Lodging Overnight Stays
+CCG,Concessionaire Operated Campground Overnight Stays
+BC,Backcountry Overnight Stays
+NROS,Non-Recreation Overnight Stays
+MISC,Miscellaneous Overnight Stays
+TOS,Total Overnight Stays
+```
+
+
+### Statistics
+
+| Statistic | Statistic Description |
+|:---------|:-------------------------|
+| TRV | Recreation Visits |
+| TNRV | Non-Recreation Visits |
+| TV | Total Visits |
+| TRVH | Recreation Visitor Hours |
+| TNRVH | Non-Recreation Visitor Hours |
+| TH | Visitor Hours (Recreation plus Non-Recreation) |
+| TT | NPS Operated Campground Tent Overnight Stays |
+| TRVS | NPS Operated Campground RV Overnight Stays |
+| TTRV | NPS Operated Campground Overnight Stays (Tent plus RV) |
+| CL | Concessionaire Operated Lodging Overnight Stays |
+| CCG | Concessionaire Operated Campground Overnight Stays |
+| BC | Backcountry Overnight Stays |
+| NROS | Non-Recreation Overnight Stays |
+| MISC | Miscellaneous Overnight Stays |
+| TOS | Total Overnight Stays | 
+
+```{r}
+library(tidyverse)
+library(janitor)
+```
+
+```{r}
+park_visits <- read_csv(here::here("data/Main_State_Data.csv")) |> 
+  clean_names()
+```
+
+```{r}
+glimpse(park_visits)
+```
+
+```{r}
+cal_parks <- park_visits |> 
+  filter(unit_code %in% c("CHIS", "JOTR", "REDW", "YOSE"))
+
+glimpse(cal_parks)
+```
+
+Cleaning our data:
+
+1. Filter to 5 parks of interest.
+2. Filter to recreation visits only.
+3. Need to convert year and month to be factors.
+4. Create a new variable called `date`. We have `year` and `month` available to us in separate columns, so we can't use the `myd()` functions like we've learned. Instead we can use the `make_date()` function, providing it the `year` and `month` columns, and for day we can say `1`.
+
+Analyzing our data:
+
+1. Calculate total number of recreation visits for each park and year. Note that the `value` column has counts, so within our `summarize()` we will want `sum(value)`.
+2. Make a scatter or line plot of number of recreation visits by date for each park.
+3. Make a column plot (like a bar plot, but where the data is already aggregated `geom_col()`) of number of reacte
+
+```{r}
+cal_parks |> 
+  filter(statistic == "TRV") |> 
+  group_by(unit_code, year) |> 
+  summarize(
+    sum(value)
+  )
+```
+
+
+
+```{r}
+#| eval: false
+cal_parks |> 
+  filter(statistic == "TRV") |> 
+  mutate(month = as.factor(month), year = as.factor(year)) |> 
+  ggplot(aes(x = year, y = value, fill = month)) +
+  geom_col() +
+  scale_fill_viridis_d() +
+  theme_minimal()
+```
+
+```{r}
+cal_parks |> 
+  filter(statistic == "TRV") |> 
+  mutate(month = as.factor(month)) |> 
+  mutate(date = make_date(year, month, 1)) |> 
+  ggplot(aes(x = date, y = value, color = unit_code)) +
+  geom_line() +
+  scale_color_viridis_d() +
+  theme_minimal()
+```
+
