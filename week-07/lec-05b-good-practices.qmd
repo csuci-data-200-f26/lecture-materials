@@ -1,0 +1,422 @@
+---
+title: "Data 200: Lecture 5b"
+subtitle: "Good Workflow Practices for Reproducible Data Science"
+author: "Medina - CSU Channel Islands"
+format: 
+  revealjs:
+    theme: [sky, ../slide-style.scss]
+    slide-number: true
+execute:
+  echo: true 
+---
+
+```{r}
+#| echo: false
+library(tidyverse)
+library(janitor)
+options(scipen = 999)
+
+theme_set(theme_bw(base_size = 22))
+```
+
+# Good practices we are already following
+
+## We already know 
+
+- following a style guide makes your code more easily read by another person
+
+. . .
+
+*What style guide do we use?*
+
+. . .
+
+- coding in a document allows code to be reproducible versus coding in the Console
+
+. . .
+
+*What document do we use for coding?*
+
+## Loading packages
+
+In a single Quarto document we may use several packages.
+
+We should load our packages in a chunk all together at the top of the document 
+
+- to make it clear what packages the document relies on,
+- and to avoid loading packages multiple times.
+
+## Cleaning data
+
+We have learned how to clean and wrangle our data through code these past few weeks.
+
+. . .
+
+*Why didn't we just open and edit the data file itself?*
+
+
+# Importing and exporting data
+
+## Ways to import data
+
+::: {.panel-tabset}
+
+## From an R package
+
+From homework 1
+```{r}
+#| eval: false
+library(nycflights13)
+data("flights")
+```
+
+## From online
+
+From lab 1a
+```{r}
+#| eval: false
+baby_names <- read_csv("http://csuci-data200-spring2026.github.io/lectures/data/california-popular-baby-names.csv")
+```
+
+## From your computer
+
+From today's lab
+```{r}
+#| eval: false
+us_poverty_og <- read_csv("us-census-poverty.csv")
+```
+
+
+:::
+
+## Importing data from your computer
+
+Today we are going to learn about reading in data saved on our computer, aka data saved "locally".
+
+. . .
+
+The simplest case is when the data is stored in the same folder as your Quarto document.
+
+```{r}
+#| eval: false
+my_data <- read_csv("dataset.csv")
+```
+
+- Use the `read_csv()` function to read in the data
+- Provide `read_csv()` with the name of the data file
+
+. . .
+
+If the data is not stored in the same folder as the .qmd file, there is a little more we have to do...
+
+
+## Where is the dataset file? Locally
+
+Importing data locally will depend on where the dataset is on your computer.
+
+::::{.columns}
+:::{.column width="50%"}
+```{r}
+#| out.width: '55%'
+#| fig.align: 'center'
+#| echo: false
+knitr::include_graphics('img/same-directory.png')
+```
+:::
+
+:::{.column width="50%"}
+```{r}
+#| out.width: '55%'
+#| fig.align: 'center'
+#| echo: false
+knitr::include_graphics('img/different-directory.png')
+```
+:::
+::::
+
+
+## Where is the dataset file? Local
+
+If the data is saved in a subfolder we have to include that with the file name.
+
+::::{.columns}
+:::{.column width="50%"}
+```{r}
+#| eval: false
+
+dolphins <- read_csv("dataset.csv")
+```
+
+```{r}
+#| out.width: '55%'
+#| fig.align: 'center'
+#| echo: false
+knitr::include_graphics('img/same-directory.png')
+```
+:::
+
+:::{.column width="50%"}
+```{r}
+#| eval: false
+
+dolphins <- read_csv("data/dataset.csv")
+```
+
+```{r}
+#| out.width: '55%'
+#| fig.align: 'center'
+#| echo: false
+knitr::include_graphics('img/different-directory.png')
+```
+:::
+::::
+
+. . .
+
+We provide: subfolder name + / + data set name
+
+
+## Exporting data as a csv
+
+Say we cleaned our data and wanted to save it locally
+```{r}
+#| eval: false
+write_csv(baby_names, file = "baby-names.csv")
+```
+
+. . .
+
+If I wanted to save it within a folder called `data` I could write
+```{r}
+#| eval: false
+write_csv(baby_names, file = "data/baby-names.csv")
+```
+
+## Other file types
+
+There are different read/write function for other file types
+
+::: {.panel-tabset}
+
+## Importing Excel Data
+
+```{r}
+#| eval: false
+
+library(readxl)
+
+my_data <- read_excel("dataset.xlsx")
+
+# Or if its from a sheet in an Excel file
+my_data <- read_excel("dataset.xlsx", sheet = 2)
+```
+
+
+## SAS
+
+```{r}
+#| eval: false
+library(haven)
+
+my_data <- read_sas("dataset.sas7bdat")
+```
+
+## SPSS
+
+```{r}
+#| eval: false
+library(haven)
+
+my_data <- read_sav("dataset.sav")
+```
+
+## Stata Data
+
+```{r}
+#| eval: false
+library(haven)
+
+my_data <- read_dta("dataset.dta")
+```
+
+:::
+
+## Naming files
+
+::: {.nonincremental}
+
+Three principles of naming files 
+
+- machine readable
+- human readable
+- plays well with default ordering (e.g. alphabetical and numerical ordering)
+
+<!-- (Jenny Bryan) -->
+
+For the purposes of this course an additional principle is that file names follow
+
+- tidyverse style (all lower case letters, words separated by HYPHEN)
+
+:::
+
+
+# Workflow practices
+
+Recall a GitHub **repository** (aka repo) is a special folder where the contents are tracked.
+If you are sharing your folder with others you may want:
+
+- a **README.md** a file that explains what is in the folder
+- a **.gitignore** a file that tell Git not to track certain files
+
+## README.md
+
+- README file is the first file users read. In our case a user might be our future self, a teammate, or (if open source) anyone.
+
+- There can be multiple README files within a single directory: e.g. for the general project folder and then for a data subfolder. Data folder README's can possibly contain a codebook (data dictionary).
+
+- It should be brief but detailed enough to help user navigate. 
+
+## .gitignore
+
+A .gitignore file contains the list of files which Git has been explicitly told to ignore. This may be because the files are confidential, too large, ...
+
+A file can be git ignored either by 
+
+- point-and-click using RStudio's Git pane or 
+- by adding the file name to the .gitignore file.
+
+Files of a certain type can all be ignored by writing `*` in front (e.g., all .html files: `*.html`)
+
+
+## Collaboration on GitHub
+
+```{r}
+#| echo: false
+#| out-width: "90%"
+knitr::include_graphics("img/git-collab.002.jpeg")
+```
+
+## Collaboration on GitHub
+
+
+```{r}
+#| echo: false
+#| out-width: "90%"
+knitr::include_graphics("img/git-collab.003.jpeg")
+```
+
+## Collaboration on GitHub
+
+
+```{r}
+#| echo: false
+#| out-width: "90%"
+knitr::include_graphics("img/git-collab.004.jpeg")
+```
+
+## Collaboration on GitHub
+
+
+```{r}
+#| echo: false
+#| out-width: "90%"
+knitr::include_graphics("img/git-collab.005.jpeg")
+```
+
+## Collaboration on GitHub
+
+
+```{r}
+#| echo: false
+#| out-width: "90%"
+knitr::include_graphics("img/git-collab.006.jpeg")
+```
+
+## Collaboration on GitHub
+
+```{r}
+#| echo: false
+#| out-width: "90%"
+knitr::include_graphics("img/git-collab.007.jpeg")
+```
+
+## Collaboration on GitHub
+
+
+```{r}
+#| echo: false
+#| out-width: "90%"
+knitr::include_graphics("img/git-collab.008.jpeg")
+```
+
+## Collaboration on GitHub
+
+If each change is made by one collaborator at a time, this would not be an efficient workflow. 
+
+## Collaboration on GitHub
+
+
+```{r}
+#| echo: false
+#| out-width: "90%"
+knitr::include_graphics("img/git-collab.009.jpeg")
+```
+
+## Collaboration on GitHub
+
+
+```{r}
+#| echo: false
+#| out-width: "90%"
+knitr::include_graphics("img/git-collab.010.jpeg")
+```
+
+## Collaboration on GitHub
+
+```{r}
+#| echo: false
+#| out-width: "90%"
+knitr::include_graphics("img/git-collab.011.jpeg")
+```
+
+## Collaboration on GitHub
+
+1 - commit
+
+2 - pull (very important)
+
+3 - push
+
+
+## Collaboration on GitHub
+
+
+```{r}
+#| echo: false
+#| out-width: "90%"
+knitr::include_graphics("img/git-collab.013.jpeg")
+```
+
+
+## Collaboration on GitHub
+
+
+```{r}
+#| echo: false
+#| out-width: "90%"
+knitr::include_graphics("img/git-collab.014.jpeg")
+```
+
+
+## Collaboration on GitHub
+
+
+```{r}
+#| echo: false
+#| out-width: "90%"
+knitr::include_graphics("img/git-collab.015.jpeg")
+```
+
+. . .
+
+You'll have to find this in your code and fix it. Then commit, pull, push!

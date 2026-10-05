@@ -1,0 +1,56 @@
+---
+title: "Data 200: Week 7 EDA Instructions"
+author: "Your name here"
+format: 
+  html:
+    echo: true
+    message: false
+    warning: false
+    toc: true
+    embed-resources: true
+---
+
+```{r}
+library(tidyverse)
+```
+
+# Objective
+
+For this investigation, you will explore how poverty and food-store access vary across counties in a US state of your choice. 
+Each student must choose a different state, and California is reserved for the example. 
+
+Use the California example to guide the appearance and organization of your results (I am not showing your my code).
+
+
+# Wrangling the data
+
+## Obtaining the data
+
+1. Visit U.S. Department of Agriculture's (USDA's) [Food Environment Atlas ](https://ers.usda.gov/data-products/food-environment-atlas/data-access-and-documentation-downloads) and download the `Food Environment Atlas .csv Files` (current Version).
+
+2. Move the 3 downloaded data files into your week 7 repo (two csv files and one txt file).
+
+3. Open the `ReadMeFile2025.txt` and read it to learn about this data.
+
+
+## Preparing your data
+
+4. Notice I provided you with the code to read in and initially prepare your data. Remove `#| eval: false` from the provided chunk so it will run when you render your document. 
+
+5. Run the provided code to import the data, clean the column names, and reshape the dataset. Examine both `usa_food_og` and `usa_food`; you will explain their differences in Reflection Q1.
+
+6. Starting with usa_food, create a new object containing only the counties in your selected state. Give this object a descriptive name.
+
+7. For your subsetted data, convert metro23 to a logical variable.
+
+8. For your subsetted data, reorder the county factor by `pct_laccess_pop19`, the percentage of residents with low food-store access in 2019.
+
+9. For your subsetted data, use `!ends_with("*")` with a `seelct()` to drop columns that are not for county level data.
+
+##
+
+*To be added.*
+
+## Reflection questions
+
+Answer the reflection questions found at the end of our eda file.
