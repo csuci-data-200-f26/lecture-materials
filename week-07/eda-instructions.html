@@ -2291,7 +2291,7 @@ vertical-align: -.125em;
 <p>Use your food dataset with one row per county for these analyses. The joined map dataset contains repeated rows for each county’s coordinates and should be used only for mapping.</p>
 <ol type="1">
 <li><p>Group counties by metropolitan status and calculate each group’s median poverty rate in 2021 (povrate21) and median percentage of residents with low food-store access in 2019 (pct_laccess_pop19). Give the summary columns descriptive names. If values are missing, exclude them from the calculations.</p></li>
-<li><p>Create a plot showing the relationship between poverty rate and low food-store access. Use county names as text labels to represent the observations using <code>geom_text()</code> instead of <code>geom_point()</code>. Include descriptive axis labels with units and years.</p></li>
+<li><p>Create a plot showing the relationship between poverty rate and low food-store access. Use county names as text labels to represent the observations using <code>geom_text()</code> instead of <code>geom_point()</code>. Include descriptive axis labels with units and years and specify alternative text.</p></li>
 <li><p>Consult the variable documentation and choose one additional county-level variable that you think could be related to poverty. Do not choose a state-level measure repeated across counties. Explore the relationship between poverty and your chosen variable using an appropriate visualization, grouped summary statistics, or both. Label your output clearly, including units and measurement years where applicable.</p></li>
 <li><p>Select the county name and all variables you investigated: poverty rate, low food-store access, metropolitan status, and your additional variable. Pipe this into the <code>kable()</code> function to have a table display nicely in your html report.</p></li>
 </ol>
@@ -2321,6 +2321,7 @@ vertical-align: -.125em;
 <section id="reflection-questions" class="level2">
 <h2 class="anchored" data-anchor-id="reflection-questions">Reflection questions</h2>
 <p>Answer the reflection questions found at the end of our eda file.</p>
+<p>Make sure to save your changes and push them to GitHub.</p>
 </section>
 </section>
 
