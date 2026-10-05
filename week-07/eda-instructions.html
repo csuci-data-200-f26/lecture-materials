@@ -2215,8 +2215,8 @@ vertical-align: -.125em;
   <li><a href="#wrangling-the-data" id="toc-wrangling-the-data" class="nav-link" data-scroll-target="#wrangling-the-data">Wrangling the data</a>
   <ul class="collapse">
   <li><a href="#obtaining-the-data" id="toc-obtaining-the-data" class="nav-link" data-scroll-target="#obtaining-the-data">Obtaining the data</a></li>
-  <li><a href="#preparing-your-data" id="toc-preparing-your-data" class="nav-link" data-scroll-target="#preparing-your-data">Preparing your data</a></li>
-  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"></a></li>
+  <li><a href="#preparing-your-usda-data" id="toc-preparing-your-usda-data" class="nav-link" data-scroll-target="#preparing-your-usda-data">Preparing your usda data</a></li>
+  <li><a href="#preparing-your-map-data" id="toc-preparing-your-map-data" class="nav-link" data-scroll-target="#preparing-your-map-data">Preparing your map data</a></li>
   <li><a href="#reflection-questions" id="toc-reflection-questions" class="nav-link" data-scroll-target="#reflection-questions">Reflection questions</a></li>
   </ul></li>
   </ul>
@@ -2267,8 +2267,8 @@ vertical-align: -.125em;
 <li><p>Open the <code>ReadMeFile2025.txt</code> and read it to learn about this data.</p></li>
 </ol>
 </section>
-<section id="preparing-your-data" class="level2">
-<h2 class="anchored" data-anchor-id="preparing-your-data">Preparing your data</h2>
+<section id="preparing-your-usda-data" class="level2">
+<h2 class="anchored" data-anchor-id="preparing-your-usda-data">Preparing your usda data</h2>
 <ol start="4" type="1">
 <li><p>Notice I provided you with the code to read in and initially prepare your data. Remove <code>#| eval: false</code> from the provided chunk so it will run when you render your document.</p></li>
 <li><p>Run the provided code to import the data, clean the column names, and reshape the dataset. Examine both <code>usa_food_og</code> and <code>usa_food</code>; you will explain their differences in Reflection Q1.</p></li>
@@ -2278,8 +2278,14 @@ vertical-align: -.125em;
 <li><p>For your subsetted data, use <code>!ends_with(&quot;*&quot;)</code> with a <code>seelct()</code> to drop columns that are not for county level data.</p></li>
 </ol>
 </section>
-<section id="section" class="level2">
-<h2 class="anchored" data-anchor-id="section"></h2>
+<section id="preparing-your-map-data" class="level2">
+<h2 class="anchored" data-anchor-id="preparing-your-map-data">Preparing your map data</h2>
+<p>In order to create the map we have to first prepare the data to include latitude and longitude values for counties in your state.</p>
+<ol start="10" type="1">
+<li>Use the <code>map_data(&quot;county&quot;, region = )</code> function to load in a dataset of your state’s geography, with region == the name of your state. Save this dataset into an object with a name of your choice.</li>
+<li>We want to join this map data with our usda data by county name, but the county names are capitalized differently in each dataset. Convert the county names to title case and store them into a column named <code>county</code>.</li>
+<li>Join the cleaned map data with the cleaned usda data, keeping all rows and columns. Save the joined dataset into a new object with a name of your choice.</li>
+</ol>
 <p><em>To be added.</em></p>
 </section>
 <section id="reflection-questions" class="level2">

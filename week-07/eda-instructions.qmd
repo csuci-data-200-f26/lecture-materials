@@ -33,7 +33,7 @@ Use the California example to guide the appearance and organization of your resu
 3. Open the `ReadMeFile2025.txt` and read it to learn about this data.
 
 
-## Preparing your data
+## Preparing your usda data
 
 4. Notice I provided you with the code to read in and initially prepare your data. Remove `#| eval: false` from the provided chunk so it will run when you render your document. 
 
@@ -47,7 +47,13 @@ Use the California example to guide the appearance and organization of your resu
 
 9. For your subsetted data, use `!ends_with("*")` with a `seelct()` to drop columns that are not for county level data.
 
-##
+## Preparing your map data
+
+In order to create the map we have to first prepare the data to include latitude and longitude values for counties in your state.
+
+10. Use the `map_data("county", region = )` function to load in a dataset of your state's geography, with region ==  the name of your state. Save this dataset into an object with a name of your choice.
+11. We want to join this map data with our usda data by county name, but the county names are capitalized differently in each dataset. Convert the county names to title case and store them into a column named `county`.
+12. Join the cleaned map data with the cleaned usda data, keeping all rows and columns. Save the joined dataset into a new object with a name of your choice.
 
 *To be added.*
 
