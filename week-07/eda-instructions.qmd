@@ -55,7 +55,43 @@ In order to create the map we have to first prepare the data to include latitude
 11. We want to join this map data with our usda data by county name, but the county names are capitalized differently in each dataset. Convert the county names to title case and store them into a column named `county`.
 12. Join the cleaned map data with the cleaned usda data, keeping all rows and columns. Save the joined dataset into a new object with a name of your choice.
 
-*To be added.*
+## Analyzing your data
+
+Use your food dataset with one row per county for these analyses. 
+The joined map dataset contains repeated rows for each county’s coordinates and should be used only for mapping.
+
+1. Group counties by metropolitan status and calculate each group’s median poverty rate in 2021 (povrate21) and median percentage of residents with low food-store access in 2019 (pct_laccess_pop19). Give the summary columns descriptive names. If values are missing, exclude them from the calculations.
+
+2. Create a plot showing the relationship between poverty rate and low food-store access. Use county names as text labels to represent the observations using `geom_text()` instead of `geom_point()`. Include descriptive axis labels with units and years.
+
+3. Consult the variable documentation and choose one additional county-level variable that you think could be related to poverty. Do not choose a state-level measure repeated across counties. Explore the relationship between poverty and your chosen variable using an appropriate visualization, grouped summary statistics, or both.  Label your output clearly, including units and measurement years where applicable.
+
+4. Select the county name and all variables you investigated: poverty rate, low food-store access, metropolitan status, and your additional variable. Pipe this into the `kable()` function to have a table display nicely in your html report.
+
+
+## Creating the map
+
+5. Use your joined map dataset to create a county-level map of your selected state. 
+
+```{r}
+#| eval: false
+ggplot(
+  ca_food_map_data, # replace this dataset with the name of yours
+  aes(
+    x = long, 
+    y = lat, 
+    group = county, 
+    fill = povrate21
+  )
+) +
+  geom_polygon(color = "white")
+```
+
+
+6. Change the colors to be from a color-blind friendly palette.
+
+7. Add a descriptive plot title and legend title. 
+
 
 ## Reflection questions
 
