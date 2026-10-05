@@ -11,6 +11,9 @@ format:
 ---
 
 ```{r}
+#| echo: false
+library(janitor)
+library(knitr)
 library(tidyverse)
 ```
 
@@ -96,3 +99,5 @@ ggplot(
 ## Reflection questions
 
 Answer the reflection questions found at the end of our eda file.
+
+Make sure to save your changes and push them to GitHub.
