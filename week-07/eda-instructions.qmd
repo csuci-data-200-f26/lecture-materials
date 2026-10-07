@@ -80,7 +80,7 @@ The joined map dataset contains repeated rows for each county’s coordinates an
 
 1. Group counties by metropolitan status and calculate each group’s median poverty rate in 2021 (povrate21) and median percentage of residents with low food-store access in 2019 (pct_laccess_pop19). Give the summary columns descriptive names. If values are missing, exclude them from the calculations.
 
-2. Create a plot showing the relationship between poverty rate and low food-store access. Use county names as text labels to represent the observations by mapping county names to the `labels` aesthetic and using `geom_text()` instead of `geom_point()`. Include descriptive axis labels with units and years and specify alternative text. *Take a look at your VariablesList.csv file to learn more about the variables in you usda_food dataset.*
+2. Create a plot showing the relationship between poverty rate and low food-store access. Use county names as text labels to represent the observations by mapping county names to the `label` aesthetic and using `geom_text()` instead of `geom_point()`. Include descriptive axis labels with units and years and specify alternative text. *Take a look at your VariablesList.csv file to learn more about the variables in you usda_food dataset.*
 
 3. Consult the variable documentation and choose one additional county-level variable that you think could be related to poverty. Do not choose a state-level measure repeated across counties. Explore the relationship between poverty and your chosen variable using an appropriate visualization, grouped summary statistics, or both.  Label your output clearly, including units and measurement years where applicable.
 
