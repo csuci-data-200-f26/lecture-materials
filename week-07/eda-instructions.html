@@ -2217,10 +2217,13 @@ vertical-align: -.125em;
   <li><a href="#obtaining-the-data" id="toc-obtaining-the-data" class="nav-link" data-scroll-target="#obtaining-the-data">Obtaining the data</a></li>
   <li><a href="#preparing-your-usda-data" id="toc-preparing-your-usda-data" class="nav-link" data-scroll-target="#preparing-your-usda-data">Preparing your usda data</a></li>
   <li><a href="#preparing-your-map-data" id="toc-preparing-your-map-data" class="nav-link" data-scroll-target="#preparing-your-map-data">Preparing your map data</a></li>
-  <li><a href="#analyzing-your-data" id="toc-analyzing-your-data" class="nav-link" data-scroll-target="#analyzing-your-data">Analyzing your data</a></li>
-  <li><a href="#creating-the-map" id="toc-creating-the-map" class="nav-link" data-scroll-target="#creating-the-map">Creating the map</a></li>
-  <li><a href="#reflection-questions" id="toc-reflection-questions" class="nav-link" data-scroll-target="#reflection-questions">Reflection questions</a></li>
   </ul></li>
+  <li><a href="#analyzing-your-data" id="toc-analyzing-your-data" class="nav-link" data-scroll-target="#analyzing-your-data">Analyzing your data</a>
+  <ul class="collapse">
+  <li><a href="#exploring-associations" id="toc-exploring-associations" class="nav-link" data-scroll-target="#exploring-associations">Exploring associations</a></li>
+  <li><a href="#creating-the-map" id="toc-creating-the-map" class="nav-link" data-scroll-target="#creating-the-map">Creating the map</a></li>
+  </ul></li>
+  <li><a href="#reflection-questions" id="toc-reflection-questions" class="nav-link" data-scroll-target="#reflection-questions">Reflection questions</a></li>
   </ul>
 </nav>
 </div>
@@ -2274,24 +2277,36 @@ vertical-align: -.125em;
 <li><p>Starting with usa_food, create a new object containing only the counties in your selected state. Give this object a descriptive name.</p></li>
 <li><p>For your subsetted data, convert metro23 to a logical variable.</p></li>
 <li><p>For your subsetted data, reorder the county factor by <code>pct_laccess_pop19</code>, the percentage of residents with low food-store access in 2019.</p></li>
-<li><p>For your subsetted data, use <code>!ends_with(&quot;*&quot;)</code> with a <code>seelct()</code> to drop columns that are not for county level data.</p></li>
+<li><p>For your subsetted data, use <code>!ends_with(&quot;*&quot;)</code> with a <code>seelct()</code> to drop columns that are not for county level data. <strong>Update to original instructions: </strong> <em>ignore step 9. The asterisks were only in the VariableList.csv.</em></p></li>
 </ol>
 </section>
 <section id="preparing-your-map-data" class="level2">
 <h2 class="anchored" data-anchor-id="preparing-your-map-data">Preparing your map data</h2>
 <p>In order to create the map we have to first prepare the data to include latitude and longitude values for counties in your state.</p>
+<p><strong>Update to original instructions:</strong> <em>You will need to install the <code>maps</code> R package before you can do step 10</em></p>
 <ol start="10" type="1">
-<li>Use the <code>map_data(&quot;county&quot;, region = )</code> function to load in a dataset of your state’s geography, with region == the name of your state. Save this dataset into an object with a name of your choice.</li>
+<li>Use the <code>map_data(&quot;county&quot;, region = &quot;california)</code> function to load in a dataset of your state’s geography, with <code>region</code> equal to the name of your state in quotations. Save this dataset into an object with a name of your choice.</li>
+</ol>
+<p><em>Hint:</em> If you are having trouble finding what your state is called in the map_data, try running</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(maps)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>state_map_data <span class="ot">&lt;-</span> <span class="fu">map_data</span>(<span class="st">&quot;county&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(state_map_data<span class="sc">$</span>region)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ol start="11" type="1">
 <li>We want to join this map data with our usda data by county name, but the county names are capitalized differently in each dataset. Convert the county names to title case and store them into a column named <code>county</code>.</li>
 <li>Join the cleaned map data with the cleaned usda data, keeping all rows and columns. Save the joined dataset into a new object with a name of your choice.</li>
 </ol>
 </section>
-<section id="analyzing-your-data" class="level2">
-<h2 class="anchored" data-anchor-id="analyzing-your-data">Analyzing your data</h2>
+</section>
+<section id="analyzing-your-data" class="level1">
+<h1>Analyzing your data</h1>
 <p>Use your food dataset with one row per county for these analyses. The joined map dataset contains repeated rows for each county’s coordinates and should be used only for mapping.</p>
+<section id="exploring-associations" class="level2">
+<h2 class="anchored" data-anchor-id="exploring-associations">Exploring associations</h2>
 <ol type="1">
 <li><p>Group counties by metropolitan status and calculate each group’s median poverty rate in 2021 (povrate21) and median percentage of residents with low food-store access in 2019 (pct_laccess_pop19). Give the summary columns descriptive names. If values are missing, exclude them from the calculations.</p></li>
-<li><p>Create a plot showing the relationship between poverty rate and low food-store access. Use county names as text labels to represent the observations using <code>geom_text()</code> instead of <code>geom_point()</code>. Include descriptive axis labels with units and years and specify alternative text.</p></li>
+<li><p>Create a plot showing the relationship between poverty rate and low food-store access. Use county names as text labels to represent the observations by mapping county names to the <code>labels</code> aesthetic and using <code>geom_text()</code> instead of <code>geom_point()</code>. Include descriptive axis labels with units and years and specify alternative text. <em>Take a look at your VariablesList.csv file to learn more about the variables in you usda_food dataset.</em></p></li>
 <li><p>Consult the variable documentation and choose one additional county-level variable that you think could be related to poverty. Do not choose a state-level measure repeated across counties. Explore the relationship between poverty and your chosen variable using an appropriate visualization, grouped summary statistics, or both. Label your output clearly, including units and measurement years where applicable.</p></li>
 <li><p>Select the county name and all variables you investigated: poverty rate, low food-store access, metropolitan status, and your additional variable. Pipe this into the <code>kable()</code> function to have a table display nicely in your html report.</p></li>
 </ol>
@@ -2302,27 +2317,27 @@ vertical-align: -.125em;
 <li>Use your joined map dataset to create a county-level map of your selected state.</li>
 </ol>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  ca_food_map_data, <span class="co"># replace this dataset with the name of yours</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> long, </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> lat, </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> county, </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> povrate21</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  ca_food_map_data, <span class="co"># replace this dataset with the name of yours</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> long, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> lat, </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> county, </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> povrate21</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_polygon</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol start="6" type="1">
 <li><p>Change the colors to be from a color-blind friendly palette.</p></li>
 <li><p>Add a descriptive plot title and legend title.</p></li>
 </ol>
 </section>
-<section id="reflection-questions" class="level2">
-<h2 class="anchored" data-anchor-id="reflection-questions">Reflection questions</h2>
+</section>
+<section id="reflection-questions" class="level1">
+<h1>Reflection questions</h1>
 <p>Answer the reflection questions found at the end of our eda file.</p>
 <p>Make sure to save your changes and push them to GitHub.</p>
-</section>
 </section>
 
 </main>

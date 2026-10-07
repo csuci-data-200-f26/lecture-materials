@@ -3,11 +3,12 @@ title: "Data 200: Week 7 EDA Instructions"
 author: "Your name here"
 format: 
   html:
-    echo: true
-    message: false
-    warning: false
     toc: true
     embed-resources: true
+execute:
+  echo: true
+  message: false
+  warning: false
 ---
 
 ```{r}
@@ -48,24 +49,38 @@ Use the California example to guide the appearance and organization of your resu
 
 8. For your subsetted data, reorder the county factor by `pct_laccess_pop19`, the percentage of residents with low food-store access in 2019.
 
-9. For your subsetted data, use `!ends_with("*")` with a `seelct()` to drop columns that are not for county level data.
+9. For your subsetted data, use `!ends_with("*")` with a `seelct()` to drop columns that are not for county level data. **Update to original instructions: ** *ignore step 9. The asterisks were only in the VariableList.csv.*
 
 ## Preparing your map data
 
 In order to create the map we have to first prepare the data to include latitude and longitude values for counties in your state.
 
-10. Use the `map_data("county", region = )` function to load in a dataset of your state's geography, with region ==  the name of your state. Save this dataset into an object with a name of your choice.
+**Update to original instructions:** *You will need to install the `maps` R package before you can do step 10* 
+
+10. Use the `map_data("county", region = "california)` function to load in a dataset of your state's geography, with `region` equal to  the name of your state in quotations. Save this dataset into an object with a name of your choice.
+
+*Hint:* If you are having trouble finding what your state is called in the map_data, try running
+```{r}
+#| eval: false
+library(maps)
+state_map_data <- map_data("county")
+unique(state_map_data$region)
+```
+
+
 11. We want to join this map data with our usda data by county name, but the county names are capitalized differently in each dataset. Convert the county names to title case and store them into a column named `county`.
 12. Join the cleaned map data with the cleaned usda data, keeping all rows and columns. Save the joined dataset into a new object with a name of your choice.
 
-## Analyzing your data
+# Analyzing your data
 
 Use your food dataset with one row per county for these analyses. 
 The joined map dataset contains repeated rows for each county’s coordinates and should be used only for mapping.
 
+## Exploring associations 
+
 1. Group counties by metropolitan status and calculate each group’s median poverty rate in 2021 (povrate21) and median percentage of residents with low food-store access in 2019 (pct_laccess_pop19). Give the summary columns descriptive names. If values are missing, exclude them from the calculations.
 
-2. Create a plot showing the relationship between poverty rate and low food-store access. Use county names as text labels to represent the observations using `geom_text()` instead of `geom_point()`. Include descriptive axis labels with units and years and specify alternative text.
+2. Create a plot showing the relationship between poverty rate and low food-store access. Use county names as text labels to represent the observations by mapping county names to the `labels` aesthetic and using `geom_text()` instead of `geom_point()`. Include descriptive axis labels with units and years and specify alternative text. *Take a look at your VariablesList.csv file to learn more about the variables in you usda_food dataset.*
 
 3. Consult the variable documentation and choose one additional county-level variable that you think could be related to poverty. Do not choose a state-level measure repeated across counties. Explore the relationship between poverty and your chosen variable using an appropriate visualization, grouped summary statistics, or both.  Label your output clearly, including units and measurement years where applicable.
 
@@ -96,7 +111,7 @@ ggplot(
 7. Add a descriptive plot title and legend title. 
 
 
-## Reflection questions
+# Reflection questions
 
 Answer the reflection questions found at the end of our eda file.
 
