@@ -1,0 +1,84 @@
+---
+title: "Data 200: Lab 6b"
+subtitle: "Data visualization improvements"
+author: "Your name here"
+format: 
+  html:
+    echo: true
+    message: false
+    warning: false
+    toc: true
+    embed-resources: true
+---
+
+# National park visitation data
+
+For today's lab we will combine many of the coding skill we have used throughout this course to explore US National Park Service [visitor data](https://catalog.data.gov/dataset/nps-visitor-use-statistics-data-package-2025).
+
+You will first need to prepare the data, then we can summarize and plot it.
+This is meant to provide you with practice on conducting exploratory data analyses.
+**Do not use any resources for this lab aside from your notes, our slides, or our textbook.**
+
+```{r}
+library(tidyverse)
+library(janitor)
+```
+
+```{r}
+park_visits_og <- read_csv(("https://csuci-data-200-f26.github.io/lecture-materials/data/Main_State_Data.csv"))
+```
+
+```{r}
+park_visits_og |> 
+  clean_names() |> 
+  filter(state_id == "CA") |> 
+  select(unit_code) |> 
+  unique()
+```
+
+
+```{r}
+park_unit_codes <- read_csv(("https://csuci-data-200-f26.github.io/lecture-materials/data/california_nps_unit_codes.csv"))
+```
+
+## Preparing our data
+
+*30 minutes you try then 10 minutes we try.*
+
+1. Read in the park visit data.
+2. Change the column names to comply with tidyverse style guidelines.
+3. Read in the unit code data.
+4. Join the two datasets, keeping only rows with a unit code available in both datasets, and save the joined data into an object called `park_visits`.
+5. Filter to recreation visits only.
+6. Convert year and month to be factors.
+7. Create a new variable called `date`. We have `year` and `month` available to us in separate columns, so we can't use the `myd()` functions like we've learned. Instead we can use the `make_date()` function, providing it the `year` and `month` columns, and for day we can say `1`.
+
+## Analyzing our data
+
+*15 minutes you try then 10 minutes we try.*
+
+### Summarizing our data
+
+1. Calculate total number of recreation visits for each park and year. Note that the `value` column has counts, so within our `summarize()` we will want `sum(value)`. Which California park has the most and fewest the most visits?
+
+### Visualizing our data
+
+1. Choose 5 California parks you are interested in investigating.
+2. Filter your data to only contain those 5 parks
+3. Make a line plot of number of recreation visits by date with each park mapped to color. 
+4. Improve your plot by employing accessibility considerations and provide informative labels.
+
+
+## A problem-solving workflow
+
+When you encounter a data problem:
+
+1. Identify what is preventing you from obtaining the desired result.
+2. Describe the transformation you need in ordinary language. Try writing it out in words.
+3. Search for a function or example that performs that transformation.
+5. Try out a solution and inspect the result.
+5. Decide whether it actually solved the problem. If not, reiterate.
+
+# Your work
+
+[Add your work down here.]

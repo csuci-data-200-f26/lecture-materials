@@ -1,0 +1,191 @@
+---
+title: ""
+format: 
+  pdf:
+    echo: true
+    message: false
+    warning: false
+    geometry:
+      - bottom=1in
+header-includes:
+  - \usepackage{lastpage}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{}
+  - \fancyhead[L]{Data 200 Spring 2026 -- \textbf{Lab 7a}}
+  - \fancyhead[R]{Simple linear regression}
+  - \fancyfoot[C]{\thepage\ of \pageref{LastPage}}
+  - \renewcommand{\headrulewidth}{0.4pt}
+---
+
+\newcommand{\blank}{\rule{2.5cm}{0.15mm}}
+
+**Team members**:
+
+
+```{r}
+#| echo: false
+library(openintro)
+library(tidyverse)
+
+data("movies")
+```
+
+In today's lab we will be revisiting the movies dataset. These movies were from 2003 and plotted below are two variables from the dataset.
+
+```{r}
+#| echo: false
+#| fig-height: 2
+hist_box_office <- 
+  ggplot(movies, aes(x = box_office)) +
+  geom_histogram() +
+  labs(
+    x = "Box office earnings (million $)",
+    y = "Count"
+  )
+
+hist_score <-
+  ggplot(movies, aes(x = score)) +
+  geom_histogram() +
+  labs(
+    x = "Critic score (out of 100)",
+    y = "Count"
+  )
+
+gridExtra::grid.arrange(
+  hist_box_office,
+  hist_score,
+  nrow = 1
+)
+```
+
+
+## Question 1
+
+Let's get thinking about relationships between two variables. For each of the four plots below, add data that could match the description provided in the title. Note, you don't actually know what the real relationship looks like, so you are just imagining something that fits the description.
+
+```{r}
+#| echo: false
+#| fig-height: 4.5
+
+movies |>
+  mutate(case = "1") |> 
+  bind_rows(mutate(movies, case = "2")) |> 
+  bind_rows(mutate(movies, case = "3")) |> 
+  bind_rows(mutate(movies, case = "4")) |> 
+  mutate(case = factor(
+    case,
+    levels = c(
+      "1",
+      "2",
+      "3",
+      "4"
+    ),
+    labels = c(
+      "Strong Positive Linear",
+      "Weak Negative Linear",
+      "Strong Nonlinear Relationship",
+      "No Relationship"
+    )
+  )) |> 
+  ggplot(aes(x = score, y = box_office)) +
+  geom_point(color = "white") +
+  labs(
+    x = "Critic score (out of 100)",
+    y = "Box office earnings (million $)"
+  ) +
+  theme_minimal() +
+  facet_wrap(vars(case), nrow = 2)
+```
+
+Now suppose we add a regression line and the fitted model is:
+
+$$
+\widehat{BoxOffice} = -50 + 2(CriticScore)
+$$
+
+(Units: box_office is in **millions of dollars**.)
+
+## Question 2
+
+Identify the value of the slope and interpret the slope in context (use units).
+
+\vspace{1in}
+
+## Question 3
+
+Identify the value of the y-intercept and interpret the y-intercept in context (use units). Does the y-axis have meaning in this context?
+
+\vspace{1.2in}
+
+## Question 4
+
+Using this linear model, what would you predict the box office earnings to be for a movie with a critic score of 60?
+
+\vspace{1.2in}
+
+## Question 5
+
+If a movie's score increases by 10 points, how would predicted box office earnings change?
+
+\vspace{1.2in}
+
+
+## Question 6
+
+Fill in the table below for 4 movies:
+
+| Movie | Critic Score | Actual Box Office Earnings $y_i$ | Predicted box office earnings $\hat{y_i}$ | Residual $e_i$ |
+|:----|:----|:------|:------|:------|
+| A | 60 | 40 | | |
+| B | 75 | 130 | | |
+| C | 50 | 45 | | |
+| D | 90 | 110 | | |
+| E | 75 | 100 | | |
+
+## Question 7
+
+The data from question 6 are plotted below, with the regression line added. Draw vertical lines to mark the residuals on the plot. 
+```{r}
+#| echo: false
+#| fig-height: 2.25
+data.frame(
+  movie = c("A", "B", "C", "D", "E"),
+  score = c(60, 75, 50, 90, 75),
+  box_office = c(40, 130, 45, 110, 100)
+) |> 
+  ggplot(aes(x = score, y = box_office)) +
+  geom_point() +
+  geom_abline(slope = 2, intercept = -50) +
+  theme_minimal()
+```
+
+
+## Question 8
+
+Using the table from Question 6, determine if the box office earnings was over or under predicted for each movie.
+
+## Question 9
+
+Using the table from Question 6, which one was predicted most accurately (add a star to the table), which was predicted least accurately (add an x)?
+
+## Question 10
+
+Compute Root Mean Squared Error (RMSE) for these five observations with our linear model. Write out the math here, then you can plug it into a calculator to get a final value.
+
+\vspace{2in}
+
+
+## Question 11
+
+Would you trust this model to predict box office for a movie with score = 10? Why or why not?
+
+\vspace{1.25in}
+
+## Question 12
+
+Would you trust this model to predict box office for a movie with score = 60? Why or why not?
+
+\vspace{1.25in}
+
+

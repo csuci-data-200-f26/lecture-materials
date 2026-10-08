@@ -1,0 +1,498 @@
+---
+title: "Data 200: Lecture 8"
+subtitle: "Introduction to Machine Learning: Simple linear regression"
+author: "Medina - CSU Channel Islands"
+format: 
+  revealjs:
+    theme: [sky, ../slide-style.scss]
+    slide-number: true
+execute:
+  echo: true 
+---
+
+```{r}
+#| echo: false
+library(janitor)
+library(broom)
+library(gridExtra)
+library(tidyverse)
+
+options(scipen = 999)
+
+theme_set(theme_bw(base_size = 22))
+```
+
+# Machine learning
+
+**Machine learning** = Methods that use algorithms to learn patterns from data and make predictions
+
+- Simple linear regression is one example of a machine learning method
+
+## Data `babies` in `openintro` package
+
+```{r}
+library(openintro)
+
+data("babies")
+
+babies <- babies |> 
+  filter(!is.na(bwt) & !is.na(gestation)) 
+
+glimpse(babies)
+```
+
+##  Baby Weights
+
+
+```{r}
+#| output-location: column
+
+babies |> 
+  ggplot(
+    aes(x = gestation, y = bwt)
+  ) +
+  geom_point() +
+  labs(
+    x = "Gestation (days)",
+    y = "Birthweight (oz)"
+  )
+
+```
+
+
+##  Baby Weights
+
+
+```{r }
+#| output-location: column
+
+babies |> 
+  ggplot(
+    aes(x = gestation, y = bwt)
+  ) +
+  geom_point() +
+  labs(
+    x = "Gestation (days)",
+    y = "Birthweight (oz)"
+  ) +
+  geom_smooth(
+    method = "lm", 
+    se = FALSE
+  ) 
+```
+
+`lm` stands for linear model  
+`se` stands for standard error
+
+##  Baby Weights
+
+
+```{r }
+#| echo: false
+
+babies |> 
+  ggplot(
+    aes(x = gestation, y = bwt)
+  ) +
+  geom_point() +
+  labs(
+    x = "Gestation (days)",
+    y = "Birthweight (oz)"
+  ) +
+  geom_smooth(
+    method = "lm", 
+    se = FALSE
+  ) 
+```
+
+The line is our "model". If we can describe a phenomena (e.g., relationship between birth weight and gestation) with a model, we can use that model 
+
+- to describe relationships
+- to predict future values
+
+## Notation
+
+<center>
+
+
+| Variable | Symbol | Relationship | Type |
+|---|-------------|-----------------|---------|
+| Birth weight | y | Response | Numeric |
+| Gestation | x | Explanatory | Numeric |
+
+</center>
+
+. . .
+
+How do we get and use the line?
+
+
+## Linear Equations Review
+
+
+:::{.pull-left}
+
+Recall from your previous math classes
+
+$y = mx + b$
+
+where $m$ is the slope and $b$ is the y-intercept
+
+e.g. $y = 2x -1$
+:::
+
+. . .
+
+
+
+:::{.pull-right}
+
+```{r}
+#| echo: false
+x <- c(0, 1, 2, 3, 4, 5)
+y <- c(-1, 1, 3, 5, 7, 9)
+
+as.data.frame(x = x, y = y) |> 
+  ggplot() +
+  aes(x = x, y = y) +
+  geom_point() +
+  scale_y_continuous(breaks = c(-1, 1, 3, 5, 7, 9)) +
+  scale_x_continuous(breaks = c(0, 1, 2, 3, 4, 5)) +
+  geom_smooth(method = "lm", se = FALSE)
+
+```
+
+:::
+
+
+## Linear model
+
+:::{.pull-left}
+
+**Math** class
+
+$y = b + mx$
+
+- $b$ is y-intercept  
+- $m$ is slope  
+:::
+
+
+:::{.pull-left}
+
+**Data science** class
+
+$y_i = b_0 +b_1x_i + \epsilon_i$
+
+- $b_0$ is **y-intercept**
+- $b_1$ is **slope**  
+- $\epsilon_i$ is **leftover variation / unexplained randomness**  
+- $i = 1, 2, ...n$ identifier for each point
+:::
+
+## Linear model
+
+:::{.pull-left}
+
+**Data science** class
+
+$y_i = b_0 +b_1x_i + \epsilon_i$
+
+- $b_0$ is **y-intercept**
+- $b_1$ is **slope**  
+- $\epsilon_i$ is **leftover variation / unexplained randomness**  
+- $i = 1, 2, ...n$ identifier for each point 
+:::
+
+
+:::{.pull-left}
+
+Note $y_i = b_0 +b_1x_i + \epsilon_i$ is the **theoretical model**. 
+
+- In reality we don't have data for everything / everyone we want to learn about, so we use a sample to get estimates for $b_0$ and $b_1$.
+
+:::
+
+
+## How to fit a linear model with R
+
+```{r}
+linear_baby_model <- lm(bwt ~ gestation, data = babies)
+```
+
+- the `lm()` function fits a linear model, often called **regression**.
+- `lm` stands for linear model.
+- Note that the variables are entered in y ~ x order, where we think x eXplains y
+
+
+
+## Model output
+
+```{r}
+linear_baby_model <- lm(bwt ~ gestation, data = babies)
+broom::tidy(linear_baby_model)
+```
+
+. . .
+
+**Estimated model** (general form):
+
+$\hat {y}_i = \hat{b}_0 + \hat{b}_1 x_i$ <- *The hat means it is an estimate!*
+
+. . .
+
+**Estimated model** (context specific):
+
+$\widehat{\text{Birth Weight}_i} = -10.1 + 0.464\text{ gestation}_i$
+
+# We can use our model for prediction!
+
+## Predicted birth weight for a baby with 300 days of gestation
+
+\begin{equation*}
+  \begin{split}
+    \widehat{\text{Birth Weight}_i} &= -10.1 + 0.464\text{ gestation}_i\\ 
+    &= -10.1 + 0.464 (300)\\ 
+    &=129.1
+  \end{split}
+\end{equation*}
+
+For a baby with 300 days of gestation the predicted birth weight is `r -10.1 + 0.464*300` ounces.
+
+## Predicted birth weight for a baby with 300 days of gestation
+
+
+```{r}
+# Define x value for data to predict with
+prediction_data <- data.frame(gestation = 300)
+
+predict(linear_baby_model, newdata = prediction_data)
+```
+
+
+```{r}
+#| echo: false
+#| fig-height: 3.5
+#| fig-width: 6
+#| fig-align: center
+
+babies |> 
+  ggplot(aes(x = gestation, y = bwt)) +
+  geom_point(alpha = 0.1) +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_point(
+    data = mutate(prediction_data, bwt = predict(linear_baby_model, newdata = prediction_data)), 
+    color = "red",
+    size = 2
+  )
+```
+
+
+## Interpretation of estimates: general
+
+- $\hat{b}_0$ is the predicted/expected $Y$ value when $X = 0$.
+
+- $\hat{b}_1$ is the difference in predicted/expected $Y$ value associated with a 1 unit increase in $X$
+
+## Interpretation of estimates: in context
+
+
+:::{.pull-left}
+```{r echo = FALSE, fig.align='center', message=FALSE, warning = FALSE, fig.height = 4}
+babies |> 
+  ggplot() +
+  aes(x = gestation, y = bwt) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) 
+```
+
+$\hat{b}_1 = 0.464$ which means for one unit (day) increase in gestation period the expected increase in birth weight is 0.464 ounces.
+
+:::
+
+. . .
+
+:::{.pull-right}
+```{r echo = FALSE, fig.align='center', message=FALSE, warning = FALSE, fig.height = 4}
+babies |> 
+  ggplot() +
+  aes(x = gestation, y = bwt) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  xlim(0, 360) +
+  ylim(-10, 180) +
+  geom_abline(slope = 0.459, intercept = -8.76)
+```
+
+$\hat{b}_0 = -10.1$ which means for a gestation period of 0 days the expected birth weight is -10.1 ounces!!!!!!!!
+(does NOT make sense)
+:::
+
+
+
+## Extrapolation
+
+- There is no such thing as 0 days of gestation.
+
+. . .
+
+- Birth weight cannot possibly be -10.1 ounces.
+
+. . .
+
+- Extrapolation happens when we use a model outside the range of the x-values that are observed. After all, we cannot really know how the model behaves (e.g. may be non-linear) outside of the scope of what we have observed. 
+
+# Model Error
+
+## Baby number 148
+
+Let's consider a baby in our data and see how far/close the true birth weight is from the predicted birth weight.
+
+. . .
+
+:::{.pull-left}
+
+```{r}
+babies |> 
+  filter(case == 148) |> 
+  select(bwt, gestation)
+```
+
+:::
+
+:::{.pull-right}
+
+```{r}
+#| echo: false
+#| fig-height: 3.5
+#| fig-width: 6
+
+baby_148 <- babies |> 
+  filter(case == 148) |> 
+  select(bwt, gestation)
+
+babies |> 
+  ggplot(aes(x = gestation, y = bwt)) +
+  geom_point(alpha = 0.1) +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_point(data = baby_148, color = "red")
+```
+
+
+:::
+
+
+
+## Baby #148
+
+**Observed**:
+
+$$\text{Birth Weight}_{148} = 160$$
+
+**Predicted**:
+
+\begin{equation*}
+  \begin{split}
+    \widehat{\text{Birth Weight}_i} &= -10.1 + 0.464\text{ gestation}_i\\ 
+    &= -10.1 + 0.464 (300)\\ 
+    &=129.1
+  \end{split}
+\end{equation*}
+
+
+
+## Residual for `i = 148`
+
+:::{.pull-left}
+
+```{r}
+#| echo: false
+#| fig-align: center
+#| fig-height: 4
+#| fig-width: 6
+
+babies |> 
+  ggplot(aes(x = gestation, y = bwt)) +
+  geom_point(alpha = 0.1) +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_point(data = baby_148, color = "red", size = 2) +
+  geom_segment(
+    x = 300, xend = 300, y = 128.94, yend = 160, 
+    color = "red",
+    size = 2,
+    linetype = "dotted"
+  )
+```
+
+
+
+:::
+
+:::{.pull-right}
+
+$\text{Birth Weight}_{148} = 160$
+
+$\widehat{\text{Birth Weight}}_{148} = 129.1$
+
+:::
+
+**Residual:**
+
+$e_{i} = y_{i} - \hat y_{i}$
+
+$e_{148} =$ 160 - 129.1 =  30.9
+
+
+## Least Squares Regression 
+
+There are different ways we could have fit a line to our data, we choose the one ($\hat{b}_0$ and $\hat{b}_1$) that minimizes the **sum of squared residuals** ($e_i = y_{i} - \hat y_{i}$):
+
+$$e_1^2 + e_2^2 + ... + e_n^2$$
+
+. . .
+
+*Why didn't we choose to minimize*
+
+$$e_1 + e_2 + ... + e_n?$$
+
+## Prediction Error
+
+**Root Mean Squared Error** (RMSE) can be thought of as "average error" of our model
+
+$$RMSE = \sqrt{(e_1^2 + e_2^2 + ... + e_n^2) / n},$$
+with $e_i = y_{i} - \hat y_{i}$.
+
+. . .
+
+- Minimum value for RMSE is 0
+- RMSE is in the same units as your $Y$ variable
+
+
+## Computing residuals
+
+```{r}
+linear_baby_model <- lm(bwt ~ gestation, data = babies)
+
+babies |> 
+  modelr::add_predictions(linear_baby_model) |> 
+  modelr::add_residuals(linear_baby_model) |> 
+  select(gestation, bwt, pred, resid)
+```
+
+## Computing RMSE
+
+```{r}
+linear_baby_model <- lm(bwt ~ gestation, data = babies)
+
+babies <- babies |> 
+  modelr::add_predictions(linear_baby_model) |> 
+  modelr::add_residuals(linear_baby_model)
+
+sqrt(mean((babies$bwt - babies$pred)^2))
+```
+
+Our linear model's RMSE is `r round(sqrt(mean((babies$bwt - babies$pred)^2)), 2)` oz.
+
+. . .
+
+*Maybe weight of the mother would better predict baby birth weight... We could fit both linear models and compare prediction error!*
