@@ -12,7 +12,7 @@ header-includes:
   - \usepackage{fancyhdr}
   - \pagestyle{fancy}
   - \fancyhf{}
-  - \fancyhead[L]{Data 200 Spring 2026 -- \textbf{Lab 7a}}
+  - \fancyhead[L]{Data 200 Fall 2026 -- \textbf{Lab 8a}}
   - \fancyhead[R]{Simple linear regression}
   - \fancyfoot[C]{\thepage\ of \pageref{LastPage}}
   - \renewcommand{\headrulewidth}{0.4pt}
@@ -59,6 +59,7 @@ gridExtra::grid.arrange(
 )
 ```
 
+\vspace*{-1cm}
 
 ## Question 1
 
@@ -101,10 +102,10 @@ movies |>
 Now suppose we add a regression line and the fitted model is:
 
 $$
-\widehat{BoxOffice} = -50 + 2(CriticScore)
+\widehat{\text{Box Office}} = -50 + 2\times\text{Critic Score}
 $$
 
-(Units: box_office is in **millions of dollars**.)
+(Units: `box_office` is in **millions of dollars**.)
 
 ## Question 2
 
