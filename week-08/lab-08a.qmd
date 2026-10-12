@@ -115,7 +115,7 @@ Identify the value of the slope and interpret the slope in context (use units).
 
 ## Question 3
 
-Identify the value of the y-intercept and interpret the y-intercept in context (use units). Does the y-axis have meaning in this context?
+Identify the value of the y-intercept and interpret the y-intercept in context (use units). Does the y-intercept have meaning in this context?
 
 \vspace{1.2in}
 
