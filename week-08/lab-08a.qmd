@@ -164,7 +164,7 @@ data.frame(
 
 ## Question 8
 
-Using the table from Question 6, determine if the box office earnings was over or under predicted for each movie.
+Using the table from Question 6, determine if we over or under predicted the box office earnings for each movie.
 
 ## Question 9
 
