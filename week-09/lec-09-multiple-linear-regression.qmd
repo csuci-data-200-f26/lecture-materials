@@ -1,0 +1,717 @@
+---
+title: "Data 200: Lecture 9"
+subtitle: "Linear regression with multiple predictors"
+author: "Medina - CSU Channel Islands"
+format: 
+  revealjs:
+    theme: [sky, ../slide-style.scss]
+    slide-number: true
+execute:
+  echo: true 
+---
+
+
+```{r}
+#| echo: false
+options(scipen = 999)
+library(tidyverse)
+library(openintro)
+library(broom)
+library(modelr)
+theme_set(theme_bw(base_size = 22))
+
+digits <- 1
+```
+
+## Recap
+
+Last week we learned about **simple linear regression**
+
+$$y_i = b_0 +b_1x_{1i} + \epsilon_i$$
+
+While our models sometimes generally captured the trend, there still was a good amount of prediction error. 
+
+Maybe we can create a better predictive model by using more than one explanatory variable (aka **predictor**)!
+
+
+##
+
+**Simple** linear regression = only one $X$
+
+$$y_i = b_0 +b_1x_{1i} + \epsilon_i$$
+
+**Multiple** linear regression = multiple $X$'s
+
+$$y_i = b_0 +b_1x_{1i} + b_2 x_{2i} + ... + b_p x_{pi} \epsilon_i$$
+
+# Ex: Penguins model
+
+In your homework you looked at the `penguins` data.
+
+Let's see if we can build a good predictive model for a penguin's bill depth ($Y$).
+
+## Model 1
+
+We will start by using a penguin's flipper length as a predictor ($X$) for it's bill depth ($Y$).
+
+<center>
+
+| Variable | Symbol | Relationship | Type |
+|---|-------------|-----------------|---------|
+| Bill depth | $y$ | Response | Numeric |
+| Flipper length | $x_1$ | Predictor | Numeric |
+
+</center>
+
+## Model 1 Visually
+
+```{r}
+#| output-location: column
+ggplot(
+  penguins, 
+  aes(
+    x = flipper_len, 
+    y = bill_dep
+  )
+) + 
+  geom_point() +
+  geom_smooth(
+    method = "lm", 
+    se = FALSE
+  )
+```
+
+## Estimating Model 1
+
+```{r}
+#| out-width: 40%
+#| echo: false
+ggplot(
+  penguins, 
+  aes(
+    x = flipper_len, 
+    y = bill_dep
+  )
+) + 
+  geom_point() +
+  geom_smooth(
+    method = "lm", 
+    se = FALSE
+  )
+```
+
+. . .
+
+```{r}
+penguins_model_1 <- lm(bill_dep ~ flipper_len, data = penguins)
+tidy(penguins_model_1)
+```
+
+```{r}
+#| echo: false
+model_1_b0 <- round(penguins_model_1$coefficients[1], digits)
+model_1_b1 <- round(penguins_model_1$coefficients[2], digits)
+```
+
+
+**Predicted Bill Depth = `r model_1_b0` + `r model_1_b1` $\times$ Flipper Length**
+
+## Assessing fit of Model 1
+
+Estimated Model 1:
+
+**Predicted Bill Depth = `r model_1_b0` + `r model_1_b1` $\times$ Flipper Length**
+
+. . .
+
+*Is this line a good fit for the data?*
+
+. . .
+
+Root Mean Squared Error (RMSE) can help us asses!
+
+```{r}
+rmse(penguins_model_1, data = penguins)
+```
+
+The predictions from Model 1 are off by roughly `r round(rmse(penguins_model_1, data = penguins)
+, 2)` mm, on average.
+
+. . .
+
+Our data only have bill depths between 13 mm and 21.5 mm, so this model is not doing a great job...
+
+## Model 2
+
+Let's also consider using both body mass and flipper length!
+
+<center>
+
+| Variable | Symbol | Relationship | Type |
+|---|-------------|-----------------|---------|
+| Bill depth | $y$ | Response | Numeric |
+| Flipper length | $x_1$ | Predictor | Numeric |
+| Body mass | $x_2$ | Predictor | Numeric |
+
+</center>
+
+
+## Model 2 Visually
+
+It gets harder/impossible to visualize our model the more predictors we have. Instead we can still look at a plot of $Y$ and one $X$ at a time to see if we think they are linearly related.
+
+
+```{r}
+#| output-location: column
+ggplot(
+  penguins, 
+  aes(
+    x = body_mass, 
+    y = bill_dep
+  )
+) + 
+  geom_point() +
+  geom_smooth(
+    method = "lm", 
+    se = FALSE
+  )
+```
+
+## Fitting Model 2
+
+```{r}
+penguins_model_2 <- lm(bill_dep ~ flipper_len + body_mass, data = penguins)
+tidy(penguins_model_2)
+```
+
+```{r}
+#| echo: false
+model_2_b0 <- round(penguins_model_2$coefficients[1], 1)
+model_2_b1 <- round(penguins_model_2$coefficients[2], 1)
+model_2_b2 <- round(penguins_model_2$coefficients[3], 4)
+```
+
+
+**Predicted Bill Depth = `r model_2_b0` + `r model_2_b1` $\times$ Flipper Length**  
+**+ `r model_2_b2` $\times$ Body Mass**
+
+## Assessing Model 2 fit
+
+Estimated Model 2:
+
+**Predicted Bill Depth = `r model_2_b0` + `r model_2_b1` $\times$ Flipper Length**  
+**+ `r model_2_b2` $\times$ Body Mass**
+
+. . .
+
+*Is this line a good fit for the data?*
+
+. . .
+
+```{r}
+rmse(penguins_model_2, data = penguins)
+```
+
+. . . 
+
+Hmmmm, not much better.
+
+## Examining the data
+
+```{r}
+#| output-location: column
+ggplot(
+  penguins, 
+  aes(
+    x = flipper_len, 
+    y = bill_dep
+  )
+) + 
+  geom_point()
+```
+
+*What is causing this split in the data??*
+
+## Accounting for species
+
+```{r}
+#| output-location: column
+ggplot(
+  penguins, 
+  aes(
+    x = flipper_len, 
+    y = bill_dep,
+    color = species
+  )
+) + 
+  geom_point()
+```
+
+Now we see a much different (positive) trend!
+
+## Model 3
+
+Let's using flipper length and species to predict flipper length!
+
+<center>
+
+| Variable | Symbol | Relationship | Type |
+|---|-------------|-----------------|---------|
+| Bill depth | $y$ | Response | Numeric |
+| Flipper length | $x_1$ | Predictor | Numeric |
+| Species | $x_2$ | Predictor | Categorical |
+
+</center>
+
+
+## Model 3 visually
+
+```{r}
+#| output-location: column
+library(moderndive)
+ggplot(
+  penguins, 
+  aes(
+    x = flipper_len, 
+    y = bill_dep,
+    color = species
+  )
+) + 
+  geom_point() +
+  geom_parallel_slopes(se = FALSE)
+```
+
+We use the `geom_parallel_slopes()` function from the moderndive R package. (`geom_smooth()` would do different behavior we won't go into in this class!)
+
+## Estimating Model 3
+
+```{r}
+penguins_model_3 <- lm(bill_dep ~ flipper_len + species, data = penguins)
+tidy(penguins_model_3)
+```
+
+```{r}
+#| echo: false
+model_3_b0 <- round(
+  penguins_model_3$coefficients[1], 
+  digits = digits
+  )
+model_3_b1 <- round(
+  penguins_model_3$coefficients["flipper_len"], 
+  digits = digits
+  )
+model_3_b2 <- round(
+  penguins_model_3$coefficients["speciesChinstrap"], 
+  digits = digits
+  )
+model_3_b3 <- round(
+  penguins_model_3$coefficients["speciesGentoo"], 
+  digits = digits
+  )
+```
+
+
+Predicted Bill Depth = `r model_3_b0` + `r model_3_b1` $\times$  Flipper Length  
+\+ `r model_3_b2` $\times$ I(Species = Chinstrap)  
+\+ `r model_3_b3` $\times$ I(Species = Gentoo)
+
+## Assessing Model 3 fit
+
+Estimated Model 3:
+
+**Predicted Bill Depth = `r model_3_b0` + `r model_3_b1` $\times$  Flipper Length**  
+**\+ `r model_3_b2` $\times$ I(Species = Chinstrap)**  
+**\+ `r model_3_b3` $\times$ I(Species = Gentoo)**
+
+```{r}
+rmse(penguins_model_3, data = penguins)
+```
+
+. . . 
+
+| Model | Predictors | RMSE |
+|:----|:-----------------|:----|
+| 1 | Flipper Length | `r round(rmse(penguins_model_1, data = penguins), 2)` |
+| 2 | Flipper Length & Body Mass| `r round(rmse(penguins_model_2, data = penguins), 2)` |
+| 3 | Flipper Length & Species | `r round(rmse(penguins_model_3, data = penguins), 2)` |
+
+
+## Examining Model 3
+
+Estimated Model 3:
+
+**Predicted Bill Depth = `r model_3_b0` + `r model_3_b1` $\times$  Flipper Length**  
+**\+ `r model_3_b2` $\times$ I(Species = Chinstrap)**  
+**\+ `r model_3_b3` $\times$ I(Species = Gentoo)**
+
+. . .
+
+- *What are those I() functions?*
+- *What about the Adelie penguins?*
+
+# Categorical predictors
+
+## Indicator functions
+
+**I(Species = Chinstrap)**  and **I(Species = Gentoo)**
+
+The I() function is
+
+- Called an **indicator function**
+- 1 if true, and 0 if false
+- Used for categorical predictors (since we can't do math with categorical variables)
+
+## Categorical Predictors ($X$'s)
+
+**Predicted Bill Depth = `r model_3_b0` + `r model_3_b1` $\times$ Flipper Length**  
+**\+ `r model_3_b2` $\times$ I(Species = Chinstrap)**  
+**\+ `r model_3_b3` $\times$ I(Species = Gentoo)**
+
+- Recall there are three levels for species, but notice only 2 species levels appear in our model 
+- **Reference level** is the omitted level for a categorical variable 
+- For every categorical variable with $k$ levels, there will be $k-1$ predictors in the model (because of math...)
+
+##
+
+**Predicted Bill Depth = `r model_3_b0` + `r model_3_b1` $\times$ Flipper Length**  
+**\+ `r model_3_b2` $\times$ I(Species = Chinstrap)**  
+**\+ `r model_3_b3` $\times$ I(Species = Gentoo)**
+
+Predicted Bill Depth for a Gentoo penguin with a flipper length of 200mm:
+
+```{r}
+#| echo: false
+
+pred_1 <- model_3_b0 + model_3_b1 * 200 + model_3_b2 * 0 + model_3_b3 * 1
+```
+
+
+`r model_3_b0` + `r model_3_b1` $\times$ 200 + `r model_3_b2` $\times$ 0 + `r model_3_b3` $\times$ 1 = `r round(pred_1, digits = 1)` mm
+
+. . .
+
+Predicted Bill Depth for a Chinstrap penguin with a flipper length of 200mm:
+
+```{r}
+#| echo: false
+
+pred_2 <- model_3_b0 + model_3_b1 * 200 + model_3_b2 * 1 + model_3_b3 * 0
+```
+
+`r model_3_b0` + `r model_3_b1` $\times$ 200 + `r model_3_b2` $\times$ 1 + `r model_3_b3` $\times$ 0 = `r round(pred_2, digits = 1)` mm
+
+. . .
+
+Predicted Bill Depth for an Adelie penguin with a flipper length of 200mm:
+
+```{r}
+#| echo: false
+
+pred_3 <- model_3_b0 + model_3_b1 * 200 + model_3_b2 * 0 + model_3_b3 * 0
+```
+
+`r model_3_b0` + `r model_3_b1` $\times$ 200 + `r model_3_b2` $\times$ 0 + `r model_3_b3` $\times$ 0 = `r round(pred_3, digits = 1)` mm
+
+## Invidiual versus shared model
+
+*Why don't we just split the data set up by species and fit a line for each?*
+
+By using a single model for all of our data:
+
+- we pool information across the different species. This can lead to lower error (more precise prediction)
+- allows for shared slope, different y-intercepts
+
+## Model 4
+
+Now let's use flipper length, species, and body mass in our model!
+
+<center>
+
+| Variable | Symbol | Relationship | Type |
+|---|-------------|-----------------|---------|
+| Bill depth | $y$ | Response | Numeric |
+| Flipper length | $x_1$ | Predictor | Numeric |
+| Species | $x_2$ | Predictor | Categorical |
+| Body mass | $x_3$ | Predictor | Numeric |
+
+</center>
+
+
+## Estimating Model 4
+
+```{r}
+penguins_model_4 <- lm(bill_dep ~ flipper_len + species + body_mass, data = penguins)
+tidy(penguins_model_4)
+```
+
+```{r}
+#| echo: false
+model_4_b0 <- round(
+  penguins_model_4$coefficients[1], 
+  digits = digits
+  )
+model_4_b1 <- round(
+  penguins_model_4$coefficients["flipper_len"], 
+  digits = 2
+  )
+model_4_b2 <- round(
+  penguins_model_4$coefficients["speciesChinstrap"], 
+  digits = digits
+  )
+model_4_b3 <- round(
+  penguins_model_4$coefficients["speciesGentoo"], 
+  digits = digits
+  )
+model_4_b4 <- round(
+  penguins_model_4$coefficients["body_mass"], 
+  digits = 4
+  )
+```
+
+Predicted Bill Depth = `r model_4_b0` + `r model_4_b1` $\times$ Flipper Length  
+\+ `r model_4_b2` $\times$ I(Species = Chinstrap)  
+\+ `r model_4_b3` $\times$ I(Species = Gentoo)  
+\+ `r model_4_b4` $\times$ Body Mass
+
+## Assessing Model 4 fit
+
+Estimated Model 4:
+
+**Predicted Bill Depth = `r model_4_b0` + `r model_4_b1` $\times$ Flipper Length**  
+**\+ `r model_4_b2` $\times$ I(Species = Chinstrap)**  
+**\+ `r model_4_b3` $\times$ I(Species = Gentoo)**  
+**\+ `r model_4_b4` $\times$ Body Mass**
+
+. . .
+
+```{r}
+rmse(penguins_model_4, data = penguins)
+```
+
+## Comparing Models
+
+| Model | Predictors | RMSE |
+|:----|:-----------------|:----|
+| 1 | Flipper Length | `r round(rmse(penguins_model_1, data = penguins), 2)` |
+| 2 | Flipper Length & Body Mass| `r round(rmse(penguins_model_2, data = penguins), 2)` |
+| 3 | Flipper Length & Species | `r round(rmse(penguins_model_3, data = penguins), 2)` |
+| 4 | Flipper Length & Species & Body Mass | `r round(rmse(penguins_model_4, data = penguins), 2)` |
+
+. . .
+
+We used RMSE to compare models, there are other commonly used metrics!
+
+# Model Evaluation
+
+## Common evaluation metrics
+
+- $R^2$
+- Adjusted $R^2$
+- Root Mean Square Error (RMSE)
+
+
+## $R^2$
+
+$R^2$ is the proportion of variation in $Y$ explained by model.
+
+- Informs about how well the model fits the data
+- Bounded between 0 and 1
+- Should only be used to compare models with the same number of predictors!!
+
+## $R^2$
+
+```{r}
+glance(penguins_model_1)
+```
+
+```{r}
+#| echo: false
+model_1_eval <- glance(penguins_model_1)
+```
+
+Model 1 explains `r 100 * round(model_1_eval$r.squared, 2)`% of the variation in Bill Depth.
+
+## Adjusted $R^2$
+
+A major issue with $R^2$ is that it will always increase when you add another predictor $X$, even if it is not a better model.
+
+A more responsible metric to use is Adjusted $R^2$, which penalizes having more predictors in your model.
+
+## Adjusted $R^2$
+
+When comparing models with multiple predictors we rely on Adjusted $R^2$
+
+
+```{r}
+glance(penguins_model_1)
+glance(penguins_model_2)
+```
+
+
+## Root Mean Square Error
+
+$RMSE = \sqrt{\frac{(y_1-\hat y_1)^2 + (y_2-\hat y_2)^2 + ... + (y_n-\hat y_n)^2}{n}}$
+
+- "Essentially" measuring average prediction error for our model
+- Lowest possible value is 0
+- Same units as $Y$
+
+##
+
+```{r}
+rmse(penguins_model_1, data = penguins)
+```
+
+The predictions from model 1 are, on average, off by `r round(rmse(penguins_model_1, data = penguins), 2)` mm. 
+
+```{r}
+rmse(penguins_model_4, data = penguins)
+```
+
+The predictions from model 4 are, on average, off by `r round(rmse(penguins_model_4, data = penguins), 2)` mm. 
+
+
+# Overfitting
+
+Can we keep adding all the variables and try to get an EXCELLENT model fit?
+
+## Overfitting
+
+- We are fitting the model to sample data.
+
+- Our goal is to build a model that will predict well on on other data (with unknown $Y$).
+
+- If we make our model too perfect for our sample data, the model may not perform as well with other data.
+
+- In this case we would be overfitting the data.
+
+- We can use **model validation** techniques.
+
+## Splitting the data
+
+To avoid overfitting we can split our data
+
+- Some of the data will be reserved for estimating our model (called **training** your model)
+- The rest of the data will be reserved for evaluating the prediction of our model (called **testing** your model)
+
+## Splitting the data (Train vs. Test)
+
+Load the rsample and modelr packages and set a seed.
+```{r}
+library(rsample)
+library(modelr)
+set.seed(8236)
+```
+
+Let's use 75% of our sample data to train, then the other 25% to test our model.
+```{r}
+penguins_split <- initial_split(penguins, prop = 0.75) # 75% to 25% split
+penguins_train_data <- training(penguins_split)
+penguins_test_data <- testing(penguins_split)
+```
+
+. . .
+ 
+```{r}
+nrow(penguins)
+nrow(penguins_train_data)
+nrow(penguins_test_data)
+```
+
+
+## Training Model 4
+
+Fit the model with the training data
+```{r}
+model_4_train <- lm(
+  bill_dep ~ flipper_len + species + body_mass,  
+  data = penguins_train_data
+)
+```
+
+
+## Testing Model 4
+
+In-sample (train) RMSE
+```{r}
+rmse(
+  model_4_train, 
+  data = penguins_train_data
+)
+```
+
+Out-of-sample (test) RMSE
+```{r}
+rmse(
+  model_4_train, 
+  data = penguins_test_data
+)
+```
+
+## Comparing out-of-sample RMSE
+
+```{r}
+#| echo: false
+
+model_1_train <- lm(
+  bill_dep ~ flipper_len,  
+  data = penguins_train_data
+)
+model_2_train <- lm(
+  bill_dep ~ flipper_len + body_mass,  
+  data = penguins_train_data
+)
+model_3_train <- lm(
+  bill_dep ~ flipper_len + species,  
+  data = penguins_train_data
+)
+
+rmse_df <- data.frame(
+  model = c(1, 2, 3, 4),
+  in_rmse = c(
+    rmse(
+      model_1_train, 
+      data = penguins_train_data
+    ),
+    rmse(
+      model_2_train, 
+      data = penguins_train_data
+    ),
+    rmse(
+      model_3_train, 
+      data = penguins_train_data
+    ),
+    rmse(
+      model_4_train, 
+      data = penguins_train_data
+    )
+  ),
+  out_rmse = c(
+    rmse(
+      model_1_train, 
+      data = penguins_test_data
+    ),
+    rmse(
+      model_2_train, 
+      data = penguins_test_data
+    ),
+    rmse(
+      model_3_train, 
+      data = penguins_test_data
+    ),
+    rmse(
+      model_4_train, 
+      data = penguins_test_data
+    )
+  )
+) |> 
+  mutate(out_rmse = round(out_rmse, 3))
+```
+
+
+| Model | Predictors | Out-of-sample RMSE |
+|:--|:-----------------|:----|
+| 1 | Flipper Length | `r rmse_df[1, 3]` |
+| 2 | Flipper Length & Body Mass| `r rmse_df[2, 3]` |
+| 3 | Flipper Length & Species | `r rmse_df[3, 3]` |
+| 4 | Flipper Length & Species & Body Mass | `r rmse_df[4, 3]` |

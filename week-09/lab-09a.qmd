@@ -1,0 +1,224 @@
+---
+title: ""
+format: 
+  pdf:
+    echo: true
+    message: false
+    warning: false
+    geometry:
+      - bottom=1in
+header-includes:
+  - \usepackage{lastpage}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{}
+  - \fancyhead[L]{Data 200 Fall 2026 -- \textbf{Lab 9a}}
+  - \fancyhead[R]{Multiple Linear Regression}
+  - \fancyfoot[C]{\thepage\ of \pageref{LastPage}}
+  - \renewcommand{\headrulewidth}{0.4pt}
+---
+
+```{r}
+#| echo: false
+library(tidyverse)
+```
+
+
+\newcommand{\blank}{\rule{2.5cm}{0.15mm}}
+
+**Team members**:
+
+## Foundations
+
+Last week we studied **simple linear regression**:
+
+$$
+\hat{y}_i = \hat{b}_0 + \hat{b}_1 x_{1i}
+$$
+
+### Question 1
+
+What does the estimated slope $\hat{b_1}$ represent?
+
+\vspace*{1in}
+
+### Question 2
+
+What is a residual?
+
+\vspace*{1in}
+
+We now extend to **multiple linear regression** with $p$ predictors:
+
+$$
+\hat{y}_i = \hat{b}_0 + \hat{b}_1 x_{1i} + \hat{b}_2 x_{2i} + ... + \hat{b}_p x_{2p}
+$$
+
+### Question 3
+
+Suppose we are building a linear model to predict **penguin bill depth (mm)** using: $x_1$: flipper length (mm) and $x_2$: body mass (g). Why might using more than one predictor improve predictions?
+
+
+\newpage
+
+## Multiple predictors
+
+Suppose we fit this model A:
+$$
+\widehat{\text{Bill Depth}}_i = 35.5 -0.1 \times\text{Flipper Length}_i + 0.0004 \times \text{Body Mass}_i
+$$
+
+### Question 4
+
+Suppose we have flipper length and body mass for three penguins with unknown bill depth. Fill in the predicted bill depth using the estimated model above.
+
+| Penguin | Flipper Length (mm) | Body Mass (g) | Predicted Bill Depth (mm) |
+|--------|------------------|------------|------------------------------|
+| R | 200 | 4000 | |
+| S | 201 | 4000 | |
+| Q | 200 | 4001 | |
+
+### Question 5
+
+Does penguin R or S have a higher predicted bill depth? By how much was it larger?
+
+\vspace*{0.5in}
+
+
+### Question 6
+
+Does penguin R or Q have a higher predicted bill depth? By how much was it larger?
+
+\vspace*{0.5in}
+
+### Question 7
+
+When comparing penguins R and S, what stayed the same? ____________________
+
+When comparing penguins R and Q, what stayed the same? ____________________
+
+Why is this helpful when trying to understand the effect of one variable?
+
+\vspace*{0.5in}
+
+### Question 8
+
+When we interpret coefficients in multiple regression, we isolate the effect of one variable at a time by holding the others constant.
+
+Complete the sentences to interpret the regression estimates:
+
+For penguins of similar body mass, a 1 millimeter increase in flipper length is associated with a ____________ mm change in predicted bill depth.
+
+For penguins of similar flipper length, a ____________ increase in body mass is associated with a __________ mm change in _____________________.
+
+## Categorical predictors
+
+Now suppose we extend our model by including species as a predictor. Model B: 
+\begin{equation*}
+  \begin{split}
+    \widehat{\text{Bill Depth}}_i = &7.7 + 0.3 \times\text{Flipper Length}_i + 0.001 \times \text{Body Mass}_i\\
+    &- 0.2\times I (\text{Species}_i = \text{Chinstrap}) - 5.9\times I (\text{Species}_i = \text{Gentoo})
+  \end{split}
+\end{equation*}
+
+### Question 9
+
+Suppose we have three penguins with a flipper length of 200 mm and a body mass of 4000 grams. Fill in the table below for Model B (one row has already been filled in for you).
+
+| Penguin | Species | $I (\text{Species}_i = \text{Chinstrap})$ | $I (\text{Species}_i = \text{Gentoo})$ | Predicted Bill Depth|
+|--------|----------|------------------------|----------------------|----------|
+| R | Chinstrap | 1 | 0 | 71.5 mm |
+| U | Gentoo | | | |
+| V | Adelie | | | |
+
+### Question 10
+
+Which species has the highest predicted bill depth, for penguins with similar flipper length and body mass? Which has the lowest predicted bill depth? Explain how you can tell from the model.
+
+\vspace*{1in}
+
+
+## Evaluating models
+
+```{r}
+#| echo: false
+
+round_digits <- 2
+
+set.seed(234)
+
+penguins_split <- rsample::initial_split(penguins, prop = 0.75) # 75% to 25% split
+penguins_train_data <- rsample::training(penguins_split)
+penguins_test_data <- rsample::testing(penguins_split)
+
+model_z <- model_4_train <- lm(
+  bill_dep ~ flipper_len,  
+  data = penguins_train_data
+)
+
+model_a <- model_4_train <- lm(
+  bill_dep ~ flipper_len + body_mass,  
+  data = penguins_train_data
+)
+
+model_b <- model_4_train <- lm(
+  bill_dep ~ flipper_len + body_mass + species,  
+  data = penguins_train_data
+)
+
+model_evals <- data.frame(
+  model = c("Z", "A", "B"),
+  train_r_squared = c(
+    broom::glance(model_z)$r.squared,
+    broom::glance(model_a)$r.squared,
+    broom::glance(model_b)$r.squared
+  ),
+  train_adj_r_squared = c(
+    broom::glance(model_z)$adj.r.squared,
+    broom::glance(model_a)$adj.r.squared,
+    broom::glance(model_b)$adj.r.squared
+  ),
+  test_rmse = c(
+    modelr::rmse(model_z, data = penguins_test_data),
+    modelr::rmse(model_a, data = penguins_test_data),
+    modelr::rmse(model_b, data = penguins_test_data)
+  )
+) |> 
+  mutate(
+    train_r_squared = round(train_r_squared, digits = round_digits),
+    train_adj_r_squared = round(train_adj_r_squared, digits = round_digits),
+    test_rmse = round(test_rmse, digits = round_digits)
+  )
+```
+
+Consider the three following models:
+
+| Model | Predictors | R² (train) | Adjusted R² (train) | RMSE (test)
+|------|-----------|----|-------------|--------------|
+| Z | Flipper length | `r filter(model_evals, model == "Z") |> pull(train_r_squared)` | `r filter(model_evals, model == "Z") |> pull(train_adj_r_squared)` | `r filter(model_evals, model == "Z") |> pull(test_rmse)` |
+| A | Flipper + Body mass | `r filter(model_evals, model == "A") |> pull(train_r_squared)` | `r filter(model_evals, model == "A") |> pull(train_adj_r_squared)` | `r filter(model_evals, model == "A") |> pull(test_rmse)` |
+| B | Flipper + Body mass + Species | `r filter(model_evals, model == "B") |> pull(train_r_squared)` | `r filter(model_evals, model == "B") |> pull(train_adj_r_squared)` | `r filter(model_evals, model == "B") |> pull(test_rmse)` |
+
+
+
+### Question 11
+
+Which model described the most variation in bill depth? Which metric did you use to identify this?
+
+\vspace*{1in}
+
+
+### Question 12
+
+Complete the sentence: Approximately ____\% of the observed variation in bill depth is explained by Model ____.
+
+### Question 13
+
+Which model did the best predicting bill depth on new data? Which metric did you use to identify this?
+
+\vspace*{1in}
+
+### Question 14
+
+Complete the sentence: When using Model ______ on new data, predictions for bill depth were off by approximately __________ mm, on average.
+
