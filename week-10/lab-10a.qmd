@@ -1,0 +1,122 @@
+---
+title: ""
+format: 
+  pdf:
+    echo: true
+    message: false
+    warning: false
+    geometry:
+      - bottom=1in
+header-includes:
+  - \usepackage{lastpage}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{}
+  - \fancyhead[L]{Data 200 Spring 2026 -- \textbf{Lab 9a}}
+  - \fancyhead[R]{Logistic Regression}
+  - \fancyfoot[C]{\thepage\ of \pageref{LastPage}}
+  - \renewcommand{\headrulewidth}{0.4pt}
+---
+
+```{r}
+#| echo: false
+library(tidyverse)
+```
+
+
+\newcommand{\blank}{\rule{2.5cm}{0.15mm}}
+
+**Team members**:
+
+## Part 1 – Choosing the right model
+
+For each scenario below:
+
+1. Identify the response variable.
+2. Identify the variable type for the response variable.
+3. Identify whether linear or logistic regression would be an appropriate model.
+4. Identify whether RMSE or Accuracy should be used to assess predictive performance of the model.
+
+### Question 1
+
+Predicting the number of hours a student studies per week using: major, number of classes, GPA.
+
+Response variable:
+
+Response variable type:
+
+Regression model: 
+
+Evaluation metric:
+
+
+### Question 2
+
+Predicting whether a customer will cancel their subscription using: monthly cost and subscription type.
+
+Response variable:
+
+Response variable type:
+
+Regression model: 
+
+Evaluation metric:
+
+
+### Question 3
+
+Using humidity and wind speed to predict daily temperature.
+
+Response variable:
+
+Response variable type:
+
+Regression model: 
+
+Evaluation metric:
+
+### Question 4
+
+Using attendance, major, and hours studied to predict if a student will pass or fail a course.
+
+Response variable:
+
+Response variable type:
+
+Regression model: 
+
+Evaluation metric:
+
+### Question 6
+
+Fill in the blanks:
+
+For continuous response variables (or at least discrete numeric response variables that can take many values), ________________ regression is appropriate and we can compute ___________________ to assess predictive performance of our model. A **larger** / **smaller** value of this is better. (circle one)
+
+For binary response variables, ________________ regression is appropriate and we can compute ___________________ to assess predictive performance of our model. A **larger** / **smaller** value of this is better. (circle one)
+
+## Understanding predictions
+
+### Question 7
+
+A linear regression model predicts (circle one): **value of $y_i$** / **log odds of $y_i$**
+
+A logistic regression model predicts (circle one):  **value of $y_i$** / **log odds of $y_i$**
+
+We transform the output of the logisitic regression model predictions to get predicted probability of $Y_i = 1$.
+
+
+
+### Question 8
+
+To convert predicted probabilities into a final prediction, we use a cutoff (e.g., 0.5).
+
+Using a cutoff of 0.4, what would the predicted value of $y_i$ be for each predicted probability:
+
+- $\hat{\pi_i} = 0.80$ → predicted value of $y_i$ =   
+
+- $\hat{\pi_i} = 0.25$ → predicted value of $y_i$ =   
+
+- $\hat{\pi_i} = 0.5$ → predicted value of $y_i$ =   
+
+

@@ -1,0 +1,261 @@
+---
+title: "Data 200: Lecture 10"
+subtitle: "Logisitic Regression"
+author: "Medina - CSU Channel Islands"
+format: 
+  revealjs:
+    theme: [sky, ../slide-style.scss]
+    slide-number: true
+execute:
+  echo: true 
+---
+
+
+```{r}
+#| echo: false
+options(scipen = 999)
+library(broom)
+library(modelr)
+library(janitor)
+library(rsample)
+library(tidyverse)
+theme_set(theme_bw(base_size = 22))
+```
+
+
+## Preparing our data
+
+We are going to build a model to predict survival on the titanic
+
+```{r}
+library(titanic)
+data("titanic_train")
+data("titanic_test")
+
+titanic_cleaned <- 
+  titanic_train |> 
+  bind_rows(titanic_test) |> 
+  clean_names() |> 
+  mutate(pclass = factor(
+    pclass, 
+    levels = c(1, 2, 3), 
+    labels = c("1st", "2nd", "3rd")
+  )) |> 
+  drop_na() # removes observations with NA's
+```
+
+## Titanic data
+
+```{r}
+glimpse(titanic_cleaned)
+```
+
+. . .
+
+Let's finish preparing our data
+
+```{r}
+set.seed(3455)
+
+titanic_split <- initial_split(titanic_cleaned, prop = 0.60)
+titanic_train_data <- training(titanic_split)
+titanic_test_data <- testing(titanic_split)
+```
+
+
+## Let's try linear regression!
+
+
+```{r}
+linear_model <- lm(survived ~ age + pclass, data = titanic_train_data)
+```
+
+. . .
+
+No errors, but do our results make sense...
+
+```{r}
+#| output-location: column
+titanic_test_data$predictions <- 
+  predict(
+    linear_model, 
+    newdata = titanic_test_data
+  )
+
+ggplot(
+  titanic_test_data, 
+  aes(x = predictions)
+) +
+  geom_histogram()
+```
+
+. . .
+
+What is it predicting?
+
+## Linear Regression Response Variables
+
+- Birth weight of Babies (55 - 176 ounces) 
+- Sale Prices ($12789 - $755,000)
+- Number of Species (6 - 129 mammals)
+
+. . .
+
+Linear regression is for a continuous numeric response variable\*
+
+*Or at least a discrete numeric with many possible values!*
+
+## Logistic Regression Response Variables
+
+- Will it rain tomorrow? (Yes/No) 
+- Is email spam? (Yes/No)
+- Does the candidate receive a callback? (Yes/No)
+
+. . .
+
+When the response variable is binary we will use a **logistic regression model** to get predictions for probability of [rain / spam / callback / survival]
+
+
+## Model reasoning
+
+We will model probability of survival $\pi_i$:
+
+$$\text{transformation}(\pi_i) = b_0 + b_1x_{1i}+b_2x_{2i} +.... b_kx_{ki}$$
+
+- $b_0 + b_1 \times x_{1i}+b_2 \times x_{2i} +.... b_k \times x_{ki}$ will predict values anywhere from $-\infty$ to $\infty$
+- we need a transformation of $\pi_i$ that will only predict values between 0 and 1
+- "logit" = log odds = $log(\frac{\pi_i}{1 - \pi_i})$,  is one option
+
+
+## Logisitic regression model
+
+$$\text{Log Odds}_i = b_0 + b_1x_{1i}+b_2x_{2i} +.... b_kx_{ki}$$
+
+Our first logistic model:
+
+\begin{equation*}
+  \begin{split}
+    &\text{Log odds survival}_i = b_o + b_1  \times Age\\
+    &+ b_2  \times I(class = 2nd) + b_3 \times   I(class = 3rd)
+  \end{split}
+\end{equation*}
+
+## Estimating (training) our model
+
+```{r}
+logisitc_model <- glm(
+  survived ~ age + pclass,
+  data = titanic_train_data,
+  family = "binomial"
+)
+
+tidy(logisitc_model)
+```
+
+\begin{equation*}
+  \begin{split}
+    &\text{Log odds predicted survival}_i = 1.96 + -0.03 \times Age\\
+    & -0.92 \times I(class = 2nd) -2.26 \times I(class = 3rd)
+  \end{split}
+\end{equation*}
+
+
+## Getting probabilities from log odds
+
+Logistic regression predicts log odds
+
+$\text{Log Odds}_i = b_0 + b_1x_{1i}+b_2x_{2i} +.... b_kx_{ki}$
+
+Converting back to probability:
+
+$\large{\pi_i = \frac{e^{b_0 + b_1x_{1i}+b_2x_{2i} +.... b_kx_{ki}}}{1+e^{b_0 + b_1x_{1i}+b_2x_{2i} +.... b_kx_{ki}}}}$
+
+. . .
+
+Luckily R has functions that will help us transform from predicted log odds to predicted probability!
+
+
+## Predicting someone's probability of survival
+
+```{r}
+predict(
+  logisitc_model, 
+  newdata = data.frame(age = 25, pclass = "1st"), 
+  type = "response"
+)
+```
+
+```{r}
+#| echo: false
+pred_prob_surv <- round(
+  predict(
+    logisitc_model, 
+    newdata = data.frame(age = 25, pclass = "1st"), 
+    type = "response"
+  ),
+  2
+)
+```
+
+
+Predicted probability of survival for someone 25 years old with a 1st class ticket is `r pred_prob_surv`.
+
+. . .
+
+`type` = "response" is necessary to convert predicted log odds to predicted probability!
+
+# Model evaluation
+
+## Prediction accuracy
+
+How do we decide if our model is predicting well?
+
+. . .
+
+One measure is **accuracy** = proportion of predictions made correctly
+
+$$\text{Accuracy} = \frac{\text{Number of correct predictions}}{\text{Total number of predictions}}$$
+
+. . .
+
+But what is a "correct prediction"
+
+## Predicted probability to predicted survival
+
+Since our original `survived` variable is binary (yes / no), we want to convert our predicted probabilities into either a 0 or a 1:
+
+- use a cutoff to convert predicted probability of survival to 0/1. For example:
+  - If predicted probability survival $\geq$ 0.5, predict survival
+  - If predicted probability callback < 0.5, predict did not survive
+
+## Converting predictions with R
+
+```{r}
+# Get predicted survival probability for new data
+titanic_test_data$pred_survival_prob <- predict(
+  logisitc_model, 
+  newdata = titanic_test_data, 
+  type = "response"
+)
+
+# Convert predicted probability to predicted survival
+titanic_test_data <- titanic_test_data |> 
+  mutate(pred_survival = if_else(
+    pred_survival_prob > 0.5,
+    true = 1,
+    false = 0
+  ))
+
+select(titanic_test_data, pred_survival_prob, pred_survival, survived)
+```
+
+## Computing prediction accuracy
+
+```{r}
+caret::confusionMatrix(
+  as.factor(titanic_test_data$pred_survival), # Predicted response
+  as.factor(titanic_test_data$survived) # Actual response (from our data)
+)
+```
+
+Accuracy = 0.6958 $\approx$ 70%, so 70% of predictions made by this model accurately predicted survival.
