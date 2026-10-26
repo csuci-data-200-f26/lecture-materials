@@ -232,10 +232,12 @@ Since our original `survived` variable is binary (yes / no), we want to convert 
 
 ```{r}
 # Get predicted survival probability for new data
-titanic_test_data$pred_survival_prob <- predict(
-  logisitc_model, 
-  newdata = titanic_test_data, 
-  type = "response"
+titanic_test_data <- titanic_test_data |> 
+  mutate(pred_survival_prob = predict(
+    logisitc_model, 
+    newdata = titanic_test_data, 
+    type = "response"
+  )
 )
 
 # Convert predicted probability to predicted survival
