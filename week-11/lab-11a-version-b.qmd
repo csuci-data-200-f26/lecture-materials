@@ -1,0 +1,240 @@
+---
+title: ""
+format: 
+  pdf:
+    echo: true
+    message: false
+    warning: false
+    geometry:
+      - bottom=1in
+header-includes:
+  - \usepackage{lastpage}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{}
+  - \fancyhead[L]{Data 200 Spring 2026 -- \textbf{Lab 10a - Version B}}
+  - \fancyhead[R]{K-means clustering}
+  - \fancyfoot[C]{\thepage\ of \pageref{LastPage}}
+  - \renewcommand{\headrulewidth}{0.4pt}
+---
+
+```{r}
+#| echo: false
+library(patchwork)
+library(knitr)
+library(tidyverse)
+```
+
+
+\newcommand{\blank}{\rule{2.5cm}{0.15mm}}
+
+**Team members**:
+
+## Part 1- K-means clustering by hand
+
+In this activity, you will perform the main steps of k-means clustering by hand to understand what R is doing.
+We will visually perform k-means clustering for fitness watch data. 
+
+Let's will use weekly exercise time (hours) and resting heart rate (beats per minute) to group people into two clusters.
+The fitness watch company could then use these clusters to design targeted ads.
+
+### Question 1
+
+Using the language of "features" and "target", what would be our features and what is our target for this context?
+
+\vspace*{0.5in}
+
+### Question 2
+
+Do the following with the plots on page 2:
+
+**Step 1**: Our data points, shown in the table on page 3, are plotted. I chose two random starting cluster centers for you, marked as "A" and "B". Color both starting cluster centers with a different color.
+
+**Step 2:** Color each data point with the color of the closest cluster center.
+
+**Step 3:** For each cluster, visually approximate the average x value and average y value for points in that cluster. Mark the average (x, y) value with that cluster's name (either "A" or "B"). That will be your new center.
+
+**Step 4:** Mark the cluster centers you got from step 3. Color each data point with the color of the closest cluster center (using the new cluster centers).
+
+**Step 5:** Now we repeat step 3. For each cluster, visually determine the average x value and average y value for points in that cluster. Mark the average (x, y) value with that cluster's name (either "A" or "B"). That will be your new center.
+
+**Step 6:** Now we repeat step 4. Mark the cluster centers you got from step 5. Color each data point with the color of the closest cluster center (using the new cluster centers).
+
+\newpage
+
+
+```{r}
+#| echo: false
+watch_data <- tibble(
+  exercise_hours = c(1, 2, 2, 2, 5, 6, 7, 8, 9, 6),
+  heart_rate_bpm = c(78, 72, 80, 72, 81, 68, 64, 69, 62, 71)
+)
+
+starting_centers <- data.frame(
+  exercise_hours = c(5, 6), 
+  heart_rate_bpm = c(66, 78), 
+  id = c("A", "B")
+)
+  
+watch_plot <- watch_data |> 
+  ggplot(aes(x = exercise_hours, y = heart_rate_bpm)) +
+  geom_point(shape = 21, size = 4) +
+  scale_x_continuous(
+    limits = c(0, 10),
+    breaks = seq(0, 10, by = 1),
+    expand = c(0, 0)
+  ) +
+  scale_y_continuous(
+    limits = c(60, 82),
+    breaks = seq(60, 82, by = 2),
+    expand = c(0, 0)
+  ) +
+  labs(
+    x = "Weekly Exercise Time (hours)",
+    y = "Resting Heart Rate (bpm)"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    panel.grid.minor = element_blank()
+  )
+
+plot_1 <- watch_plot +
+  labs(title = "1.) Starting centers") +
+  geom_text(
+    data = starting_centers,
+    aes(x = exercise_hours, y = heart_rate_bpm, label = id),
+    size = 5
+  )
+
+plot_2 <- watch_plot + 
+  labs(title = "2.) Assign to cluster") +
+  geom_text(
+    data = starting_centers,
+    aes(x = exercise_hours, y = heart_rate_bpm, label = id),
+    size = 5
+  )
+
+plot_3 <- watch_plot + 
+  labs(title = "3.) Determine new centers")
+
+plot_4 <- watch_plot + 
+  labs(title = "4.) New cluster assignment")
+
+plot_5 <- watch_plot + 
+  labs(title = "5.) Determine new centers")
+
+plot_6 <- watch_plot + 
+  labs(title = "6.) New cluster assignment")
+```
+
+
+```{r}
+#| fig-width: 7
+#| fig-height: 9
+#| echo: false
+
+plot_1 + 
+  plot_2 + 
+  plot_3 + 
+  plot_4 + 
+  plot_5 + 
+  plot_6 + 
+  plot_layout(ncol = 2, byrow = TRUE, axes = "collect")
+```
+
+\newpage
+
+### Question 3
+
+Fill in the table below with the final cluster assigned for each observation.
+```{r}
+#| echo: false
+watch_data |> 
+  mutate(cluter = "") |> 
+  arrange(exercise_hours, heart_rate_bpm) |> 
+  kable(
+    col.names = c("Excercise Hours", "Resting Heart Rate", "Cluster"), 
+  )
+```
+
+
+
+
+
+## Part 2 - Comparing cluster assignment
+
+Look at page 1 and identify whether you have version A or version B of this lab. 
+Find another group with a different lab version than you and compare your clustering.
+
+### Question 4
+
+What was different between your group's version and the other group's version?
+
+\vspace*{0.5in}
+
+### Question 5 
+
+Did both groups end up with the same cluster assignments? (Hint: compare tables.) If not, which observations were assigned differently?
+
+\vspace*{0.5in}
+
+
+## Part 3 - Improving k-means clustering
+
+To have more consistent clustering, we would keep repeating steps 3 and 4 until the clusters are mostly stable (not changing). 
+Two more possible improvements we could make is doing several separate clustering runs with different starting points and identifying a better number of clusters.
+
+### Question 6
+
+Total Within Sum of Squares (WSS) is a measure of within cluster variation. Since the whole idea of clustering is to group similar observations, we want **low** / **high** WSS. (Circle one.)
+
+### Question 7 
+
+If we specify the `nstart` argument to a value greater than 1, the `kmeans()` function will run multiple separate clustering runs, each with different starting cluster centers. The final clustering results returned by `kmeans()` should be for the run with the **lowest** / **highest** WSS. (Circle one.)
+
+### Question 8 
+
+If we do not know how many clusters we want from context, we can produce a plot of WSS by number of clusters, and choose the "elbow" of the plot (i.e., the lowest number of clusters with a good improvement on WSS). We can even set a maximum number of clusters to consider by using the `k.max` argument. Which number of clusters seems ideal for our case?
+
+```{r}
+#| fig-width: 4
+#| fig-height: 2
+library(factoextra)
+
+watch_data |> 
+  select(exercise_hours, heart_rate_bpm) |> 
+  scale() |> 
+  fviz_nbclust(kmeans, method = "wss", k.max = 5)
+```
+
+
+## Part 4 - Clustering with R
+
+### Question 9
+
+We have not talked about what `scale()` function does. 
+This standardizes each value by subtracting the column average and dividing by column standard deviation.
+By scaling our data the units do not matter, and our data better reflect how usual (value near zero) or unusual (value further from 0) the observation is.
+
+Preparing our data by scaling our X variables when doing machine learning is good common practice.
+What other machine learning methods have we learned where we maybe should have scaled our X variables?
+
+\vspace*{0.25in}
+
+
+### Question 10 
+
+```{r}
+#| code-line-numbers: true
+
+prepped_clustering_data <- 
+  watch_data |> 
+  select(exercise_hours, heart_rate_bpm) |> 
+  scale()
+  
+clustered_watch_data <- kmeans(prepped_clustering_data, centers = 2, nstart = 8)
+
+watch_data$cluster <- clustered_watch_data$cluster
+```
+
+Above is `R` code to do the clustering. Describe what each line of code is doing. 
