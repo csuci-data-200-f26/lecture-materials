@@ -12,7 +12,7 @@ header-includes:
   - \usepackage{fancyhdr}
   - \pagestyle{fancy}
   - \fancyhf{}
-  - \fancyhead[L]{Data 200 Spring 2026 -- \textbf{Lab 10a - Version B}}
+  - \fancyhead[L]{Data 200 Fall 2026 -- \textbf{Lab 11a - Version B}}
   - \fancyhead[R]{K-means clustering}
   - \fancyfoot[C]{\thepage\ of \pageref{LastPage}}
   - \renewcommand{\headrulewidth}{0.4pt}
