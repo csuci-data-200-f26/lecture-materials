@@ -11,15 +11,15 @@ format:
 | 1 | Introductions to each other, class, & toolkit  | [Lec 1a slides](https://csuci-data-200-f26.github.io/lecture-materials/week-01/lec-01a-intro-class.html) and [Lec 1b slides](https://csuci-data-200-f26.github.io/lecture-materials/week-01/lec-01b-intro-toolkit.html) | 
 | 2 | Data frames, variables, & summary statistics | [Lec 2 slides](https://csuci-data-200-f26.github.io/lecture-materials/week-02/lec-02-data-basics-and-summary-stats.html) and [Lab 2a](https://csuci-data-200-f26.github.io/lecture-materials/week-02/lab-02a.pdf) |
 | 3 | Computing summary statistics & data aggregation | [Lec 3 slides](https://csuci-data-200-f26.github.io/lecture-materials/week-03/lec-03-data-viz-foundations.html) | 
-| 4 | Data visualization | | 
-| 5 | Data wrangling basics: Pipe operator, subsetting data frames, & changing variables | | 
-| 6 | Data wrangling advanced: Working with strings, dates, factors, & data joins) | | 
-| 7 | Exploratory data analysis project | | 
-| 8 | Introduction to machine learning with simple linear regression  | | 
-| 9 | Multiple linear regression for prediction and model selection  | | 
-| 10 | Logistic regression for prediction | | 
-| 11 | Clustering on 11/2 & Midterm on 11/4 |  |
-| 12 | Intro to statistical inference, sampling distribution | | 
+| 4 | Data visualization | [Lec 4 slides](https://csuci-data-200-f26.github.io/lecture-materials/week-04/lec-04-data-viz-improvements) | 
+| 5 | Data wrangling basics: Pipe operator, subsetting data frames, & changing variables | [Lec 5 slides](https://csuci-data-200-f26.github.io/lecture-materials/week-05/lec-05-data-transformations-and-aggregations) |
+| 6 | Data wrangling advanced: Working with strings, dates, factors, & data joins) | [Lec 6 slides](https://csuci-data-200-f26.github.io/lecture-materials/week-06/lec-06-special-variables-and-joins) |
+| 7 | Exploratory data analysis project | [Lec 7 slides](https://csuci-data-200-f26.github.io/lecture-materials/week-07/eda-instructions) | 
+| 8 | Introduction to machine learning with simple linear regression  | [Lec 8 slides](https://csuci-data-200-f26.github.io/lecture-materials/week-08/lec-08-simple-linear-regression) | 
+| 9 | Multiple linear regression for prediction and model selection  | [Lec 9 slides](https://csuci-data-200-f26.github.io/lecture-materials/week-09/lec-09-multiple-linear-regression) | 
+| 10 | Logistic regression for prediction | [Lec 10 slides](https://csuci-data-200-f26.github.io/lecture-materials/week-10/lec-10-logisitic-regression) | 
+| 11 | Clustering on 11/2 & Midterm on 11/4 |  [Lec 11 slides](https://csuci-data-200-f26.github.io/lecture-materials/week-11/lec-11-clustering) |
+| 12 | Intro to statistical inference, sampling distribution | [Lec 12 slides](https://csuci-data-200-f26.github.io/lecture-materials/week-12/lec-12-sampling-variability) | 
 | 13 | Bootstrap confidence intervals | | 
 | 14 | Initiate final projects & collaborations with GitHub | | 
 | 15 | Final project analyses | | 

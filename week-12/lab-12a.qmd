@@ -1,0 +1,136 @@
+---
+title: ""
+format: 
+  pdf:
+    echo: true
+    message: false
+    warning: false
+    geometry:
+      - bottom=1in
+header-includes:
+  - \usepackage{lastpage}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{}
+  - \fancyhead[L]{Data 200 Spring 2026 -- \textbf{Lab 11b}}
+  - \fancyhead[R]{Foundations of statistical inference}
+  - \fancyfoot[C]{\thepage\ of \pageref{LastPage}}
+  - \renewcommand{\headrulewidth}{0.4pt}
+---
+
+```{r}
+#| echo: false
+library(patchwork)
+library(knitr)
+library(tidyverse)
+```
+
+
+\newcommand{\blank}{\rule{2.5cm}{0.15mm}}
+
+**Team members**:
+
+For each of the following contexts I will ask you to identify the components we learned in class. Note, sometimes when I ask you for a value, that value is actually unknown.
+
+## Example Question
+
+Of all freshman at a large college, 16% made the dean's list in the current year. As part of a class project, students randomly sample 40 students and check if those students made the list. 
+
+(a) What could be the research question?
+
+\vspace*{1in}
+
+(b) What is the population of interest?
+
+\vspace*{0.5in}
+
+(c) Describe the population parameter we want to infer. Also, what is its value?
+
+\vspace*{1in}
+
+(d) Describe the sample statistic we can use to infer the population parameter. Also, what is its value?
+
+\vspace*{1in}
+
+(e) Describe the sample we have. Would you expect this sample to be representative of the population of interest? Why?
+
+\newpage
+
+## Question 1
+
+In a random sample 765 adults in the United States, 322 say they could not cover a $400 unexpected expense without borrowing money or going into debt.
+
+(a) What could be the research question?
+
+\vspace*{1in}
+
+(b) What is the population of interest?
+
+\vspace*{0.5in}
+
+(c) Describe the population parameter we want to infer. Also, what is its value?
+
+\vspace*{1in}
+
+(d) Describe the sample statistic we can use to infer the population parameter. Also, what is its value?
+
+\vspace*{1in}
+
+(e) Describe the sample we have. Would you expect this sample to be representative of the population of interest? Why?
+
+\newpage
+
+## Question 2
+
+As part of a quality control process for computer chips, an engineer at a factory randomly samples 212 chips during a week of production to test the current rate of chips with severe defects. She finds that 27 of the chips are defective.
+
+
+(a) What could be the research question?
+
+\vspace*{1in}
+
+(b) What is the population of interest?
+
+\vspace*{0.5in}
+
+(c) Describe the population parameter we want to infer. Also, what is its value?
+
+\vspace*{1in}
+
+(d) Describe the sample statistic we can use to infer the population parameter. Also, what is its value?
+
+\vspace*{1in}
+
+(e) Describe the sample we have. Would you expect this sample to be representative of the population of interest? Why?
+
+\newpage
+
+
+
+## Question 3
+
+A nonprofit wants to understand the fraction of households that have elevated levels of lead in their drinking water. They expect at least 5% of homes will have elevated levels of lead, but not more than about 30%. They randomly sample 800 homes and work with the owners to retrieve water samples, and they compute the fraction of these homes with elevated lead levels. 
+
+
+(a) What could be the research question?
+
+\vspace*{1in}
+
+(b) What is the population of interest?
+
+\vspace*{0.5in}
+
+(c) Describe the population parameter we want to infer. Also, what is its value?
+
+\vspace*{1in}
+
+(d) Describe the sample statistic we can use to infer the population parameter. Also, what is its value?
+
+\vspace*{1in}
+
+(e) Describe the sample we have. Would you expect this sample to be representative of the population of interest? Why?
+
+\vspace*{1in}
+
+
+
